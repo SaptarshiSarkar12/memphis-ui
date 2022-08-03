@@ -66,35 +66,21 @@ const GetStarted = (props) => {
 
     const SideStepList = () => {
         return steps.map((value, index) => {
-            return <SideStep key={index} currentStep={getStartedState?.currentStep} stepNumber={index + 1} stepName={value.stepName} />;
+            return (
+                <SideStep
+                    key={index}
+                    currentStep={getStartedState?.currentStep}
+                    stepNumber={index + 1}
+                    stepName={value.stepName}
+                    completedSteps={getStartedState?.completedSteps}
+                    onSideBarClick={(e) => getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: e })}
+                />
+            );
         });
     };
 
-    const onNext = (e) => {
-        switch (getStartedState?.currentStep) {
-            case 1:
-                try {
-                    createStationFormRef.current();
-                } catch {
-                    console.log('error');
-                }
-                break;
-            case 2:
-                createStationFormRef.current();
-                break;
-            case 3:
-                createStationFormRef.current();
-                break;
-            case 4:
-                createStationFormRef.current();
-
-                break;
-            case 5:
-                createStationFormRef.current();
-                return;
-            default:
-                return;
-        }
+    const onNext = () => {
+        createStationFormRef.current();
     };
 
     const onBack = () => {
@@ -104,7 +90,7 @@ const GetStarted = (props) => {
     useEffect(() => {
         getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: 1 });
         getStartedDispatch({ type: 'SET_HIDDEN_BUTTON', payload: false });
-
+        getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: 0 });
         return;
     }, []);
 
@@ -131,7 +117,8 @@ const GetStarted = (props) => {
                                 headerImage={GetStartedIcon}
                                 headerTitle="Create Station"
                                 headerDescription="Station is the object that stores data"
-                                onNext={() => onNext()}
+                                onNext={onNext}
+                                onBack={onBack}
                             >
                                 <CreateStationForm createStationFormRef={createStationFormRef} />
                             </GetStartedItem>
@@ -142,6 +129,7 @@ const GetStarted = (props) => {
                                 headerTitle="Create application user"
                                 headerDescription="User of type application is for connecting apps"
                                 onNext={onNext}
+                                onBack={onBack}
                             >
                                 <CreateAppUser createStationFormRef={createStationFormRef} />
                             </GetStartedItem>
@@ -152,6 +140,7 @@ const GetStarted = (props) => {
                                 headerTitle="Produce data"
                                 headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to produce data to memphis station"
                                 onNext={onNext}
+                                onBack={onBack}
                             >
                                 <ProduceData createStationFormRef={createStationFormRef} />
                             </GetStartedItem>
@@ -162,6 +151,7 @@ const GetStarted = (props) => {
                                 headerTitle="Consume data"
                                 headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to consume data from memphis station"
                                 onNext={onNext}
+                                onBack={onBack}
                             >
                                 <ConsumeData createStationFormRef={createStationFormRef} />
                             </GetStartedItem>
@@ -172,6 +162,7 @@ const GetStarted = (props) => {
                                 headerTitle="You are ready to roll"
                                 headerDescription="Congratulations - You’ve created your first broker app"
                                 onNext={onNext}
+                                onBack={onBack}
                                 style={finishStyle}
                             >
                                 <Finish createStationFormRef={createStationFormRef} />

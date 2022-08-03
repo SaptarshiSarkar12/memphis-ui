@@ -17,12 +17,16 @@ import './style.scss';
 import Done from '../../../../assets/images/done.svg';
 
 const SideStep = (props) => {
-    const { stepNumber, stepName, currentStep } = props;
+    const { stepNumber, stepName, currentStep, completedSteps } = props;
     return (
-        <div className="side-step-container" style={currentStep === stepNumber ? { backgroundColor: '#F0EEFF' } : {}}>
+        <div
+            className="side-step-container"
+            style={{ backgroundColor: currentStep === stepNumber && '#F0EEFF', cursor: completedSteps + 1 >= stepNumber && 'pointer' }}
+            onClick={() => completedSteps + 1 >= stepNumber && props.onSideBarClick(stepNumber)}
+        >
             <div className="number-name-container">
-                <div className="step-number-container" style={currentStep >= stepNumber ? { backgroundColor: 'white' } : {}}>
-                    {currentStep > stepNumber ? (
+                <div className="step-number-container" style={{ backgroundColor: currentStep >= stepNumber && 'white' }}>
+                    {stepNumber <= completedSteps ? (
                         <div className="done-image">
                             <img src={Done} alt="done" />
                         </div>
@@ -30,7 +34,7 @@ const SideStep = (props) => {
                         <p className="step-number">{stepNumber}</p>
                     )}
                 </div>
-                <p className="step-name" style={currentStep === stepNumber ? { color: '#2E2C34' } : {}}>
+                <p className="step-name" style={{ color: currentStep === stepNumber && '#2E2C34' }}>
                     {stepName}
                 </p>
             </div>

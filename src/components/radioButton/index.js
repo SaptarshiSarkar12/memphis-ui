@@ -17,7 +17,7 @@ import { Radio } from 'antd';
 import React from 'react';
 
 const RadioButton = (props) => {
-    const { options = [], radioValue, onChange, optionType} = props;
+    const { options = [], radioValue, onChange, optionType, disabled } = props;
 
     const handleChange = (e) => {
         onChange(e);
@@ -31,7 +31,7 @@ const RadioButton = (props) => {
 
     return (
         <div className="radio-button">
-            <Radio.Group {...fieldProps} className="radio-group" optionType={optionType ? optionType: null}>
+            <Radio.Group {...fieldProps} className="radio-group" optionType={optionType ? optionType : null} disabled={disabled}>
                 {/* {options.map((option) => (
           <Radio key={option.id} value={option.content}>{option.content}</Radio>
         ))} */}

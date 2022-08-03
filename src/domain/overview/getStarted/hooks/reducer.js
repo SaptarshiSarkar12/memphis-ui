@@ -43,6 +43,11 @@ const Reducer = (getStartedState, action) => {
                 ...getStartedState,
                 currentStep: action.payload
             };
+        case 'SET_COMPLETED_STEPS':
+            return {
+                ...getStartedState,
+                completedSteps: action.payload
+            };
         case 'SET_CREATE_APP_USER_DISABLE':
             return {
                 ...getStartedState,

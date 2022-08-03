@@ -36,6 +36,7 @@ import TooltipComponent from '../../../components/tooltip/tooltip';
 import Auditing from '../auditing';
 import { InfoOutlined } from '@material-ui/icons';
 import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../const/localStorageConsts';
+import CustomTabs from '../../../components/Tabs';
 
 const StationOverviewHeader = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -44,9 +45,16 @@ const StationOverviewHeader = (props) => {
     const [retentionValue, setRetentionValue] = useState('');
     const [sdkModal, setSdkModal] = useState(false);
     const [auditModal, setAuditModal] = useState(false);
-    const selectLngOption = ['Go', 'Node.js'];
+    const selectLngOption = ['Go', 'Node.js', 'Python'];
     const [langSelected, setLangSelected] = useState('Go');
-    const [codeExample, setCodeExample] = useState('');
+    const [codeExample, setCodeExample] = useState({
+        import: '',
+        connect: '',
+        producer: '',
+        consumer: ''
+    });
+    const [tabValue, setTabValue] = useState('0');
+    const tabs = ['Producer', 'Consumer'];
     const url = window.location.href;
     const stationName = url.split('factories/')[1].split('/')[1];
     const handleSelectLang = (e) => {
@@ -71,14 +79,18 @@ const StationOverviewHeader = (props) => {
     }, []);
 
     const changeDynamicCode = (lang) => {
-        let codeEx = CODE_EXAMPLE[lang].code;
+        let codeEx = {};
+        codeEx.producer = CODE_EXAMPLE[lang].producer;
+        codeEx.consumer = CODE_EXAMPLE[lang].consumer;
         let host = process.env.REACT_APP_SANDBOX_ENV
             ? 'broker.sandbox.memphis.dev'
             : localStorage.getItem(LOCAL_STORAGE_ENV) === 'docker'
             ? 'localhost'
             : 'memphis-cluster.' + localStorage.getItem(LOCAL_STORAGE_NAMESPACE) + '.svc.cluster.local';
-        codeEx = codeEx.replaceAll('<memphis-host>', host);
-        codeEx = codeEx.replaceAll('<station_name>', stationName);
+        codeEx.producer = codeEx.producer.replaceAll('<memphis-host>', host);
+        codeEx.consumer = codeEx.consumer.replaceAll('<memphis-host>', host);
+        codeEx.producer = codeEx.producer.replaceAll('<station_name>', stationName);
+        codeEx.consumer = codeEx.consumer.replaceAll('<station_name>', stationName);
         setCodeExample(codeEx);
     };
 
@@ -179,18 +191,18 @@ const StationOverviewHeader = (props) => {
                 <div className="info-buttons">
                     <div className="sdk">
                         <p>SDK</p>
-                        <span onClick={() => setSdkModal(true)}>View Details ></span>
+                        <span onClick={() => setSdkModal(true)}>View Details {'>'}</span>
                     </div>
                     <div className="audit">
                         <p>Audit</p>
-                        <span onClick={() => setAuditModal(true)}>View Details ></span>
+                        <span onClick={() => setAuditModal(true)}>View Details {'>'}</span>
                     </div>
                 </div>
             </div>
             <Modal
                 header="SDK"
-                minHeight="700px"
-                minWidth="700px"
+                minHeight="730px"
+                minWidth="710px"
                 closeAction={() => setSdkModal(false)}
                 clickOutside={() => setSdkModal(false)}
                 open={sdkModal}
@@ -219,7 +231,40 @@ const StationOverviewHeader = (props) => {
                             <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
                         </div>
                     </div>
-                    <div className="code-example">
+                    <div className="tabs">
+                        <CustomTabs value={tabValue} onChange={(tabValue) => setTabValue(tabValue)} tabs={tabs}></CustomTabs>
+                        {tabValue === '0' && (
+                            <div className="code-example">
+                                <div className="code-content">
+                                    <CopyBlock
+                                        language={CODE_EXAMPLE[langSelected].langCode}
+                                        text={codeExample.producer}
+                                        showLineNumbers={true}
+                                        theme={atomOneLight}
+                                        wrapLines={true}
+                                        codeBlock
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {tabValue === '1' && (
+                            <div className="code-example">
+                                <div className="code-content">
+                                    <CopyBlock
+                                        language={CODE_EXAMPLE[langSelected].langCode}
+                                        text={codeExample.consumer}
+                                        showLineNumbers={true}
+                                        theme={atomOneLight}
+                                        wrapLines={true}
+                                        codeBlock
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* <div className="code-example">
                         <p>Code</p>
                         <div className="code-content">
                             <CopyBlock
@@ -231,7 +276,7 @@ const StationOverviewHeader = (props) => {
                                 codeBlock
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </Modal>
             <Modal

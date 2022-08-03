@@ -12,7 +12,7 @@
 // limitations under the License.
 
 import React, { useContext, useEffect, useState } from 'react';
-import { CODE_CONSUME_JAVASCRIPT, CODE_CONSUME_GO, CODE_CONSUME_PYTHON } from '../../../../const/SDKExample';
+import { CODE_EXAMPLE } from '../../../../const/SDKExample';
 import WaitingConsumeData from '../../../../assets/images/waitingConsumeData.svg';
 import ProduceConsumeData, { produceConsumeScreenEnum } from '../produceConsumeData';
 import { GetStartedStoreContext } from '..';
@@ -28,26 +28,32 @@ const ConsumeData = (props) => {
         Go: {
             name: 'Go',
             language: 'go',
-            value: CODE_CONSUME_GO.replace('<username>', getStartedState?.username)
+            value: CODE_EXAMPLE['Go'].consumer
+                .replace('<username>', getStartedState?.username)
                 .replace('<memphis_host>', host)
                 .replace('<connection_token>', getStartedState?.connectionCreds)
-                .replace('<station_name>', getStartedState?.stationName)
+                .replace('<station_name>', getStartedState?.stationName),
+            installation: CODE_EXAMPLE['Go'].installation
         },
-        // Python: {
-        //     name: 'Python',
-        //     language: 'python',
-        //     value: CODE_CONSUME_PYTHON.replace('<username>', getStartedState?.username)
-        //         .replace('<memphis_host>', host)
-        //         .replace('<connection_token>', getStartedState?.connectionCreds)
-        //         .replace('<station_name>', getStartedState?.stationName)
-        // },
+        Python: {
+            name: 'Python',
+            language: 'python',
+            value: CODE_EXAMPLE['Python'].consumer
+                .replace('<username>', getStartedState?.username)
+                .replace('<memphis_host>', host)
+                .replace('<connection_token>', getStartedState?.connectionCreds)
+                .replace('<station_name>', getStartedState?.stationName),
+            installation: CODE_EXAMPLE['Python'].installation
+        },
         'Node.js': {
             name: 'Node.js',
             language: 'javascript',
-            value: CODE_CONSUME_JAVASCRIPT.replace('<username>', getStartedState?.username)
+            value: CODE_EXAMPLE['Node.js'].consumer
+                .replace('<username>', getStartedState?.username)
                 .replace('<memphis_host>', host)
                 .replace('<connection_token>', getStartedState?.connectionCreds)
-                .replace('<station_name>', getStartedState?.stationName)
+                .replace('<station_name>', getStartedState?.stationName),
+            installation: CODE_EXAMPLE['Node.js'].installation
         }
     };
 
@@ -55,6 +61,7 @@ const ConsumeData = (props) => {
         if (displayScreen === produceConsumeScreenEnum['DATA_SNIPPET']) {
             setDisplayScreen(produceConsumeScreenEnum['DATA_WAITING']);
         } else {
+            getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: getStartedState?.currentStep });
             getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
         }
     };
@@ -64,6 +71,7 @@ const ConsumeData = (props) => {
     }, [displayScreen]);
 
     useEffect(() => {
+        console.log(languagesOptions);
         setDisplayScreen(produceConsumeScreenEnum['DATA_SNIPPET']);
     }, []);
 

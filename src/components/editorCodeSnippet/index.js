@@ -1,7 +1,7 @@
-import Editor from '@monaco-editor/react';
+import { CopyBlock, atomOneLight } from 'react-code-blocks';
 
 const EditorCodeSnippet = (props) => {
-    return <Editor {...props} />;
+    return props?.value ? <CopyBlock text={props?.value} language={props?.language} showLineNumbers={!props.installation} theme={atomOneLight} /> : <> </>;
 };
 
 export default EditorCodeSnippet;

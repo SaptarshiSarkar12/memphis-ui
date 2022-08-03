@@ -27,6 +27,7 @@ import ClickableImage from '../../../../components/clickableImage';
 import { GetStartedStoreContext } from '..';
 import SelectedClipboard from '../../../../assets/images/selectedClipboard.svg';
 import TitleComponent from '../../../../components/titleComponent';
+import sleep from '../../../../utils/sleep';
 
 const screenEnum = {
     CREATE_USER_PAGE: 0,
@@ -41,6 +42,7 @@ const CreateAppUser = (props) => {
     const [selectedClipboardToken, setSelectedClipboardToken] = useState(false);
     const [isCreatedUser, setCreatedUser] = useState(screenEnum['CREATE_USER_PAGE']);
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
+    const [allowEdit, setAllowEdit] = useState(true);
 
     const [formFields, setFormFields] = useState({
         username: '',
@@ -52,11 +54,14 @@ const CreateAppUser = (props) => {
         getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: true });
         getStartedDispatch({ type: 'SET_CREATE_APP_USER_DISABLE', payload: false });
         if (getStartedState?.username) {
+            getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
             setFormFields({ ...formFields, username: getStartedState.username });
+            setAllowEdit(false);
         }
     }, []);
 
     const onNext = () => {
+        getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: getStartedState?.currentStep });
         getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
     };
 
@@ -94,12 +99,10 @@ const CreateAppUser = (props) => {
             console.log(error);
         }
     };
-    const onCopyClick = (copyValue, setImageState) => {
+    const onCopyClick = async (copyValue, setImageState) => {
         onCopy(copyValue);
         setImageState(true);
-        setTimeout(() => {
-            setImageState(false);
-        }, 3000);
+        await sleep(3);
     };
 
     const onFinish = async () => {
@@ -160,7 +163,7 @@ const CreateAppUser = (props) => {
                             onBlur={(e) => updateFormState('username', e.target.value)}
                             onChange={(e) => updateFormState('username', e.target.value)}
                             value={formFields.username}
-                            disabled={getStartedState?.isAppUserCreated}
+                            disabled={!allowEdit}
                         />
                     </div>
                 </Form.Item>
@@ -172,7 +175,7 @@ const CreateAppUser = (props) => {
                     fontSize="12px"
                     fontWeight="bold"
                     marginTop="25px"
-                    disabled={getStartedState.createAppUserDisable}
+                    disabled={!allowEdit}
                     onClick={onFinish}
                     isLoading={getStartedState?.isLoading}
                 />

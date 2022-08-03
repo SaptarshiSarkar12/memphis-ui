@@ -30,13 +30,7 @@ import slackIcon from '../../assets/images/slackColor.png';
 import Button from '../../components/button';
 import CreateStationDetails from '../../components/createStationDetails';
 import Modal from '../../components/modal';
-import {
-    LOCAL_STORAGE_ALLOW_ANALYTICS,
-    LOCAL_STORAGE_ALREADY_LOGGED_IN,
-    LOCAL_STORAGE_AVATAR_ID,
-    LOCAL_STORAGE_USER_NAME,
-    LOCAL_STORAGE_WELCOME_MESSAGE
-} from '../../const/localStorageConsts';
+import { LOCAL_STORAGE_ALREADY_LOGGED_IN, LOCAL_STORAGE_AVATAR_ID, LOCAL_STORAGE_USER_NAME, LOCAL_STORAGE_WELCOME_MESSAGE } from '../../const/localStorageConsts';
 import { PRIVACY_URL } from '../../config';
 import { ApiEndpoints } from '../../const/apiEndpoints';
 import { httpRequest } from '../../services/http';
@@ -56,7 +50,6 @@ const Mobile = ({ children }) => {
 function OverView() {
     const [state, dispatch] = useContext(Context);
     const [open, modalFlip] = useState(false);
-    const [analyticsModal, analyticsModalFlip] = useState(true);
     const createStationRef = useRef(null);
     const [botUrl, SetBotUrl] = useState(require('../../assets/images/bots/1.svg'));
     const [username, SetUsername] = useState('');
@@ -87,9 +80,6 @@ function OverView() {
         getOverviewData();
         setBotImage(state?.userData?.avatar_id || localStorage.getItem(LOCAL_STORAGE_AVATAR_ID));
         SetUsername(localStorage.getItem(LOCAL_STORAGE_USER_NAME));
-        analyticsModalFlip(
-            localStorage.getItem(LOCAL_STORAGE_ALREADY_LOGGED_IN) === 'false' && localStorage.getItem(LOCAL_STORAGE_ALLOW_ANALYTICS) === 'true' && state?.analytics_modal
-        );
     }, []);
 
     useEffect(() => {
@@ -113,22 +103,6 @@ function OverView() {
 
     const capitalizeFirst = (str) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
-    };
-
-    const dontSendAnalytics = async () => {
-        try {
-            await httpRequest('PUT', `${ApiEndpoints.EDIT_ANALYTICS}`, { send_analytics: false });
-            localStorage.setItem(LOCAL_STORAGE_ALLOW_ANALYTICS, false);
-            analyticsModalFlip(false);
-            dispatch({ type: 'ANALYTICS_MODAL', payload: false });
-        } catch (err) {
-            return;
-        }
-    };
-
-    const sendAnalytics = () => {
-        analyticsModalFlip(false);
-        dispatch({ type: 'ANALYTICS_MODAL', payload: false });
     };
 
     const getAllStations = async () => {
@@ -186,7 +160,8 @@ function OverView() {
                         />
                     </div>
                     <div className="overview-components">
-                        {stationsOfUser.length === 0 ? (
+                        <GetStarted />
+                        {/* {stationsOfUser.length === 0 ? (
                             <div className="left-side">
                                 <GetStarted />
                             </div>
@@ -196,7 +171,7 @@ function OverView() {
                                 <FailedStations />
                                 <Throughput />
                             </div>
-                        )}
+                        )} */}
                         <div className="right-side">
                             <Resources />
                             <SysComponents />
@@ -278,29 +253,6 @@ function OverView() {
                         />
                     </div>
                 </div>
-            </Modal>
-            <Modal
-                header="Memphis Analytics"
-                height="260px"
-                minWidth="460px"
-                rBtnText="Send"
-                lBtnText="Don't send"
-                closeAction={() => sendAnalytics()}
-                lBtnClick={() => dontSendAnalytics()}
-                clickOutside={() => sendAnalytics()}
-                rBtnClick={() => sendAnalytics()}
-                open={analyticsModal}
-            >
-                <label>As Memphis is in beta mode, we are collecting anonymous metadata to help improve its superpowers.</label>
-                <br />
-                <br />
-                <label>
-                    More details you can find{' '}
-                    <a to={{ pathname: PRIVACY_URL }} target="_blank">
-                        here
-                    </a>
-                    .
-                </label>
             </Modal>
         </div>
     );

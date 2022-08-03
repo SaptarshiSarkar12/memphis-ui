@@ -1,16 +1,23 @@
 .get-started-wrapper {
-    display: flex;
-    flex-direction: column;
+    width: 42vw;
+    margin-left: 30px;
+    margin-right: 30px;
+    .btn-next-back {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
     .get-started-container {
-        height: 55vh;
-        width: 38vw;
+        height: 57vh;
+        // width: 42vw;
+        width: 100%;
         overflow-y: auto;
-        margin-left: 23px;
+
         box-sizing: border-box;
         background: #ffffff;
         border: 1px solid #f2f2f2;
         border-radius: 8px;
-        padding: 25px;
+        padding: 30px;
 
         .header-image {
             width: 30px;

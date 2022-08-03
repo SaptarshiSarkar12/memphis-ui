@@ -21,6 +21,7 @@ import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import { httpRequest } from '../../../../services/http';
 import { GetStartedStoreContext } from '..';
 import TitleComponent from '../../../../components/titleComponent';
+import sleep from '../../../../utils/sleep';
 
 const retanionOptions = [
     {
@@ -54,10 +55,14 @@ const storageOptions = [
 ];
 
 const CreateStationForm = (props) => {
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16 }
+    };
     const { createStationFormRef } = props;
     const [creationForm] = Form.useForm();
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
-
+    const [allowEdit, setAllowEdit] = useState(true);
     const [formFields, setFormFields] = useState({
         factory_name: '',
         name: '',
@@ -75,9 +80,19 @@ const CreateStationForm = (props) => {
 
     const [retentionMessagesValue, setRetentionMessagesValue] = useState('10');
     const [retentionSizeValue, setRetentionSizeValue] = useState('1000');
+    const [desiredPods, setDesiredPods] = useState(null);
+
+    const getOverviewData = async () => {
+        try {
+            const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
+            data?.system_components[1]?.desired_pods && setDesiredPods(data?.system_components[1]?.desired_pods);
+        } catch (error) {}
+    };
 
     useEffect(() => {
+        getStartedState?.formFieldsCreateStation?.factory_name ? setAllowEdit(false) : setAllowEdit(true);
         createStationFormRef.current = onFinish;
+        getOverviewData();
         getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: true });
         saveFormField();
     }, []);
@@ -144,40 +159,36 @@ const CreateStationForm = (props) => {
 
     const onFinish = async () => {
         try {
+            const values = await creationForm.validateFields();
             getStartedDispatch({ type: 'IS_LOADING', payload: true });
-            setTimeout(async () => {
-                const values = await creationForm.validateFields();
-                if (values?.errorFields || values.name === undefined || values.factory_name === undefined) {
-                    return;
-                } else {
-                    if (values.retention_type === 'message_age_sec') {
-                        values['retention_value'] = convertDateToSeconds(values.days, values.hours, values.minutes, values.seconds);
-                    } else if (values.retention_type === 'bytes') {
-                        values['retention_value'] = Number(values.retentionSizeValue);
-                    } else {
-                        values['retention_value'] = Number(values.retentionMessagesValue);
-                    }
-                    if (
-                        values.name === getStartedState?.formFieldsCreateStation?.name ||
-                        values.factory_name === getStartedState?.formFieldsCreateStation?.factory_name
-                    ) {
-                        return;
-                    }
-                    try {
-                        const bodyRequest = {
-                            name: values.name,
-                            factory_name: values.factory_name,
-                            retention_type: values.retention_type,
-                            retention_value: values.retention_value,
-                            storage_type: values.storage_type,
-                            replicas: values.replicas
-                        };
-                        createStation(bodyRequest);
-                    } catch (error) {}
-                }
-            }, 1000);
+            await sleep(1);
+            if (values.retention_type === 'message_age_sec') {
+                values['retention_value'] = convertDateToSeconds(values.days, values.hours, values.minutes, values.seconds);
+            } else if (values.retention_type === 'bytes') {
+                values['retention_value'] = Number(values.retentionSizeValue);
+            } else {
+                values['retention_value'] = Number(values.retentionMessagesValue);
+            }
+            if (values.name === getStartedState?.formFieldsCreateStation?.name || values.factory_name === getStartedState?.formFieldsCreateStation?.factory_name) {
+                return;
+            }
+            getStartedDispatch({ type: 'IS_LOADING', payload: true });
+            try {
+                const bodyRequest = {
+                    name: values.name,
+                    factory_name: values.factory_name,
+                    retention_type: values.retention_type,
+                    retention_value: values.retention_value,
+                    storage_type: values.storage_type,
+                    replicas: values.replicas
+                };
+                createStation(bodyRequest);
+            } catch (error) {
+                console.log(`validate error ${JSON.stringify(error)}`);
+                getStartedDispatch({ type: 'IS_LOADING', payload: false });
+            }
         } catch (error) {
-            console.log(`validate error ${JSON.stringify(error)}`);
+            getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
         }
     };
 
@@ -185,15 +196,16 @@ const CreateStationForm = (props) => {
         try {
             const data = await httpRequest('POST', ApiEndpoints.CREATE_STATION, bodyRequest);
             if (data) {
-                getStartedDispatch({ type: 'IS_LOADING', payload: false });
                 getStartedDispatch({ type: 'SET_FACTORY', payload: bodyRequest.factory_name });
                 getStartedDispatch({ type: 'SET_STATION', payload: data.name });
                 getStartedDispatch({ type: 'SET_FORM_FIELDS_CREATE_STATION', payload: bodyRequest });
+                getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: getStartedState?.currentStep });
                 getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
             }
         } catch (error) {
-            getStartedDispatch({ type: 'IS_LOADING', payload: false });
             console.log(error);
+        } finally {
+            getStartedDispatch({ type: 'IS_LOADING', payload: false });
         }
     };
 
@@ -204,21 +216,21 @@ const CreateStationForm = (props) => {
     };
 
     return (
-        <Form name="form" form={creationForm} autoComplete="off" className="create-station-form-getstarted">
+        <Form name="form" form={creationForm} autoComplete="off" className="create-station-form-getstarted" {...layout}>
             <Form.Item
                 name="factory_name"
                 rules={[
                     {
                         required: true,
-                        message: 'Type here'
+                        message: 'Please input factory name!'
                     }
                 ]}
-                style={{ marginBottom: '10px' }}
+                style={{ height: '140px' }}
             >
                 <div>
                     <div style={{ display: 'flex' }}>
                         <p className="field-title">
-                            <span className="required-field-mark">* </span>
+                            <span className="required-field-mark">*</span>
                         </p>
 
                         <TitleComponent
@@ -241,7 +253,8 @@ const CreateStationForm = (props) => {
                         onChange={(e) => {
                             updateFormState('factory_name', e.target.value);
                         }}
-                        value={formFields.factory_name}
+                        value={formFields.factory_name || ''}
+                        disabled={!allowEdit}
                     />
                 </div>
             </Form.Item>
@@ -250,10 +263,10 @@ const CreateStationForm = (props) => {
                 rules={[
                     {
                         required: true,
-                        message: 'Type here'
+                        message: 'Please input station name!'
                     }
                 ]}
-                style={{ marginBottom: '10px' }}
+                style={{ height: '120px' }}
             >
                 <div>
                     <div style={{ display: 'flex' }}>
@@ -278,7 +291,8 @@ const CreateStationForm = (props) => {
                         height="40px"
                         onBlur={(e) => updateFormState('name', e.target.value)}
                         onChange={(e) => updateFormState('name', e.target.value)}
-                        value={formFields.name}
+                        value={formFields.name || ''}
+                        disabled={!allowEdit}
                     />
                 </div>
             </Form.Item>
@@ -297,6 +311,7 @@ const CreateStationForm = (props) => {
                         optionType="button"
                         style={{ marginRight: '20px', content: '' }}
                         onChange={(e) => updateFormState('retention_type', e.target.value)}
+                        disabled={!allowEdit}
                     />
                 </Form.Item>
 
@@ -304,28 +319,60 @@ const CreateStationForm = (props) => {
                     <div className="time-value">
                         <div className="days-section">
                             <Form.Item name="days" initialValue={timeSeparator?.days}>
-                                <InputNumber bordered={false} min={0} max={100} keyboard={true} onChange={(e) => handleDaysChange(e)} value={timeSeparator?.days} />
+                                <InputNumber
+                                    bordered={false}
+                                    min={0}
+                                    max={100}
+                                    keyboard={true}
+                                    onChange={(e) => handleDaysChange(e)}
+                                    value={timeSeparator?.days}
+                                    disabled={!allowEdit}
+                                />
                             </Form.Item>
                             <p>days</p>
                         </div>
                         <p className="separator">:</p>
                         <div className="hours-section">
                             <Form.Item name="hours" initialValue={timeSeparator?.hours}>
-                                <InputNumber bordered={false} min={0} max={24} keyboard={true} onChange={(e) => handleHoursChange(e)} value={timeSeparator?.hours} />
+                                <InputNumber
+                                    bordered={false}
+                                    min={0}
+                                    max={24}
+                                    keyboard={true}
+                                    onChange={(e) => handleHoursChange(e)}
+                                    value={timeSeparator?.hours}
+                                    disabled={!allowEdit}
+                                />
                             </Form.Item>
                             <p>hours</p>
                         </div>
                         <p className="separator">:</p>
                         <div className="minutes-section">
                             <Form.Item name="minutes" initialValue={timeSeparator?.minutes}>
-                                <InputNumber bordered={false} min={0} max={60} keyboard={true} onChange={(e) => handleMinutesChange(e)} value={timeSeparator?.minutes} />
+                                <InputNumber
+                                    bordered={false}
+                                    min={0}
+                                    max={60}
+                                    keyboard={true}
+                                    onChange={(e) => handleMinutesChange(e)}
+                                    value={timeSeparator?.minutes}
+                                    disabled={!allowEdit}
+                                />
                             </Form.Item>
                             <p>minutes</p>
                         </div>
                         <p className="separator">:</p>
                         <div className="seconds-section">
                             <Form.Item name="seconds" initialValue={timeSeparator?.seconds}>
-                                <InputNumber bordered={false} min={0} max={60} keyboard={true} onChange={(e) => handleSecondsChange(e)} value={timeSeparator?.seconds} />
+                                <InputNumber
+                                    bordered={false}
+                                    min={0}
+                                    max={60}
+                                    keyboard={true}
+                                    onChange={(e) => handleSecondsChange(e)}
+                                    value={timeSeparator?.seconds}
+                                    disabled={!allowEdit}
+                                />
                             </Form.Item>
                             <p>seconds</p>
                         </div>
@@ -346,6 +393,7 @@ const CreateStationForm = (props) => {
                                 onBlur={handleRetentionSizeChange}
                                 onChange={handleRetentionSizeChange}
                                 value={retentionSizeValue}
+                                disabled={!allowEdit}
                             />
                             <p>bytes</p>
                         </div>
@@ -366,6 +414,7 @@ const CreateStationForm = (props) => {
                                 onBlur={(e) => handleRetentionMessagesChange(e)}
                                 onChange={(e) => handleRetentionMessagesChange(e)}
                                 value={retentionMessagesValue}
+                                disabled={!allowEdit}
                             />
                             <p>messages</p>
                         </div>
@@ -387,6 +436,7 @@ const CreateStationForm = (props) => {
                             radioValue={formFields.storage_type}
                             optionType="button"
                             onChange={(e) => updateFormState('storage_type', e.target.value)}
+                            disabled={!allowEdit}
                         />
                     </Form.Item>
                 </div>
@@ -399,7 +449,15 @@ const CreateStationForm = (props) => {
                     ></TitleComponent>
                     <div>
                         <Form.Item name="replicas" initialValue={formFields.replicas}>
-                            <InputNumber bordered={false} min={1} max={5} keyboard={true} value={formFields.replicas} onChange={(e) => updateFormState('replicas', e)} />
+                            <InputNumber
+                                bordered={false}
+                                min={1}
+                                max={desiredPods && desiredPods <= 5 ? desiredPods : 5}
+                                keyboard={true}
+                                value={formFields.replicas}
+                                onChange={(e) => updateFormState('replicas', e)}
+                                disabled={!allowEdit}
+                            />
                         </Form.Item>
                     </div>
                 </div>

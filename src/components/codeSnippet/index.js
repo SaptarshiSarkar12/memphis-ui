@@ -5,28 +5,11 @@ import CopyClipboard from '../../assets/images/copyClipboard.svg';
 import ClickableImage from '../clickableImage';
 
 const CodeSnippet = (props) => {
-    const { languageOption, codeSnippet } = props;
-
-    const options = (EditorCodeSnippet.IStandaloneEditorConstructionOptions = {
-        readOnly: true,
-        minimap: { enabled: false },
-        scrollBeyondLastLine: false,
-        selectionHighlight: true,
-        renderLineHighlight: 'none',
-        scrollbar: {
-            verticalScrollbarSize: 3,
-            horizontalScrollbarSize: 3
-        }
-    });
-
-    const onCopy = () => {
-        navigator.clipboard.writeText(codeSnippet);
-    };
+    const { languageOption, codeSnippet, installation } = props;
 
     return (
         <div className="editor-code-snippet-container">
-            <EditorCodeSnippet height="23vh" path={languageOption?.name} options={options} language={languageOption?.language} value={codeSnippet} />
-            <ClickableImage className="clipboard-image" image={CopyClipboard} onClick={onCopy}></ClickableImage>
+            <EditorCodeSnippet path={languageOption?.name} language={languageOption?.language} value={codeSnippet} installation />
         </div>
     );
 };

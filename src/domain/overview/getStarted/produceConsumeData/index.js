@@ -13,6 +13,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { Form } from 'antd';
+import { CopyBlock, atomOneLight } from 'react-code-blocks';
 import SelectComponent from '../../../../components/select';
 import CodeSnippet from '../../../../components/codeSnippet';
 import Button from '../../../../components/button';
@@ -113,18 +114,9 @@ const ProduceConsumeData = (props) => {
 
     return (
         <Form name="form" form={creationForm} autoComplete="off" className="create-produce-data">
-            <Form.Item
-                name="languages"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Type here'
-                    }
-                ]}
-                style={{ marginBottom: '0' }}
-            >
+            <Form.Item name="languages" style={{ marginBottom: '0' }}>
                 <div className="select-container">
-                    {isCopyToClipBoard === produceConsumeScreenEnum['DATA_SNIPPET'] ? (
+                    {isCopyToClipBoard === produceConsumeScreenEnum['DATA_SNIPPET'] && (
                         <div>
                             <TitleComponent headerTitle="Language" typeTitle="sub-header"></TitleComponent>
                             <SelectComponent
@@ -135,13 +127,13 @@ const ProduceConsumeData = (props) => {
                                 borderColorType="gray"
                                 radiusType="semi-round"
                                 width="450px"
-                                height="40px"
+                                height="50px"
                                 options={Object.keys(languagesOptions).map((lang) => languagesOptions[lang].name)}
                                 onChange={(e) => updateDisplayLanguage(e)}
                                 dropdownClassName="select-options"
                             />
                         </div>
-                    ) : null}
+                    )}
                 </div>
                 {isCopyToClipBoard === produceConsumeScreenEnum['DATA_WAITING'] ? (
                     <div className="data-waiting-container">
@@ -161,7 +153,7 @@ const ProduceConsumeData = (props) => {
                                 marginBottom="3px"
                                 onClick={() => {
                                     clearInterval(intervalStationDetails);
-
+                                    getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: getStartedState?.currentStep });
                                     getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
                                 }}
                             />
@@ -173,7 +165,10 @@ const ProduceConsumeData = (props) => {
                         <TitleComponent headerTitle={successfullTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
                     </div>
                 ) : (
-                    <CodeSnippet languageOption={languageOption} codeSnippet={languageOption?.value} />
+                    <div>
+                        <CodeSnippet languageOption={languageOption} codeSnippet={languageOption?.installation} installation />
+                        <CodeSnippet languageOption={languageOption} codeSnippet={languageOption?.value} />
+                    </div>
                 )}
             </Form.Item>
         </Form>
