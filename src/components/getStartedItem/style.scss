@@ -1,27 +1,24 @@
 .get-started-wrapper {
-    width: 42vw;
-    margin-left: 30px;
-    margin-right: 30px;
-    .btn-next-back {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
+    height: 65vh;
+    width: 44vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 30px;
+    padding-right: 30px;
+    .get-started-header {
+        height: 8vw;
     }
-    .get-started-container {
-        height: 57vh;
-        // width: 42vw;
-        width: 100%;
+    .get-started-body {
+        height: 24vw;
         overflow-y: auto;
-
-        box-sizing: border-box;
-        background: #ffffff;
-        border: 1px solid #f2f2f2;
-        border-radius: 8px;
-        padding: 30px;
-
-        .header-image {
-            width: 30px;
-            height: 30px;
+    }
+    .get-started-footer {
+        height: 5vw;
+        .btn-next-back {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
         }
     }
 }

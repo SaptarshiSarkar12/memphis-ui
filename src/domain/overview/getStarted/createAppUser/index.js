@@ -81,6 +81,7 @@ const CreateAppUser = (props) => {
             setCreatedUser(screenEnum['DATA_WAITING']);
 
             if (data) {
+                setAllowEdit(false);
                 getStartedDispatch({ type: 'IS_LOADING', payload: false });
 
                 getStartedDispatch({ type: 'SET_USER_NAME', payload: data?.username });

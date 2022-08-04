@@ -380,7 +380,7 @@ const CreateStationForm = (props) => {
                 )}
                 {formFields.retention_type === 'bytes' && (
                     <Form.Item name="retentionSizeValue" initialValue={retentionSizeValue}>
-                        <div>
+                        <div className="retention-type">
                             <Input
                                 placeholder="Type"
                                 type="number"
@@ -401,7 +401,7 @@ const CreateStationForm = (props) => {
                 )}
                 {formFields.retention_type === 'messages' && (
                     <Form.Item name="retentionMessagesValue" initialValue={retentionMessagesValue}>
-                        <div>
+                        <div className="retention-type">
                             <Input
                                 placeholder="Type"
                                 type="number"
@@ -424,7 +424,6 @@ const CreateStationForm = (props) => {
             <div className="storage-replicas-container">
                 <div>
                     <TitleComponent
-                        // style={{ width: '15vw' }}
                         headerTitle="Storage type"
                         typeTitle="sub-header"
                         headerDescription="Type of message persistence"

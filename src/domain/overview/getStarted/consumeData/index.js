@@ -21,41 +21,7 @@ const ConsumeData = (props) => {
     const { createStationFormRef } = props;
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
     const [displayScreen, setDisplayScreen] = useState();
-
-    const host = process.env.REACT_APP_SANDBOX_ENV ? 'broker.sandbox.memphis.dev' : 'localhost';
-
-    const languagesOptions = {
-        Go: {
-            name: 'Go',
-            language: 'go',
-            value: CODE_EXAMPLE['Go'].consumer
-                .replace('<username>', getStartedState?.username)
-                .replace('<memphis_host>', host)
-                .replace('<connection_token>', getStartedState?.connectionCreds)
-                .replace('<station_name>', getStartedState?.stationName),
-            installation: CODE_EXAMPLE['Go'].installation
-        },
-        Python: {
-            name: 'Python',
-            language: 'python',
-            value: CODE_EXAMPLE['Python'].consumer
-                .replace('<username>', getStartedState?.username)
-                .replace('<memphis_host>', host)
-                .replace('<connection_token>', getStartedState?.connectionCreds)
-                .replace('<station_name>', getStartedState?.stationName),
-            installation: CODE_EXAMPLE['Python'].installation
-        },
-        'Node.js': {
-            name: 'Node.js',
-            language: 'javascript',
-            value: CODE_EXAMPLE['Node.js'].consumer
-                .replace('<username>', getStartedState?.username)
-                .replace('<memphis_host>', host)
-                .replace('<connection_token>', getStartedState?.connectionCreds)
-                .replace('<station_name>', getStartedState?.stationName),
-            installation: CODE_EXAMPLE['Node.js'].installation
-        }
-    };
+    const selectLngOption = ['Go', 'Node.js', 'Python'];
 
     const onNext = () => {
         if (displayScreen === produceConsumeScreenEnum['DATA_SNIPPET']) {
@@ -71,7 +37,6 @@ const ConsumeData = (props) => {
     }, [displayScreen]);
 
     useEffect(() => {
-        console.log(languagesOptions);
         setDisplayScreen(produceConsumeScreenEnum['DATA_SNIPPET']);
     }, []);
 
@@ -80,10 +45,11 @@ const ConsumeData = (props) => {
             waitingImage={WaitingConsumeData}
             waitingTitle={'We are waiting for a consumer to consume data'}
             successfullTitle={'Start to receive messages.'}
-            languagesOptions={languagesOptions}
+            languages={selectLngOption}
             activeData={'connected_cgs'}
             dataName={'consumer_app'}
             displayScreen={displayScreen}
+            consume
         ></ProduceConsumeData>
     );
 };

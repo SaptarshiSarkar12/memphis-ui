@@ -15,7 +15,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Form } from 'antd';
 import { CopyBlock, atomOneLight } from 'react-code-blocks';
 import SelectComponent from '../../../../components/select';
-import CodeSnippet from '../../../../components/codeSnippet';
 import Button from '../../../../components/button';
 import SuccessfullyReceivedProduce from '../../../../assets/images/successfullyReceivedProduce.svg';
 import { GetStartedStoreContext } from '..';
@@ -23,6 +22,8 @@ import { httpRequest } from '../../../../services/http';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import './style.scss';
 import TitleComponent from '../../../../components/titleComponent';
+import { CODE_EXAMPLE, DOCKER_CODE_EXAMPLE } from '../../../../const/SDKExample';
+import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../../const/localStorageConsts';
 
 export const produceConsumeScreenEnum = {
     DATA_SNIPPET: 0,
@@ -31,12 +32,39 @@ export const produceConsumeScreenEnum = {
 };
 
 const ProduceConsumeData = (props) => {
-    const { waitingImage, waitingTitle, successfullTitle, languagesOptions, activeData, dataName, displayScreen } = props;
+    const { waitingImage, waitingTitle, successfullTitle, activeData, dataName, displayScreen } = props;
     const [creationForm] = Form.useForm();
     const [isCopyToClipBoard, setCopyToClipBoard] = useState(displayScreen);
-    const [languageOption, setLanguageOption] = useState();
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
     const [intervalStationDetails, setintervalStationDetails] = useState();
+
+    const [langSelected, setLangSelected] = useState('Go');
+    const [codeExample, setCodeExample] = useState({
+        import: '',
+        producer: '',
+        consumer: ''
+    });
+
+    const handleSelectLang = (e) => {
+        setLangSelected(e);
+        changeDynamicCode(e);
+    };
+
+    const changeDynamicCode = (lang) => {
+        let codeEx = {};
+        codeEx.producer = CODE_EXAMPLE[lang].producer;
+        codeEx.consumer = CODE_EXAMPLE[lang].consumer;
+        let host = process.env.REACT_APP_SANDBOX_ENV
+            ? 'broker.sandbox.memphis.dev'
+            : localStorage.getItem(LOCAL_STORAGE_ENV) === 'docker'
+            ? 'localhost'
+            : 'memphis-cluster.' + localStorage.getItem(LOCAL_STORAGE_NAMESPACE) + '.svc.cluster.local';
+        codeEx.producer = codeEx.producer.replaceAll('<memphis-host>', host);
+        codeEx.consumer = codeEx.consumer.replaceAll('<memphis-host>', host);
+        codeEx.producer = codeEx.producer.replaceAll('<station_name>', getStartedState?.stationName);
+        codeEx.consumer = codeEx.consumer.replaceAll('<station_name>', getStartedState?.stationName);
+        setCodeExample(codeEx);
+    };
 
     const getStationDetails = async () => {
         try {
@@ -52,6 +80,7 @@ const ProduceConsumeData = (props) => {
     };
 
     useEffect(() => {
+        changeDynamicCode(langSelected);
         if (displayScreen !== isCopyToClipBoard) {
             if (displayScreen === produceConsumeScreenEnum['DATA_WAITING']) {
                 onCopyToClipBoard();
@@ -66,13 +95,6 @@ const ProduceConsumeData = (props) => {
         }, 3000);
         setintervalStationDetails(interval);
     };
-
-    useEffect(() => {
-        setLanguageOption(languagesOptions['Go']);
-        return () => {
-            clearInterval(intervalStationDetails);
-        };
-    }, []);
 
     useEffect(() => {
         if (isCopyToClipBoard === produceConsumeScreenEnum['DATA_WAITING']) {
@@ -108,10 +130,6 @@ const ProduceConsumeData = (props) => {
         };
     }, [[getStartedState?.stationData?.[activeData]]]);
 
-    const updateDisplayLanguage = (lang) => {
-        setLanguageOption(languagesOptions[lang]);
-    };
-
     return (
         <Form name="form" form={creationForm} autoComplete="off" className="create-produce-data">
             <Form.Item name="languages" style={{ marginBottom: '0' }}>
@@ -120,16 +138,16 @@ const ProduceConsumeData = (props) => {
                         <div>
                             <TitleComponent headerTitle="Language" typeTitle="sub-header"></TitleComponent>
                             <SelectComponent
-                                initialValue={languageOption?.name}
-                                value={languageOption?.name}
+                                initialValue={langSelected}
+                                value={langSelected}
                                 colorType="navy"
                                 backgroundColorType="none"
                                 borderColorType="gray"
                                 radiusType="semi-round"
                                 width="450px"
                                 height="50px"
-                                options={Object.keys(languagesOptions).map((lang) => languagesOptions[lang].name)}
-                                onChange={(e) => updateDisplayLanguage(e)}
+                                options={props.languages}
+                                onChange={(e) => handleSelectLang(e)}
                                 dropdownClassName="select-options"
                             />
                         </div>
@@ -166,8 +184,25 @@ const ProduceConsumeData = (props) => {
                     </div>
                 ) : (
                     <div>
-                        <CodeSnippet languageOption={languageOption} codeSnippet={languageOption?.installation} installation />
-                        <CodeSnippet languageOption={languageOption} codeSnippet={languageOption?.value} />
+                        <div className="installation">
+                            <p>Installation</p>
+                            <div className="install-copy">
+                                <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
+                            </div>
+                        </div>
+                        <div className="code-example">
+                            <p>{props.produce ? 'Procude data' : 'Consume data'}</p>
+                            <div className="code-content">
+                                <CopyBlock
+                                    language={CODE_EXAMPLE[langSelected].langCode}
+                                    text={props.produce ? codeExample.producer : codeExample.consumer}
+                                    showLineNumbers={true}
+                                    theme={atomOneLight}
+                                    wrapLines={true}
+                                    codeBlock
+                                />
+                            </div>
+                        </div>
                     </div>
                 )}
             </Form.Item>

@@ -10,48 +10,50 @@ const GetStartedItem = (props) => {
 
     return (
         <div className="get-started-wrapper">
-            <div className="get-started-container" style={style?.container}>
+            <div className="get-started-header">
                 <img className="header-image" src={headerImage} alt={headerImage} style={style?.image}></img>
                 <TitleComponent className="header-description" headerTitle={headerTitle} headerDescription={headerDescription} style={style}></TitleComponent>
-                {children}
             </div>
-            {!getStartedState.isHiddenButton && (
-                <div className="btn-next-back">
-                    <Button
-                        width={getStartedState?.currentStep === 5 ? '190px' : '129px'}
-                        height="36px"
-                        placeholder={getStartedState?.currentStep === 5 ? 'Lanuch Dashboard' : 'Next'}
-                        colorType="white"
-                        radiusType="circle"
-                        alignSelf="flex-end"
-                        backgroundColorType={'purple'}
-                        fontSize="16px"
-                        fontWeight="bold"
-                        htmlType="submit"
-                        marginTop="27px"
-                        disabled={getStartedState?.nextDisable}
-                        onClick={() => onNext()}
-                        isLoading={getStartedState?.isLoading}
-                    />
-                    {getStartedState?.currentStep !== 1 && (
+            <div className="get-started-body">{children}</div>
+            <div className="get-started-footer">
+                {!getStartedState.isHiddenButton && (
+                    <div className="btn-next-back">
                         <Button
-                            width={'129px'}
+                            width={getStartedState?.currentStep === 5 ? '190px' : '129px'}
                             height="36px"
-                            placeholder={'Back'}
+                            placeholder={getStartedState?.currentStep === 5 ? 'Lanuch Dashboard' : 'Next'}
                             colorType="white"
                             radiusType="circle"
                             alignSelf="flex-end"
-                            backgroundColorType={'black'}
+                            backgroundColorType={'purple'}
                             fontSize="16px"
                             fontWeight="bold"
                             htmlType="submit"
                             marginTop="27px"
-                            onClick={() => onBack()}
+                            disabled={getStartedState?.nextDisable}
+                            onClick={() => onNext()}
                             isLoading={getStartedState?.isLoading}
                         />
-                    )}
-                </div>
-            )}
+                        {getStartedState?.currentStep !== 1 && (
+                            <Button
+                                width={'129px'}
+                                height="36px"
+                                placeholder={'Back'}
+                                colorType="white"
+                                radiusType="circle"
+                                alignSelf="flex-end"
+                                backgroundColorType={'black'}
+                                fontSize="16px"
+                                fontWeight="bold"
+                                htmlType="submit"
+                                marginTop="27px"
+                                onClick={() => onBack()}
+                                isLoading={getStartedState?.isLoading}
+                            />
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

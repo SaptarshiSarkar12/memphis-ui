@@ -17,6 +17,10 @@
             color: #747474;
         }
 
+        .curr-step-name {
+            color: #2e2c34;
+        }
+
         .step-number-container {
             width: 21px;
             height: 21.3px;
@@ -43,9 +47,23 @@
             }
         }
     }
+    .step-number-white {
+        background-color: white !important;
+    }
 
     .arrow-container {
         align-self: center;
         margin-right: 15px;
     }
+}
+.curr-step {
+    background-color: #f0eeff;
+}
+
+.cursor-allowed {
+    cursor: pointer;
+}
+
+.cursor-blocked {
+    cursor: not-allowed;
 }

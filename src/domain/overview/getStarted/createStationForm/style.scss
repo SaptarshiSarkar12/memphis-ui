@@ -117,4 +117,13 @@
     .ant-form-item {
         margin-bottom: 10px;
     }
+
+    .retention-type {
+        display: flex;
+        align-items: center;
+        p {
+            margin-left: 5px;
+            margin-bottom: 0px;
+        }
+    }
 }
