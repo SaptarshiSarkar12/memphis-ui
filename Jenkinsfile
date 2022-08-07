@@ -71,7 +71,7 @@ node {
       	dir ('memphis-k8s'){
        	  git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-k8s.git', branch: gitBranch
       	}
-      	sh "helm install memphis-tests memphis-k8s/memphis --set analytics='false',teston='ui' --create-namespace --namespace memphis-$unique_id"
+      	sh "helm upgrade --atomic --install memphis-tests memphis-k8s/memphis --set analytics='false',teston='ui' --create-namespace --namespace memphis-$unique_id"
     }
 
     stage('Open port forwarding to memphis service') {
@@ -126,7 +126,7 @@ node {
       stage('Push to staging'){
         sh "aws eks --region eu-central-1 update-kubeconfig --name staging-cluster"
         sh "helm uninstall my-memphis --kubeconfig ~/.kube/config -n memphis"
-        sh 'helm install my-memphis memphis-k8s/memphis --set analytics="false" --kubeconfig ~/.kube/config --create-namespace --namespace memphis'
+        sh 'helm upgrade --atomic --install my-memphis memphis-k8s/memphis --set analytics="false" --kubeconfig ~/.kube/config --create-namespace --namespace memphis'
         sh "rm -rf memphis-k8s"
       }
     }
@@ -178,7 +178,7 @@ node {
       	dir ('memphis-k8s'){
        	 git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-k8s.git', branch: gitBranch
       	}
-      	sh "helm install memphis-tests memphis-k8s/memphis --set analytics='false' --create-namespace --namespace memphis"
+      	sh "helm upgrade --atomic --install memphis-tests memphis-k8s/memphis --set analytics='false' --create-namespace --namespace memphis"
     	}
 
    	 stage('Open port forwarding to memphis service') {
