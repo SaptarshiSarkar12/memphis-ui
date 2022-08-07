@@ -153,7 +153,7 @@ async def main():
         memphis = Memphis()
         await memphis.connect(host="<memphis-host>", username="<application type username>", connection_token="<connection_token>")
         
-        producer = await memphis.producer(station_name="<station_name>", producer_name="myProducer")
+        producer = memphis.producer(station_name="<station_name>", producer_name="myProducer")
         for i in range(100):
             await producer.produce(bytearray('Message #'+str(i)+': Hello world', 'utf-8'))
     except Exception as e:
@@ -171,7 +171,7 @@ async def main():
         memphis = Memphis()
         await memphis.connect(host="<memphis-host>", username="<application type username>", connection_token="<connection_token>")
          
-        consumer = await memphis.consumer(station_name="<station-name>", consumer_name="myConsumer", consumer_group="")
+        consumer = memphis.consumer(station_name="<station-name>", consumer_name="myConsumer", consumer_group="")
         consumer.consume(msg_handler)
         await asyncio.sleep(5)
     except Exception as e:
