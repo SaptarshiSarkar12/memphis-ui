@@ -4,10 +4,6 @@ import './style.scss';
 const TitleComponent = (props) => {
     const { headerTitle, typeTitle = 'header', headerDescription, style, img, finish } = props;
 
-    React.useEffect(() => {
-        console.log(props);
-    }, []);
-
     return (
         <div className="title-container" style={style?.container}>
             {typeTitle === 'header' && (
