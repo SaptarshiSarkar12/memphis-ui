@@ -1,9 +1,10 @@
 .finish-container {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    // flex-direction: column;
     height: 71%;
-    align-items: center;
-    justify-content: space-evenly;
+    // align-items: center;
+    // justify-content: space-evenly;
 
     .ant-btn-primary {
         box-shadow: none;
@@ -23,6 +24,7 @@
     }
 
     .link-finish-header {
+        margin-top: 50px;
         font-weight: 400;
         font-size: 14px;
         line-height: 120%;
@@ -31,6 +33,7 @@
 
     .container-icons-finish {
         text-align: center;
+        margin-top: 100px;
         .icon-image {
             padding: 10px;
             margin-right: 5px;

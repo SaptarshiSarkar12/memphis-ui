@@ -10,9 +10,15 @@ const GetStartedItem = (props) => {
 
     return (
         <div className="get-started-wrapper">
-            <div className="get-started-header">
-                <img className="header-image" src={headerImage} alt={headerImage} style={style?.image}></img>
-                <TitleComponent className="header-description" headerTitle={headerTitle} headerDescription={headerDescription} style={style}></TitleComponent>
+            <div className={getStartedState?.currentStep === 5 ? 'get-started-header-finish' : 'get-started-header'}>
+                <TitleComponent
+                    className="header-description"
+                    img={headerImage}
+                    headerTitle={headerTitle}
+                    headerDescription={headerDescription}
+                    style={style}
+                    finish={getStartedState?.currentStep === 5}
+                ></TitleComponent>
             </div>
             <div className="get-started-body">{children}</div>
             <div className="get-started-footer">

@@ -32,7 +32,7 @@ export const produceConsumeScreenEnum = {
 };
 
 const ProduceConsumeData = (props) => {
-    const { waitingImage, waitingTitle, successfullTitle, activeData, dataName, displayScreen } = props;
+    const { waitingImage, waitingTitle, successfullTitle, activeData, dataName, displayScreen, screen } = props;
     const [creationForm] = Form.useForm();
     const [isCopyToClipBoard, setCopyToClipBoard] = useState(displayScreen);
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
@@ -157,7 +157,24 @@ const ProduceConsumeData = (props) => {
                     <div className="data-waiting-container">
                         <img className="image-waiting-successful" src={waitingImage} alt="waiting-data"></img>
                         <TitleComponent headerTitle={waitingTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
-                        <div>
+                        <div className="waiting-for-data-btn">
+                            <Button
+                                width="129px"
+                                height="40px"
+                                placeholder="Back"
+                                colorType="black"
+                                radiusType="circle"
+                                backgroundColorType="white"
+                                border="border: 1px solid #EBEBEB"
+                                fontSize="14px"
+                                fontWeight="bold"
+                                marginBottom="3px"
+                                onClick={() => {
+                                    clearInterval(intervalStationDetails);
+                                    screen(produceConsumeScreenEnum['DATA_SNIPPET']);
+                                }}
+                            />
+                            <div className="waiting-for-data-space"></div>
                             <Button
                                 width="129px"
                                 height="40px"

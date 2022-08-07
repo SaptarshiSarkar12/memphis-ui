@@ -49,6 +49,7 @@ const ProduceData = (props) => {
             dataName={'producer_app'}
             displayScreen={displayScreen}
             produce
+            screen={(e) => setDisplayScreen(e)}
         ></ProduceConsumeData>
     );
 };

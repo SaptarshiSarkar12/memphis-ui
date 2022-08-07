@@ -50,6 +50,7 @@ const ConsumeData = (props) => {
             dataName={'consumer_app'}
             displayScreen={displayScreen}
             consume
+            screen={(e) => setDisplayScreen(e)}
         ></ProduceConsumeData>
     );
 };
