@@ -167,6 +167,16 @@ if __name__ == '__main__':
 from memphis import Memphis
         
 async def main():
+    async def msg_handler(msgs, error):
+        try:
+            for msg in msgs:
+                print(msg.get_data())
+                await msg.ack()
+            if error:
+                print(error)
+        except Exception as e:
+            return
+
     try:
         memphis = Memphis()
         await memphis.connect(host="<memphis-host>", username="<application type username>", connection_token="<connection_token>")
