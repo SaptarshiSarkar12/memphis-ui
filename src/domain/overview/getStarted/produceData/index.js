@@ -13,6 +13,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import WaitingProduceData from '../../../../assets/images/waitingProduceData.svg';
+import prodWaiting from '../../../../assets/lotties/prodWaiting.json';
 import ProduceConsumeData, { produceConsumeScreenEnum } from '../produceConsumeData';
 import { GetStartedStoreContext } from '..';
 
@@ -41,7 +42,7 @@ const ProduceData = (props) => {
 
     return (
         <ProduceConsumeData
-            waitingImage={WaitingProduceData}
+            waitingImage={prodWaiting}
             waitingTitle={'We are waiting for produced data'}
             successfullTitle={'Successfully received'}
             languages={selectLngOption}

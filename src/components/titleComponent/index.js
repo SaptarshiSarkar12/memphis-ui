@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.scss';
+import Lottie from 'lottie-react';
 
 const TitleComponent = (props) => {
     const { headerTitle, typeTitle = 'header', headerDescription, style, img, finish } = props;
@@ -8,7 +9,12 @@ const TitleComponent = (props) => {
         <div className="title-container" style={style?.container}>
             {typeTitle === 'header' && (
                 <div className={finish ? 'header-title-container-finish' : 'header-title-container'}>
-                    <img className="header-image" src={img} alt={img} style={style?.image}></img>
+                    {finish ? (
+                        <Lottie style={style?.image} animationData={img} loop={true} />
+                    ) : (
+                        <img className="header-image" src={img} alt={img} style={style?.image}></img>
+                    )}
+
                     <label className="header-title" style={style?.header}>
                         {headerTitle}
                     </label>

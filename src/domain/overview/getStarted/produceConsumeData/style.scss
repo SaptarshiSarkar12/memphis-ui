@@ -1,7 +1,31 @@
 .create-produce-data {
+    height: calc(100% - 30px);
+    position: relative;
+    margin-right: 20px;
+    overflow-y: hidden;
     p {
         margin-top: 15px;
         margin-bottom: 0;
+    }
+    .code-wrapper {
+        position: relative;
+        height: calc(100% - 30px);
+        .code-example {
+            height: calc(100% - 150px);
+            position: relative;
+            .code-content {
+                border: 1px solid var(--gray);
+                box-sizing: border-box;
+                border-radius: 4px;
+                overflow: auto;
+                position: relative;
+                height: calc(100% - 50px);
+                p {
+                    margin: 0;
+                    white-space: pre-line;
+                }
+            }
+        }
     }
     .installation {
         .install-copy {
@@ -13,19 +37,7 @@
             align-items: center;
         }
     }
-    .code-example {
-        .code-content {
-            border: 1px solid var(--gray);
-            box-sizing: border-box;
-            border-radius: 4px;
-            overflow: auto;
-            height: 20vh;
-            p {
-                margin: 0;
-                white-space: pre-line;
-            }
-        }
-    }
+
     .select-container {
         margin-top: 20px;
     }
@@ -66,11 +78,13 @@
         flex-direction: column;
         border: 1px solid #d8d8d8;
         border-radius: 4px;
-        height: 34vh;
+        // height: 34vh;
 
         .image-waiting-successful {
             margin-top: 10px;
             margin-bottom: 15px;
+            width: 150px;
+            height: 150px;
         }
 
         .successfully-consume-produce {

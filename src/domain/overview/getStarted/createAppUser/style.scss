@@ -1,4 +1,5 @@
 .create-station-form-create-app-user {
+    height: 100%;
     .field-title {
         display: flex;
         font-weight: 400;
@@ -7,44 +8,46 @@
     }
 
     .creating-the-user-container {
+        // background-color: aquamarine;
         text-align: center;
         justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        // margin-top: 10px;
         .create-the-user-header {
-            margin-top: 19px;
+            margin-bottom: 20px;
             font-weight: 600;
             font-size: 14px;
             line-height: 20px;
             color: #979797;
         }
+        .create-the-user-lottie {
+            height: 140px;
+            width: 100px;
+        }
     }
 
     .creating-the-user-container,
     .connection-details-container {
-        height: 125px;
         background: rgba(239, 239, 243, 0.05);
         border: 1px solid #f3f3f3;
         border-radius: 4px;
         margin-top: 15px;
-
+        margin-right: 20px;
+        padding-bottom: 20px;
         .user-details-container {
             height: 44px;
             display: flex;
-            padding-left: 20px;
-            justify-content: flex-start;
-
-            background: #f6f6fc;
             align-items: center;
-
-            .user-check {
-                margin-bottom: 5px;
-                margin-right: 5px;
-            }
+            padding-left: 20px;
+            background: #f6f6fc;
 
             .user-connection-details {
                 font-weight: 600;
-                font-size: 14px;
-                align-self: flex-end;
-
+                font-size: 15px;
+                margin-left: 10px;
+                margin-bottom: 0;
                 color: #2e2c34;
             }
         }

@@ -26,7 +26,7 @@ import AppUserIcon from '../../../assets/images/usersIconActive.svg';
 import ProduceDataImg from '../../../assets/images/produceData.svg';
 import ConsumeDataImg from '../../../assets/images/consumeData.svg';
 import ReadyToroll from '../../../assets/images/readyToRoll.svg';
-
+import finishStep from '../../../assets/lotties/finishStep.json';
 const steps = [{ stepName: 'Create Station' }, { stepName: 'Create App user' }, { stepName: 'Produce data' }, { stepName: 'Consume data' }, { stepName: 'Finish' }];
 
 const finishStyle = {
@@ -108,10 +108,10 @@ const GetStarted = (props) => {
                 <h1 className="getstarted-header">Let's get you started</h1>
                 <p className="getstarted-header-description">Setup your account details to get more form the platform</p>
                 <div className="sub-getstarted-container">
-                    <div>
+                    <div className="side-step">
                         <SideStepList />
                     </div>
-                    <div>
+                    <div className="getstarted-item">
                         {getStartedState?.currentStep === 1 && (
                             <GetStartedItem
                                 headerImage={GetStartedIcon}
@@ -158,7 +158,7 @@ const GetStarted = (props) => {
                         )}
                         {getStartedState?.currentStep === 5 && (
                             <GetStartedItem
-                                headerImage={ReadyToroll}
+                                headerImage={finishStep}
                                 headerTitle="You are ready to roll"
                                 headerDescription="Congratulations - You’ve created your first broker app"
                                 onNext={onNext}

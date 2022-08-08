@@ -13,10 +13,12 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { Form } from 'antd';
+import Lottie from 'lottie-react';
 import { CopyBlock, atomOneLight } from 'react-code-blocks';
 import SelectComponent from '../../../../components/select';
 import Button from '../../../../components/button';
 import SuccessfullyReceivedProduce from '../../../../assets/images/successfullyReceivedProduce.svg';
+import successProdCons from '../../../../assets/lotties/successProdCons.json';
 import { GetStartedStoreContext } from '..';
 import { httpRequest } from '../../../../services/http';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
@@ -61,6 +63,10 @@ const ProduceConsumeData = (props) => {
             : 'memphis-cluster.' + localStorage.getItem(LOCAL_STORAGE_NAMESPACE) + '.svc.cluster.local';
         codeEx.producer = codeEx.producer.replaceAll('<memphis-host>', host);
         codeEx.consumer = codeEx.consumer.replaceAll('<memphis-host>', host);
+        codeEx.producer = codeEx.producer.replaceAll('<application type username>', getStartedState?.username);
+        codeEx.consumer = codeEx.consumer.replaceAll('<application type username>', getStartedState?.username);
+        codeEx.producer = codeEx.producer.replaceAll('<connection_token>', getStartedState?.connectionCreds);
+        codeEx.consumer = codeEx.consumer.replaceAll('<connection_token>', getStartedState?.connectionCreds);
         codeEx.producer = codeEx.producer.replaceAll('<station_name>', getStartedState?.stationName);
         codeEx.consumer = codeEx.consumer.replaceAll('<station_name>', getStartedState?.stationName);
         setCodeExample(codeEx);
@@ -68,9 +74,16 @@ const ProduceConsumeData = (props) => {
 
     const getStationDetails = async () => {
         try {
+            console.log('getStationDetails');
             const data = await httpRequest('GET', `${ApiEndpoints.GET_STATION_DATA}?station_name=${getStartedState?.formFieldsCreateStation?.name}`);
             if (data) {
-                getStartedDispatch({ type: 'GET_STATION_DATA', payload: data });
+                if (data?.messages?.length > 0) {
+                    setCopyToClipBoard(produceConsumeScreenEnum['DATA_RECIEVED']);
+                    getStartedDispatch({ type: 'GET_STATION_DATA', payload: data });
+                    clearInterval(intervalStationDetails);
+                }
+
+                // console.log(data);
             }
         } catch (error) {
             if (error?.status === 666) {
@@ -83,6 +96,7 @@ const ProduceConsumeData = (props) => {
         changeDynamicCode(langSelected);
         if (displayScreen !== isCopyToClipBoard) {
             if (displayScreen === produceConsumeScreenEnum['DATA_WAITING']) {
+                console.log('in');
                 onCopyToClipBoard();
             }
             setCopyToClipBoard(displayScreen);
@@ -90,6 +104,7 @@ const ProduceConsumeData = (props) => {
     }, [displayScreen]);
 
     const onCopyToClipBoard = () => {
+        console.log('out');
         let interval = setInterval(() => {
             getStationDetails();
         }, 3000);
@@ -114,6 +129,7 @@ const ProduceConsumeData = (props) => {
     }, [isCopyToClipBoard]);
 
     useEffect(() => {
+        console.log(getStartedState?.stationData);
         if (
             getStartedState?.stationData &&
             getStartedState?.stationData[activeData] &&
@@ -131,99 +147,99 @@ const ProduceConsumeData = (props) => {
     }, [[getStartedState?.stationData?.[activeData]]]);
 
     return (
-        <Form name="form" form={creationForm} autoComplete="off" className="create-produce-data">
-            <Form.Item name="languages" style={{ marginBottom: '0' }}>
-                <div className="select-container">
-                    {isCopyToClipBoard === produceConsumeScreenEnum['DATA_SNIPPET'] && (
-                        <div>
-                            <TitleComponent headerTitle="Language" typeTitle="sub-header"></TitleComponent>
-                            <SelectComponent
-                                initialValue={langSelected}
-                                value={langSelected}
-                                colorType="navy"
-                                backgroundColorType="none"
-                                borderColorType="gray"
-                                radiusType="semi-round"
-                                width="450px"
-                                height="50px"
-                                options={props.languages}
-                                onChange={(e) => handleSelectLang(e)}
-                                dropdownClassName="select-options"
-                            />
-                        </div>
-                    )}
+        <div className="create-produce-data">
+            {/* <div name="languages" style={{ marginBottom: '0' }}> */}
+            {/* <div className="select-container"> */}
+            {isCopyToClipBoard === produceConsumeScreenEnum['DATA_SNIPPET'] && (
+                <div>
+                    <TitleComponent headerTitle="Language" typeTitle="sub-header"></TitleComponent>
+                    <SelectComponent
+                        initialValue={langSelected}
+                        value={langSelected}
+                        colorType="navy"
+                        backgroundColorType="none"
+                        borderColorType="gray"
+                        radiusType="semi-round"
+                        width="450px"
+                        height="50px"
+                        options={props.languages}
+                        onChange={(e) => handleSelectLang(e)}
+                        dropdownClassName="select-options"
+                    />
                 </div>
-                {isCopyToClipBoard === produceConsumeScreenEnum['DATA_WAITING'] ? (
-                    <div className="data-waiting-container">
-                        <img className="image-waiting-successful" src={waitingImage} alt="waiting-data"></img>
-                        <TitleComponent headerTitle={waitingTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
-                        <div className="waiting-for-data-btn">
-                            <Button
-                                width="129px"
-                                height="40px"
-                                placeholder="Back"
-                                colorType="black"
-                                radiusType="circle"
-                                backgroundColorType="white"
-                                border="border: 1px solid #EBEBEB"
-                                fontSize="14px"
-                                fontWeight="bold"
-                                marginBottom="3px"
-                                onClick={() => {
-                                    clearInterval(intervalStationDetails);
-                                    screen(produceConsumeScreenEnum['DATA_SNIPPET']);
-                                }}
+            )}
+            {/* </div> */}
+            {isCopyToClipBoard === produceConsumeScreenEnum['DATA_WAITING'] ? (
+                <div className="data-waiting-container">
+                    <Lottie className="image-waiting-successful" animationData={waitingImage} loop={true} />
+                    <TitleComponent headerTitle={waitingTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
+                    <div className="waiting-for-data-btn">
+                        <Button
+                            width="129px"
+                            height="40px"
+                            placeholder="Back"
+                            colorType="black"
+                            radiusType="circle"
+                            backgroundColorType="white"
+                            border="border: 1px solid #EBEBEB"
+                            fontSize="14px"
+                            fontWeight="bold"
+                            marginBottom="3px"
+                            onClick={() => {
+                                clearInterval(intervalStationDetails);
+                                screen(produceConsumeScreenEnum['DATA_SNIPPET']);
+                            }}
+                        />
+                        <div className="waiting-for-data-space"></div>
+                        <Button
+                            width="129px"
+                            height="40px"
+                            placeholder="Skip"
+                            colorType="black"
+                            radiusType="circle"
+                            backgroundColorType="white"
+                            border="border: 1px solid #EBEBEB"
+                            fontSize="14px"
+                            fontWeight="bold"
+                            marginBottom="3px"
+                            onClick={() => {
+                                clearInterval(intervalStationDetails);
+                                getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: getStartedState?.currentStep });
+                                getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
+                            }}
+                        />
+                    </div>
+                </div>
+            ) : isCopyToClipBoard === produceConsumeScreenEnum['DATA_RECIEVED'] ? (
+                <div className="successfully-container">
+                    <Lottie className="image-waiting-successful" animationData={successProdCons} loop={true} />
+                    <TitleComponent headerTitle={successfullTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
+                </div>
+            ) : (
+                <div className="code-wrapper">
+                    <div className="installation">
+                        <p>Installation</p>
+                        <div className="install-copy">
+                            <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
+                        </div>
+                    </div>
+                    <div className="code-example">
+                        <p>{props.produce ? 'Procude data' : 'Consume data'}</p>
+                        <div className="code-content">
+                            <CopyBlock
+                                language={CODE_EXAMPLE[langSelected].langCode}
+                                text={props.produce ? codeExample.producer : codeExample.consumer}
+                                showLineNumbers={true}
+                                theme={atomOneLight}
+                                wrapLines={true}
+                                codeBlock
                             />
-                            <div className="waiting-for-data-space"></div>
-                            <Button
-                                width="129px"
-                                height="40px"
-                                placeholder="Skip"
-                                colorType="black"
-                                radiusType="circle"
-                                backgroundColorType="white"
-                                border="border: 1px solid #EBEBEB"
-                                fontSize="14px"
-                                fontWeight="bold"
-                                marginBottom="3px"
-                                onClick={() => {
-                                    clearInterval(intervalStationDetails);
-                                    getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: getStartedState?.currentStep });
-                                    getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
-                                }}
-                            />
                         </div>
                     </div>
-                ) : isCopyToClipBoard === produceConsumeScreenEnum['DATA_RECIEVED'] ? (
-                    <div className="successfully-container">
-                        <img className="image-waiting-successful" src={SuccessfullyReceivedProduce} alt="successfully-received-produce"></img>
-                        <TitleComponent headerTitle={successfullTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
-                    </div>
-                ) : (
-                    <div>
-                        <div className="installation">
-                            <p>Installation</p>
-                            <div className="install-copy">
-                                <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
-                            </div>
-                        </div>
-                        <div className="code-example">
-                            <p>{props.produce ? 'Procude data' : 'Consume data'}</p>
-                            <div className="code-content">
-                                <CopyBlock
-                                    language={CODE_EXAMPLE[langSelected].langCode}
-                                    text={props.produce ? codeExample.producer : codeExample.consumer}
-                                    showLineNumbers={true}
-                                    theme={atomOneLight}
-                                    wrapLines={true}
-                                    codeBlock
-                                />
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </Form.Item>
-        </Form>
+                </div>
+            )}
+            {/* </div> */}
+        </div>
     );
 };
 

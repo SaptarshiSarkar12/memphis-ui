@@ -11,17 +11,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import './style.scss';
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, InputNumber } from 'antd';
-import Input from '../../../../components/Input';
+import TitleComponent from '../../../../components/titleComponent';
 import RadioButton from '../../../../components/radioButton';
-import './style.scss';
+import Input from '../../../../components/Input';
 import { convertDateToSeconds, convertSecondsToDateObject } from '../../../../services/valueConvertor';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import { httpRequest } from '../../../../services/http';
-import { GetStartedStoreContext } from '..';
-import TitleComponent from '../../../../components/titleComponent';
 import sleep from '../../../../utils/sleep';
+import { GetStartedStoreContext } from '..';
 
 const retanionOptions = [
     {
@@ -318,7 +318,7 @@ const CreateStationForm = (props) => {
                 {formFields.retention_type === 'message_age_sec' && (
                     <div className="time-value">
                         <div className="days-section">
-                            <Form.Item name="days" initialValue={timeSeparator?.days}>
+                            <Form.Item name="days">
                                 <InputNumber
                                     bordered={false}
                                     min={0}
@@ -326,6 +326,7 @@ const CreateStationForm = (props) => {
                                     keyboard={true}
                                     onChange={(e) => handleDaysChange(e)}
                                     value={timeSeparator?.days}
+                                    placeholder={timeSeparator?.days || 7}
                                     disabled={!allowEdit}
                                 />
                             </Form.Item>
@@ -333,7 +334,7 @@ const CreateStationForm = (props) => {
                         </div>
                         <p className="separator">:</p>
                         <div className="hours-section">
-                            <Form.Item name="hours" initialValue={timeSeparator?.hours}>
+                            <Form.Item name="hours">
                                 <InputNumber
                                     bordered={false}
                                     min={0}
@@ -341,6 +342,7 @@ const CreateStationForm = (props) => {
                                     keyboard={true}
                                     onChange={(e) => handleHoursChange(e)}
                                     value={timeSeparator?.hours}
+                                    placeholder={timeSeparator?.hours || 0}
                                     disabled={!allowEdit}
                                 />
                             </Form.Item>
@@ -348,7 +350,7 @@ const CreateStationForm = (props) => {
                         </div>
                         <p className="separator">:</p>
                         <div className="minutes-section">
-                            <Form.Item name="minutes" initialValue={timeSeparator?.minutes}>
+                            <Form.Item name="minutes">
                                 <InputNumber
                                     bordered={false}
                                     min={0}
@@ -356,6 +358,7 @@ const CreateStationForm = (props) => {
                                     keyboard={true}
                                     onChange={(e) => handleMinutesChange(e)}
                                     value={timeSeparator?.minutes}
+                                    placeholder={timeSeparator?.minutes || 0}
                                     disabled={!allowEdit}
                                 />
                             </Form.Item>
@@ -363,13 +366,14 @@ const CreateStationForm = (props) => {
                         </div>
                         <p className="separator">:</p>
                         <div className="seconds-section">
-                            <Form.Item name="seconds" initialValue={timeSeparator?.seconds}>
+                            <Form.Item name="seconds">
                                 <InputNumber
                                     bordered={false}
                                     min={0}
                                     max={60}
                                     keyboard={true}
                                     onChange={(e) => handleSecondsChange(e)}
+                                    placeholder={timeSeparator?.seconds || 0}
                                     value={timeSeparator?.seconds}
                                     disabled={!allowEdit}
                                 />

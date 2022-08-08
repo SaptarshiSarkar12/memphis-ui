@@ -10,12 +10,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import './style.scss';
 
 import React, { useState, useEffect, useContext } from 'react';
 import { Form } from 'antd';
-import Input from '../../../../components/Input';
+import Lottie from 'lottie-react';
 
-import './style.scss';
 import { httpRequest } from '../../../../services/http';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import Button from '../../../../components/button';
@@ -24,10 +24,12 @@ import Information from '../../../../assets/images/information.svg';
 import UserCheck from '../../../../assets/images/userCheck.svg';
 import CreatingTheUser from '../../../../assets/images/creatingTheUser.svg';
 import ClickableImage from '../../../../components/clickableImage';
+import Input from '../../../../components/Input';
 import { GetStartedStoreContext } from '..';
 import SelectedClipboard from '../../../../assets/images/selectedClipboard.svg';
 import TitleComponent from '../../../../components/titleComponent';
 import sleep from '../../../../utils/sleep';
+import userCreator from '../../../../assets/lotties/userCreator.json';
 
 const screenEnum = {
     CREATE_USER_PAGE: 0,
@@ -89,10 +91,9 @@ const CreateAppUser = (props) => {
 
                 getStartedDispatch({ type: 'SET_CREATE_APP_USER_DISABLE', payload: true });
                 getStartedDispatch({ type: 'IS_APP_USER_CREATED', payload: true });
-                setTimeout(() => {
-                    setCreatedUser(screenEnum['DATA_RECIEVED']);
-                    getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
-                }, 1000);
+                await sleep(2);
+                setCreatedUser(screenEnum['DATA_RECIEVED']);
+                getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
             }
         } catch (error) {
             getStartedDispatch({ type: 'IS_LOADING', payload: false });
@@ -109,128 +110,112 @@ const CreateAppUser = (props) => {
     const onFinish = async () => {
         try {
             getStartedDispatch({ type: 'IS_LOADING', payload: true });
-            const values = await creationForm.validateFields();
-            if (values?.errorFields) {
-                return;
-            } else {
-                try {
-                    const bodyRequest = {
-                        username: values.username,
-                        user_type: 'application'
-                    };
-                    createAppUser(bodyRequest);
-                } catch (error) {
-                    console.log('err create user', error);
-                }
+            // const values = await creationForm.validateFields();
+            // if (values?.errorFields) {
+            //     return;
+            // } else {
+            try {
+                const bodyRequest = {
+                    username: formFields.username,
+                    user_type: 'application'
+                };
+                createAppUser(bodyRequest);
+            } catch (error) {
+                console.log('err create user', error);
             }
+            // }
         } catch (error) {
             console.log(`validate error ${JSON.stringify(error)}`);
         }
     };
 
     return (
-        <Form name="form" form={creationForm} autoComplete="off" className="create-station-form-create-app-user">
+        <div className="create-station-form-create-app-user">
             <div>
-                <Form.Item
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Type here'
-                        }
-                    ]}
-                    style={{ marginBottom: '0' }}
-                >
-                    <div>
-                        <div style={{ display: 'flex' }}>
-                            <p className="field-title">
-                                <span className="required-field-mark">* </span>
-                            </p>{' '}
-                            <TitleComponent
-                                headerTitle="Enter user name"
-                                typeTitle="sub-header"
-                                // headerDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-                            ></TitleComponent>
-                        </div>
-                        <Input
-                            placeholder="Type user name"
-                            type="text"
-                            radiusType="semi-round"
-                            colorType="black"
-                            backgroundColorType="none"
-                            borderColorType="gray"
-                            width="371px"
-                            height="38px"
-                            onBlur={(e) => updateFormState('username', e.target.value)}
-                            onChange={(e) => updateFormState('username', e.target.value)}
-                            value={formFields.username}
-                            disabled={!allowEdit}
-                        />
-                    </div>
-                </Form.Item>
-                <Button
-                    placeholder="Create app user"
-                    colorType="white"
-                    radiusType="circle"
-                    backgroundColorType="purple"
-                    fontSize="12px"
-                    fontWeight="bold"
-                    marginTop="25px"
+                <div style={{ display: 'flex' }}>
+                    <p className="field-title">
+                        <span className="required-field-mark">* </span>
+                    </p>{' '}
+                    <TitleComponent headerTitle="Enter user name" typeTitle="sub-header"></TitleComponent>
+                </div>
+                <Input
+                    placeholder="Type user name"
+                    type="text"
+                    radiusType="semi-round"
+                    colorType="black"
+                    backgroundColorType="none"
+                    borderColorType="gray"
+                    width="371px"
+                    height="38px"
+                    onBlur={(e) => updateFormState('username', e.target.value)}
+                    onChange={(e) => updateFormState('username', e.target.value)}
+                    value={formFields.username}
                     disabled={!allowEdit}
-                    onClick={onFinish}
-                    isLoading={getStartedState?.isLoading}
                 />
-                {isCreatedUser === screenEnum['DATA_WAITING'] ? (
-                    <div className="creating-the-user-container">
-                        <img src={CreatingTheUser} alt="creating-the-user"></img>
-                        <p className="create-the-user-header">User is getting created</p>
-                    </div>
-                ) : isCreatedUser === screenEnum['DATA_RECIEVED'] ? (
-                    <div className="connection-details-container">
-                        <div className="user-details-container">
-                            <img src={UserCheck} alt="usercheck" width="20px" height="20px" className="user-check"></img>
-                            <p className="user-connection-details">User connection details</p>
-                        </div>
-                        <div className="container-username-token">
-                            <div className="username-container">
-                                <p>Username: {getStartedState.username}</p>
-                                {selectedClipboardUserName ? (
-                                    <ClickableImage image={SelectedClipboard} className="copy-icon"></ClickableImage>
-                                ) : (
-                                    <ClickableImage
-                                        image={CopyIcon}
-                                        alt="copyIcon"
-                                        className="copy-icon"
-                                        onClick={() => {
-                                            onCopyClick(getStartedState.username, setSelectedClipboardUserName);
-                                        }}
-                                    />
-                                )}
-                            </div>
-                            <div className="token-container">
-                                <p>Connection token: {getStartedState?.connectionCreds}</p>
-                                {selectedClipboardToken ? (
-                                    <ClickableImage image={SelectedClipboard} className="copy-icon"></ClickableImage>
-                                ) : (
-                                    <ClickableImage
-                                        image={CopyIcon}
-                                        alt="copyIcon"
-                                        className="copy-icon"
-                                        onClick={() => {
-                                            onCopyClick(getStartedState.connectionCreds, setSelectedClipboardToken);
-                                        }}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                        <div className="information-container">
-                            <img src={Information} alt="information" className="information-img" />
-                            <p className="information">Please note when you close this modal, you will not be able to restore your user details!!</p>
-                        </div>
-                    </div>
-                ) : null}
             </div>
-        </Form>
+            <Button
+                placeholder="Create app user"
+                colorType="white"
+                radiusType="circle"
+                backgroundColorType="purple"
+                fontSize="12px"
+                fontWeight="bold"
+                marginTop="25px"
+                disabled={!allowEdit || formFields.username.length === 0}
+                onClick={onFinish}
+                isLoading={getStartedState?.isLoading}
+            />
+            {isCreatedUser === screenEnum['DATA_WAITING'] && (
+                <div className="creating-the-user-container">
+                    <img src={CreatingTheUser} alt="creating-the-user"></img>
+                    <p className="create-the-user-header">User is getting created</p>
+                </div>
+            )}
+            {isCreatedUser === screenEnum['DATA_RECIEVED'] && (
+                <div className="connection-details-container">
+                    <div className="user-details-container">
+                        <img src={UserCheck} alt="usercheck" width="20px" height="20px"></img>
+                        <p className="user-connection-details">User connection details</p>
+                    </div>
+                    <div className="container-username-token">
+                        <div className="username-container">
+                            <p>Username: {getStartedState.username}</p>
+                            {selectedClipboardUserName ? (
+                                <ClickableImage image={SelectedClipboard} className="copy-icon"></ClickableImage>
+                            ) : (
+                                <ClickableImage
+                                    image={CopyIcon}
+                                    alt="copyIcon"
+                                    className="copy-icon"
+                                    onClick={() => {
+                                        onCopyClick(getStartedState.username, setSelectedClipboardUserName);
+                                    }}
+                                />
+                            )}
+                        </div>
+                        <div className="token-container">
+                            <p>Connection token: {getStartedState?.connectionCreds}</p>
+                            {selectedClipboardToken ? (
+                                <ClickableImage image={SelectedClipboard} className="copy-icon"></ClickableImage>
+                            ) : (
+                                <ClickableImage
+                                    image={CopyIcon}
+                                    alt="copyIcon"
+                                    className="copy-icon"
+                                    onClick={() => {
+                                        onCopyClick(getStartedState.connectionCreds, setSelectedClipboardToken);
+                                    }}
+                                />
+                            )}
+                        </div>
+                    </div>
+                    <div className="information-container">
+                        <img src={Information} alt="information" className="information-img" />
+                        <p className="information">Please note when you close this modal, you will not be able to restore your user details!!</p>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

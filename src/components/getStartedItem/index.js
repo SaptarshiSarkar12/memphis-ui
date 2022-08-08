@@ -10,17 +10,19 @@ const GetStartedItem = (props) => {
 
     return (
         <div className="get-started-wrapper">
-            <div className={getStartedState?.currentStep === 5 ? 'get-started-header-finish' : 'get-started-header'}>
-                <TitleComponent
-                    className="header-description"
-                    img={headerImage}
-                    headerTitle={headerTitle}
-                    headerDescription={headerDescription}
-                    style={style}
-                    finish={getStartedState?.currentStep === 5}
-                ></TitleComponent>
+            <div className="get-started-top">
+                <div className={getStartedState?.currentStep === 5 ? 'get-started-header-finish' : 'get-started-header'}>
+                    <TitleComponent
+                        className="header-description"
+                        img={headerImage}
+                        headerTitle={headerTitle}
+                        headerDescription={headerDescription}
+                        style={style}
+                        finish={getStartedState?.currentStep === 5}
+                    ></TitleComponent>
+                </div>
+                <div className="get-started-body">{children}</div>
             </div>
-            <div className="get-started-body">{children}</div>
             <div className="get-started-footer">
                 {!getStartedState.isHiddenButton && (
                     <div className="btn-next-back">
