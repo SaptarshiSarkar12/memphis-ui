@@ -1,9 +1,9 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the GNU General Public License v3.0 (the “License”);
+// Licensed under the Apache License, Version 2.0 (the “License”);
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-// https://www.gnu.org/licenses/gpl-3.0.en.html
+// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an “AS IS” BASIS,
@@ -60,6 +60,7 @@ const storageOptions = [
 const CreateStationDetails = (props) => {
     const { chooseFactoryField = false, createStationRef, factoryName = '' } = props;
     const [factoryNames, setFactoryNames] = useState([]);
+    const [desiredPods, setDesiredPods] = useState(null);
     const [loading, setLoading] = useState([]);
     const [creationForm] = Form.useForm();
     const history = useHistory();
@@ -79,6 +80,13 @@ const CreateStationDetails = (props) => {
     });
     const [retentionMessagesValue, setRetentionMessagesValue] = useState('10');
     const [retentionSizeValue, setRetentionSizeValue] = useState('1000');
+
+    const getOverviewData = async () => {
+        try {
+            const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
+            data?.system_components[1]?.desired_pods && setDesiredPods(data?.system_components[1]?.desired_pods);
+        } catch (error) {}
+    };
 
     const getAllFactories = async () => {
         setLoading(true);
@@ -108,6 +116,7 @@ const CreateStationDetails = (props) => {
         } else {
             updateFormState('factory_name', factoryName);
         }
+        getOverviewData();
     }, []);
 
     const updateFormState = (field, value) => {
@@ -298,7 +307,7 @@ const CreateStationDetails = (props) => {
                         <InputNumber
                             bordered={false}
                             min={1}
-                            max={5}
+                            max={desiredPods && desiredPods <= 5 ? desiredPods : 5}
                             keyboard={true}
                             value={formFields.replicas}
                             onChange={(e) => updateFormState('replicas', e.target.value)}

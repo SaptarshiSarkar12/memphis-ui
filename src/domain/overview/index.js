@@ -1,9 +1,9 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the GNU General Public License v3.0 (the “License”);
+// Licensed under the Apache License, Version 2.0 (the “License”);
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-// https://www.gnu.org/licenses/gpl-3.0.en.html
+// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an “AS IS” BASIS,
@@ -140,8 +140,7 @@ function OverView() {
         }
     };
 
-
-    const stationsOfUser = allStations.filter(station => station.created_by_user === username)
+    const stationsOfUser = allStations.filter((station) => station.created_by_user === username);
     return (
         <div className="overview-container">
             {isLoading && (
@@ -226,7 +225,7 @@ function OverView() {
             <Modal
                 header={''}
                 height="300px"
-                minWidth="630px"
+                minWidth="645px"
                 hr={false}
                 closeAction={() => {
                     setShowWelcome(false);
@@ -237,6 +236,7 @@ function OverView() {
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);
                 }}
                 open={showWelcome}
+
             >
                 <div className="sandbox-welcome">
                     <label className="welcome-header">{welcomeMessage}</label>
@@ -244,33 +244,26 @@ function OverView() {
                     <label>
                         We are super happy to have you with us!
                         <br />
-                        Please bear in mind that it is a sandbox environment and under constant modifications.
+                        Please remember that this is a sandbox environment and is under constant modifications.
                         <br />
-                        Downtime and bugs might occur.
+                        Downtimes might occur.
                     </label>
                     <br />
-                    {/* <br /> */}
                     <div className="sandbox-welcome-links">
-                        <br />
-                        <label>
-                            <Link to={{ pathname: 'https://docs.memphis.dev' }} target="_blank">
-                                <img src={docsIcon} alt="docs" className="sandbox-icon"></img>
-                            </Link>
-                        </label>
-                        <label>
-                            <Link to={{ pathname: 'https://join.slack.com/t/memphiscommunity/shared_invite/zt-1bdp9ydfk-QpwYIOTz4nkvTGtEL6kJYQ' }} target="_blank">
-                                <img src={slackIcon} alt="slack" className="sandbox-icon"></img>
-                            </Link>
-                            <Link to={{ pathname: 'https://discord.com/invite/WZpysvAeTf' }} target="_blank">
-                                {'  '}
-                                <img src={discordIcon} alt="discord" className="sandbox-icon"></img>
-                            </Link>
-                        </label>
+                        <Link to={{ pathname: 'https://docs.memphis.dev' }} target="_blank">
+                            <img src={docsIcon} alt="docs" className="sandbox-icon"></img>
+                        </Link>
+                        <Link to={{ pathname: 'https://join.slack.com/t/memphiscommunity/shared_invite/zt-1bdp9ydfk-QpwYIOTz4nkvTGtEL6kJYQ' }} target="_blank">
+                            <img src={slackIcon} alt="slack" className="sandbox-icon"></img>
+                        </Link>
+                        <Link to={{ pathname: 'https://discord.com/invite/WZpysvAeTf' }} target="_blank">
+                            {'  '}
+                            <img src={discordIcon} alt="discord" className="sandbox-icon"></img>
+                        </Link>
                     </div>
-                    <br />
                     <div className="welcome-modal-btn">
                         <Button
-                            width="120px"
+                            width="130px"
                             height="36px"
                             placeholder={'Get started'}
                             colorType="white"
