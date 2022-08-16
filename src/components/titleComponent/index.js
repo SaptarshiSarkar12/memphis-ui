@@ -3,7 +3,7 @@ import './style.scss';
 import Lottie from 'lottie-react';
 
 const TitleComponent = (props) => {
-    const { headerTitle, typeTitle = 'header', headerDescription, style, img, finish } = props;
+    const { headerTitle, typeTitle = 'header', headerDescription, style, img, finish, required } = props;
 
     return (
         <div className="title-container" style={style?.container}>
@@ -22,6 +22,7 @@ const TitleComponent = (props) => {
             )}
             {typeTitle === 'sub-header' && (
                 <p className="sub-header-title" style={style?.header}>
+                    {required && <span>* </span>}
                     {headerTitle}
                 </p>
             )}

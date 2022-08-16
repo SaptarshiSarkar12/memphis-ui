@@ -11,13 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import './style.scss';
+
 import React, { createContext, useEffect, useReducer, useRef } from 'react';
+
 import CreateStationForm from './createStationForm';
 import SideStep from './sideStep';
-import './style.scss';
 import CreateAppUser from './createAppUser';
 import ConsumeData from './consumeData';
-import Finish from './finish';
 import Reducer from './hooks/reducer';
 import ProduceData from './produceData';
 import GetStartedItem from '../../../components/getStartedItem';
@@ -27,15 +28,17 @@ import ProduceDataImg from '../../../assets/images/produceData.svg';
 import ConsumeDataImg from '../../../assets/images/consumeData.svg';
 import ReadyToroll from '../../../assets/images/readyToRoll.svg';
 import finishStep from '../../../assets/lotties/finishStep.json';
+import Finish from './finish';
+import { httpRequest } from '../../../services/http';
+import { ApiEndpoints } from '../../../const/apiEndpoints';
+
 const steps = [{ stepName: 'Create Station' }, { stepName: 'Create App user' }, { stepName: 'Produce data' }, { stepName: 'Consume data' }, { stepName: 'Finish' }];
 
 const finishStyle = {
     container: {
         display: 'flex',
         flexDirection: 'column',
-        // height: '73%',
         alignItems: 'center'
-        // justifyContent: 'space-evenly'
     },
     header: {
         fontFamily: 'Inter',
@@ -60,9 +63,32 @@ const finishStyle = {
     }
 };
 
+const initialState = {
+    currentStep: 1,
+    completedSteps: 0,
+    formFieldsCreateStation: {
+        factory_name: '',
+        name: '',
+        retention_type: 'message_age_sec',
+        retention_value: 604800,
+        storage_type: 'file',
+        replicas: 1,
+        days: 7,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        retentionSizeValue: '1000',
+        retentionMessagesValue: '10'
+    },
+    nextDisable: false,
+    isLoading: false,
+    isHiddenButton: false,
+    desiredPods: null
+};
+
 const GetStarted = (props) => {
     const createStationFormRef = useRef(null);
-    const [getStartedState, getStartedDispatch] = useReducer(Reducer);
+    const [getStartedState, getStartedDispatch] = useReducer(Reducer, initialState);
 
     const SideStepList = () => {
         return steps.map((value, index) => {
@@ -88,9 +114,7 @@ const GetStarted = (props) => {
     };
 
     useEffect(() => {
-        getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: 1 });
-        getStartedDispatch({ type: 'SET_HIDDEN_BUTTON', payload: false });
-        getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: 0 });
+        getOverviewData();
         return;
     }, []);
 
@@ -100,7 +124,15 @@ const GetStarted = (props) => {
         } else {
             getStartedDispatch({ type: 'SET_BACK_DISABLE', payload: true });
         }
+        return;
     }, [getStartedState?.currentStep]);
+
+    const getOverviewData = async () => {
+        try {
+            const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
+            getStartedDispatch({ type: 'SET_DESIRED_PODS', payload: data?.system_components[1]?.desired_pods });
+        } catch (error) {}
+    };
 
     return (
         <GetStartedStoreContext.Provider value={[getStartedState, getStartedDispatch]}>

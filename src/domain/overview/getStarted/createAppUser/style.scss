@@ -33,9 +33,8 @@
         background: rgba(239, 239, 243, 0.05);
         border: 1px solid #f3f3f3;
         border-radius: 4px;
-        margin-top: 15px;
-        margin-right: 20px;
-        padding-bottom: 20px;
+        margin: 15px 20px;
+        height:140px;
         .user-details-container {
             height: 44px;
             display: flex;
@@ -55,11 +54,12 @@
         .container-username-token {
             font-weight: 500;
             font-size: 14px;
-            line-height: 196.5%;
             margin-left: 20px;
-            margin-top: 5px;
             color: #2e2c34;
-            height: 50px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
 
             .username-container,
             .token-container {
@@ -82,7 +82,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 35px;
+        margin-top: 10px;
         text-align: center;
 
         .information-img {

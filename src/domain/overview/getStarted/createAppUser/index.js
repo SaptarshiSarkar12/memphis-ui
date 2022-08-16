@@ -14,7 +14,6 @@ import './style.scss';
 
 import React, { useState, useEffect, useContext } from 'react';
 import { Form } from 'antd';
-import Lottie from 'lottie-react';
 
 import { httpRequest } from '../../../../services/http';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
@@ -29,7 +28,6 @@ import { GetStartedStoreContext } from '..';
 import SelectedClipboard from '../../../../assets/images/selectedClipboard.svg';
 import TitleComponent from '../../../../components/titleComponent';
 import sleep from '../../../../utils/sleep';
-import userCreator from '../../../../assets/lotties/userCreator.json';
 
 const screenEnum = {
     CREATE_USER_PAGE: 0,
@@ -110,10 +108,6 @@ const CreateAppUser = (props) => {
     const onFinish = async () => {
         try {
             getStartedDispatch({ type: 'IS_LOADING', payload: true });
-            // const values = await creationForm.validateFields();
-            // if (values?.errorFields) {
-            //     return;
-            // } else {
             try {
                 const bodyRequest = {
                     username: formFields.username,
@@ -123,7 +117,6 @@ const CreateAppUser = (props) => {
             } catch (error) {
                 console.log('err create user', error);
             }
-            // }
         } catch (error) {
             console.log(`validate error ${JSON.stringify(error)}`);
         }
@@ -132,12 +125,7 @@ const CreateAppUser = (props) => {
     return (
         <div className="create-station-form-create-app-user">
             <div>
-                <div style={{ display: 'flex' }}>
-                    <p className="field-title">
-                        <span className="required-field-mark">* </span>
-                    </p>{' '}
-                    <TitleComponent headerTitle="Enter user name" typeTitle="sub-header"></TitleComponent>
-                </div>
+                <TitleComponent headerTitle="Enter user name" typeTitle="sub-header" required={true}></TitleComponent>
                 <Input
                     placeholder="Type user name"
                     type="text"
@@ -152,19 +140,19 @@ const CreateAppUser = (props) => {
                     value={formFields.username}
                     disabled={!allowEdit}
                 />
+                <Button
+                    placeholder="Create app user"
+                    colorType="white"
+                    radiusType="circle"
+                    backgroundColorType="purple"
+                    fontSize="12px"
+                    fontWeight="bold"
+                    marginTop="25px"
+                    disabled={!allowEdit || formFields.username.length === 0}
+                    onClick={onFinish}
+                    isLoading={getStartedState?.isLoading}
+                />
             </div>
-            <Button
-                placeholder="Create app user"
-                colorType="white"
-                radiusType="circle"
-                backgroundColorType="purple"
-                fontSize="12px"
-                fontWeight="bold"
-                marginTop="25px"
-                disabled={!allowEdit || formFields.username.length === 0}
-                onClick={onFinish}
-                isLoading={getStartedState?.isLoading}
-            />
             {isCreatedUser === screenEnum['DATA_WAITING'] && (
                 <div className="creating-the-user-container">
                     <img src={CreatingTheUser} alt="creating-the-user"></img>
@@ -209,12 +197,12 @@ const CreateAppUser = (props) => {
                             )}
                         </div>
                     </div>
-                    <div className="information-container">
-                        <img src={Information} alt="information" className="information-img" />
-                        <p className="information">Please note when you close this modal, you will not be able to restore your user details!!</p>
-                    </div>
                 </div>
             )}
+            <div className="information-container">
+                <img src={Information} alt="information" className="information-img" />
+                <p className="information">Please note when you close this modal, you will not be able to restore your user details!!</p>
+            </div>
         </div>
     );
 };

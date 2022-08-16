@@ -160,17 +160,17 @@ function OverView() {
                         />
                     </div>
                     <div className="overview-components">
-                        {stationsOfUser.length === 0 ? (
-                            <div className="left-side">
-                                <GetStarted />
-                            </div>
-                        ) : (
+                        {/* {stationsOfUser.length === 0 ? ( */}
+                        <div className="left-side">
+                            <GetStarted />
+                        </div>
+                        {/* ) : (
                             <div className="left-side">
                                 <GenericDetails />
                                 <FailedStations />
                                 <Throughput />
                             </div>
-                        )}
+                        )} */}
                         <div className="right-side">
                             <Resources />
                             <SysComponents />
@@ -188,10 +188,10 @@ function OverView() {
                 lBtnClick={() => {
                     modalFlip(false);
                 }}
-                clickOutside={() => modalFlip(false)}
                 rBtnClick={() => {
                     createStationRef.current();
                 }}
+                clickOutside={() => modalFlip(false)}
                 open={open}
             >
                 <CreateStationDetails chooseFactoryField={true} createStationRef={createStationRef} />

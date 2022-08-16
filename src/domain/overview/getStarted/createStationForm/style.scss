@@ -121,9 +121,11 @@
     .retention-type {
         display: flex;
         align-items: center;
+        padding-top: 5px;
+        padding-bottom: 34px;
         p {
             margin-left: 5px;
-            margin-bottom: 0px;
+            margin-bottom: 10px;
         }
     }
 }

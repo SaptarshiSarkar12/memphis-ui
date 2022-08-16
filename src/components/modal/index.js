@@ -40,6 +40,7 @@ const TransitionsModal = (props) => {
         isLoading,
         warning,
         border,
+        open = false,
         hr = true
     } = props;
 
@@ -76,7 +77,6 @@ const TransitionsModal = (props) => {
     }));
 
     const classes = useStyles();
-    const [open, setOpen] = useState(props);
 
     useEffect(() => {
         function handleEscapeKey(event) {
@@ -95,7 +95,7 @@ const TransitionsModal = (props) => {
                     props.clickOutside();
                 }
             }}
-            open={props.open}
+            open={open}
             aria-labelledby="form-dialog-title"
             classes={{ paper: classes.dialogPaperConfirm }}
         >
@@ -141,7 +141,7 @@ const TransitionsModal = (props) => {
                         fontWeight="600"
                         onClick={() => {
                             props.rBtnClick();
-                            setOpen(false);
+                            props.clickOutside();
                         }}
                     />
                 </div>
@@ -149,7 +149,7 @@ const TransitionsModal = (props) => {
         </Dialog>
     ) : (
         <Dialog
-            open={props.open}
+            open={open}
             onClose={(_, reson) => {
                 if (reson === 'backdropClick') {
                     props.clickOutside();

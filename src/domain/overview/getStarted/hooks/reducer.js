@@ -54,9 +54,11 @@ const Reducer = (getStartedState, action) => {
                 createAppUserDisable: action.payload
             };
         case 'SET_FORM_FIELDS_CREATE_STATION':
+            let formFieldsChanges = getStartedState.formFieldsCreateStation;
+            formFieldsChanges[action.payload.field] = action.payload.value;
             return {
                 ...getStartedState,
-                formFieldsCreateStation: action.payload
+                formFieldsCreateStation: formFieldsChanges
             };
         case 'SET_BROKER_CONNECTION_CREDS':
             return {
@@ -82,6 +84,11 @@ const Reducer = (getStartedState, action) => {
             return {
                 ...getStartedState,
                 isHiddenButton: action.payload
+            };
+        case 'SET_DESIRED_PODS':
+            return {
+                ...getStartedState,
+                desiredPods: action.payload
             };
         default:
             return getStartedState;

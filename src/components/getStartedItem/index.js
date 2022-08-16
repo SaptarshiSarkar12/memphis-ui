@@ -11,9 +11,8 @@ const GetStartedItem = (props) => {
     return (
         <div className="get-started-wrapper">
             <div className="get-started-top">
-                <div className={getStartedState?.currentStep === 5 ? 'get-started-header-finish' : 'get-started-header'}>
+                <div className={getStartedState?.currentStep === 5 ? 'get-started-header finish' : 'get-started-header'}>
                     <TitleComponent
-                        className="header-description"
                         img={headerImage}
                         headerTitle={headerTitle}
                         headerDescription={headerDescription}
@@ -25,19 +24,17 @@ const GetStartedItem = (props) => {
             </div>
             <div className="get-started-footer">
                 {!getStartedState.isHiddenButton && (
-                    <div className="btn-next-back">
+                    <>
                         <Button
                             width={getStartedState?.currentStep === 5 ? '190px' : '129px'}
                             height="36px"
                             placeholder={getStartedState?.currentStep === 5 ? 'Lanuch Dashboard' : 'Next'}
                             colorType="white"
                             radiusType="circle"
-                            alignSelf="flex-end"
                             backgroundColorType={'purple'}
                             fontSize="16px"
                             fontWeight="bold"
                             htmlType="submit"
-                            marginTop="27px"
                             disabled={getStartedState?.nextDisable}
                             onClick={() => onNext()}
                             isLoading={getStartedState?.isLoading}
@@ -49,17 +46,15 @@ const GetStartedItem = (props) => {
                                 placeholder={'Back'}
                                 colorType="white"
                                 radiusType="circle"
-                                alignSelf="flex-end"
                                 backgroundColorType={'black'}
                                 fontSize="16px"
                                 fontWeight="bold"
                                 htmlType="submit"
-                                marginTop="27px"
                                 onClick={() => onBack()}
                                 isLoading={getStartedState?.isLoading}
                             />
                         )}
-                    </div>
+                    </>
                 )}
             </div>
         </div>
