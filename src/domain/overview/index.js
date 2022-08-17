@@ -160,17 +160,17 @@ function OverView() {
                         />
                     </div>
                     <div className="overview-components">
-                        {/* {stationsOfUser.length === 0 ? ( */}
-                        <div className="left-side">
-                            <GetStarted />
-                        </div>
-                        {/* ) : (
+                        {stationsOfUser.length === 0 ? (
+                            <div className="left-side">
+                                <GetStarted />
+                            </div>
+                        ) : (
                             <div className="left-side">
                                 <GenericDetails />
                                 <FailedStations />
                                 <Throughput />
                             </div>
-                        )} */}
+                        )}
                         <div className="right-side">
                             <Resources />
                             <SysComponents />
@@ -210,7 +210,6 @@ function OverView() {
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);
                 }}
                 open={showWelcome}
-
             >
                 <div className="sandbox-welcome">
                     <label className="welcome-header">{welcomeMessage}</label>

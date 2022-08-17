@@ -31,11 +31,11 @@ const SysComponents = () => {
                 <span className="actions-side">
                     <div className="hover-section">
                         <div className="action overview">
-                            <Link style={{ cursor: 'pointer' }} to={`${pathDomains.sysLogs}`}>
+                            {/* <Link style={{ cursor: 'pointer' }} to={`${pathDomains.sysLogs}`}>
                                 <span className="link-row" style={{ width: '100px' }}>
                                     Logs
                                 </span>
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
                 </span>

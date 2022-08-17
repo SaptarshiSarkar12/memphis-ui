@@ -12,7 +12,6 @@
 // limitations under the License.
 
 import React, { useContext, useEffect, useState } from 'react';
-import WaitingProduceData from '../../../../assets/images/waitingProduceData.svg';
 import prodWaiting from '../../../../assets/lotties/prodWaiting.json';
 import ProduceConsumeData, { produceConsumeScreenEnum } from '../produceConsumeData';
 import { GetStartedStoreContext } from '..';
