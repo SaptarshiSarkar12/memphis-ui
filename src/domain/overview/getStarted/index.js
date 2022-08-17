@@ -26,7 +26,6 @@ import GetStartedIcon from '../../../assets/images/getStartedIcon.svg';
 import AppUserIcon from '../../../assets/images/usersIconActive.svg';
 import ProduceDataImg from '../../../assets/images/produceData.svg';
 import ConsumeDataImg from '../../../assets/images/consumeData.svg';
-import ReadyToroll from '../../../assets/images/readyToRoll.svg';
 import finishStep from '../../../assets/lotties/finishStep.json';
 import Finish from './finish';
 import { httpRequest } from '../../../services/http';

@@ -11,8 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import './style.scss';
+
 import React, { useContext, useEffect } from 'react';
-import { Form } from 'antd';
 import Button from '../../../../components/button';
 import SlackIcon from '../../../../assets/images/slackIcon.svg';
 import GithubIcon from '../../../../assets/images/githubIcon.svg';
@@ -20,19 +21,16 @@ import DiscordIcon from '../../../../assets/images/discordIcon.svg';
 import { Link, useHistory } from 'react-router-dom';
 import { GetStartedStoreContext } from '..';
 import pathDomains from '../../../../router';
-import './style.scss';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import { httpRequest } from '../../../../services/http';
 
 const Finish = (props) => {
     const { createStationFormRef } = props;
 
-    const [creationForm] = Form.useForm();
     const history = useHistory();
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
 
     useEffect(() => {
-        getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
         createStationFormRef.current = onNext;
     }, []);
 
@@ -54,7 +52,7 @@ const Finish = (props) => {
     };
 
     return (
-        <Form name="form" form={creationForm} autoComplete="off" className="finish-container">
+        <div className="finish-container">
             <div className="container-icons-finish">
                 <Button
                     width="192px"
@@ -82,7 +80,7 @@ const Finish = (props) => {
                     <img src={DiscordIcon} width="25px" height="25px" alt="discord_icon"></img>
                 </Link>
             </div>
-        </Form>
+        </div>
     );
 };
 
