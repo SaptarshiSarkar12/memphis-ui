@@ -1,6 +1,5 @@
 .side-step-container {
     display: flex;
-    width: 226px;
     height: 48px;
     border-radius: 4px;
     justify-content: space-between;
@@ -17,12 +16,16 @@
             color: #747474;
         }
 
+        .curr-step-name {
+            color: #2e2c34;
+        }
+
         .step-number-container {
             width: 21px;
             height: 21.3px;
             margin-right: 16px;
             background: #ebebeb;
-            border-radius: 20.1481px;
+            border-radius: 50%;
             .step-number {
                 font-weight: 600;
                 font-size: 12px;
@@ -39,12 +42,28 @@
                 height: 21.3px;
                 top: 0px;
                 left: 0px;
+                cursor: pointer;
+                vertical-align: middle;
             }
         }
+    }
+    .step-number-white {
+        background-color: white !important;
     }
 
     .arrow-container {
         align-self: center;
         margin-right: 15px;
     }
+}
+.curr-step {
+    background-color: #f0eeff;
+}
+
+.cursor-allowed {
+    cursor: pointer;
+}
+
+.cursor-blocked {
+    cursor: not-allowed;
 }

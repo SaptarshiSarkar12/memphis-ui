@@ -15,18 +15,18 @@ import './style.scss';
 
 import React, { useEffect, useContext, useState } from 'react';
 
-import BackIcon from '../../assets/images/backIcon.svg';
+import { convertBytes, numberWithCommas, parsingDate } from '../../services/valueConvertor';
+import PoisionMessage from './components/poisionMessage';
 import { ApiEndpoints } from '../../const/apiEndpoints';
+import BackIcon from '../../assets/images/backIcon.svg';
+import ConsumerGroup from './components/consumerGroup';
+import { Canvas, Node, Edge, Label } from 'reaflow';
 import { httpRequest } from '../../services/http';
 import { useHistory } from 'react-router-dom';
+import Producer from './components/producer';
 import Loader from '../../components/loader';
 import { Context } from '../../hooks/store';
 import pathDomains from '../../router';
-import { Canvas, Node, Edge, Label } from 'reaflow';
-import Producer from './components/producer';
-import PoisionMessage from './components/poisionMessage';
-import ConsumerGroup from './components/consumerGroup';
-import { convertBytes, numberWithCommas, parsingDate } from '../../services/valueConvertor';
 
 const MessageJourney = () => {
     const [state, dispatch] = useContext(Context);

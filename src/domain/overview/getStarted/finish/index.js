@@ -49,30 +49,28 @@ const Finish = (props) => {
 
     const doneNextSteps = async () => {
         try {
-            const data = await httpRequest('POST', ApiEndpoints.DONE_NEXT_STEPS);
-        } catch (error) {
-            console.log(error);
-        }
+            await httpRequest('POST', ApiEndpoints.DONE_NEXT_STEPS);
+        } catch (error) {}
     };
 
     return (
         <Form name="form" form={creationForm} autoComplete="off" className="finish-container">
-            <Button
-                width="192px"
-                height="42px"
-                placeholder="Go to station"
-                radiusType="circle"
-                backgroundColorType="white"
-                fontSize="16px"
-                fontWeight="bold"
-                border="1px solid #EEEEEE"
-                borderRadius="31px"
-                boxShadowStyle="none"
-                onClick={(e) => {
-                    onFinish(e);
-                }}
-            />
             <div className="container-icons-finish">
+                <Button
+                    width="192px"
+                    height="42px"
+                    placeholder="Go to station"
+                    radiusType="circle"
+                    backgroundColorType="white"
+                    fontSize="16px"
+                    fontWeight="bold"
+                    border="1px solid #EEEEEE"
+                    borderRadius="31px"
+                    boxShadowStyle="none"
+                    onClick={(e) => {
+                        onFinish(e);
+                    }}
+                />
                 <p className="link-finish-header">Link to our channels</p>
                 <Link className="icon-image" to={{ pathname: 'https://memphiscommunity.slack.com/archives/C03KRNC6R3Q' }} target="_blank">
                     <img src={SlackIcon} width="25px" height="25px" alt="slack-icon"></img>

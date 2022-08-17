@@ -1,6 +1,48 @@
 .create-produce-data {
-    .select-container {
-        margin-top: 20px;
+    height: calc(100%);
+    position: relative;
+    margin-right: 20px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   p{
+    margin: 0;
+    font-weight: 600;
+    font-size: 16px;
+   }
+    .code-snippet {
+        position: relative;
+        height: calc(100% - 30px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .code-example {
+            height: calc(100% - 170px);
+            position: relative;
+            .code-content {
+                border: 1px solid var(--gray);
+                box-sizing: border-box;
+                border-radius: 4px;
+                overflow: auto;
+                position: relative;
+                height: calc(100% - 25px);
+                p {
+                    margin: 0;
+                    white-space: pre-line;
+                }
+            }
+        }
+    }
+    .installation {
+        .install-copy {
+            border: 1px solid var(--gray);
+            box-sizing: border-box;
+            border-radius: 4px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+        }
     }
 
     .produce-data-icon {
@@ -25,6 +67,12 @@
 
     .data-waiting-container,
     .successfully-container {
+        .waiting-for-data-btn {
+            display: flex;
+            .waiting-for-data-space {
+                width: 20px;
+            }
+        }
         padding: 10px;
         text-align: center;
         display: flex;
@@ -33,11 +81,13 @@
         flex-direction: column;
         border: 1px solid #d8d8d8;
         border-radius: 4px;
-        height: 34vh;
+        // height: 34vh;
 
         .image-waiting-successful {
             margin-top: 10px;
             margin-bottom: 15px;
+            width: 150px;
+            height: 150px;
         }
 
         .successfully-consume-produce {

@@ -12,8 +12,9 @@
 // limitations under the License.
 
 import React, { useContext, useEffect, useState } from 'react';
-import { CODE_CONSUME_JAVASCRIPT, CODE_CONSUME_GO, CODE_CONSUME_PYTHON } from '../../../../const/SDKExample';
+import { CODE_EXAMPLE } from '../../../../const/SDKExample';
 import WaitingConsumeData from '../../../../assets/images/waitingConsumeData.svg';
+import consWaiting from '../../../../assets/lotties/consWaiting.json';
 import ProduceConsumeData, { produceConsumeScreenEnum } from '../produceConsumeData';
 import { GetStartedStoreContext } from '..';
 
@@ -21,40 +22,13 @@ const ConsumeData = (props) => {
     const { createStationFormRef } = props;
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
     const [displayScreen, setDisplayScreen] = useState();
-
-    const host = process.env.REACT_APP_SANDBOX_ENV ? 'broker.sandbox.memphis.dev' : 'localhost';
-
-    const languagesOptions = {
-        Go: {
-            name: 'Go',
-            language: 'go',
-            value: CODE_CONSUME_GO.replace('<username>', getStartedState?.username)
-                .replace('<memphis_host>', host)
-                .replace('<connection_token>', getStartedState?.connectionCreds)
-                .replace('<station_name>', getStartedState?.stationName)
-        },
-        // Python: {
-        //     name: 'Python',
-        //     language: 'python',
-        //     value: CODE_CONSUME_PYTHON.replace('<username>', getStartedState?.username)
-        //         .replace('<memphis_host>', host)
-        //         .replace('<connection_token>', getStartedState?.connectionCreds)
-        //         .replace('<station_name>', getStartedState?.stationName)
-        // },
-        'Node.js': {
-            name: 'Node.js',
-            language: 'javascript',
-            value: CODE_CONSUME_JAVASCRIPT.replace('<username>', getStartedState?.username)
-                .replace('<memphis_host>', host)
-                .replace('<connection_token>', getStartedState?.connectionCreds)
-                .replace('<station_name>', getStartedState?.stationName)
-        }
-    };
+    const selectLngOption = ['Go', 'Node.js', 'Python'];
 
     const onNext = () => {
         if (displayScreen === produceConsumeScreenEnum['DATA_SNIPPET']) {
             setDisplayScreen(produceConsumeScreenEnum['DATA_WAITING']);
         } else {
+            getStartedDispatch({ type: 'SET_COMPLETED_STEPS', payload: getStartedState?.currentStep });
             getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
         }
     };
@@ -69,13 +43,15 @@ const ConsumeData = (props) => {
 
     return (
         <ProduceConsumeData
-            waitingImage={WaitingConsumeData}
+            waitingImage={consWaiting}
             waitingTitle={'We are waiting for a consumer to consume data'}
             successfullTitle={'Start to receive messages.'}
-            languagesOptions={languagesOptions}
+            languages={selectLngOption}
             activeData={'connected_cgs'}
             dataName={'consumer_app'}
             displayScreen={displayScreen}
+            consume
+            screen={(e) => setDisplayScreen(e)}
         ></ProduceConsumeData>
     );
 };
