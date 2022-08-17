@@ -1,17 +1,24 @@
 .create-produce-data {
-    height: calc(100% - 30px);
+    height: calc(100%);
     position: relative;
     margin-right: 20px;
     overflow-y: hidden;
-    p {
-        margin-top: 15px;
-        margin-bottom: 0;
-    }
-    .code-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   p{
+    margin: 0;
+    font-weight: 600;
+    font-size: 16px;
+   }
+    .code-snippet {
         position: relative;
         height: calc(100% - 30px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         .code-example {
-            height: calc(100% - 150px);
+            height: calc(100% - 170px);
             position: relative;
             .code-content {
                 border: 1px solid var(--gray);
@@ -19,7 +26,7 @@
                 border-radius: 4px;
                 overflow: auto;
                 position: relative;
-                height: calc(100% - 50px);
+                height: calc(100% - 25px);
                 p {
                     margin: 0;
                     white-space: pre-line;
@@ -36,10 +43,6 @@
             display: flex;
             align-items: center;
         }
-    }
-
-    .select-container {
-        margin-top: 20px;
     }
 
     .produce-data-icon {

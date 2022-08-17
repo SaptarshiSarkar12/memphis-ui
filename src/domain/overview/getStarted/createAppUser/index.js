@@ -13,7 +13,7 @@
 import './style.scss';
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Form } from 'antd';
+import Lottie from 'lottie-react';
 
 import { httpRequest } from '../../../../services/http';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
@@ -21,13 +21,12 @@ import Button from '../../../../components/button';
 import CopyIcon from '../../../../assets/images/copy.svg';
 import Information from '../../../../assets/images/information.svg';
 import UserCheck from '../../../../assets/images/userCheck.svg';
-import CreatingTheUser from '../../../../assets/images/creatingTheUser.svg';
+import userCreator from '../../../../assets/lotties/userCreator.json';
 import ClickableImage from '../../../../components/clickableImage';
 import Input from '../../../../components/Input';
 import { GetStartedStoreContext } from '..';
 import SelectedClipboard from '../../../../assets/images/selectedClipboard.svg';
 import TitleComponent from '../../../../components/titleComponent';
-import sleep from '../../../../utils/sleep';
 
 const screenEnum = {
     CREATE_USER_PAGE: 0,
@@ -37,17 +36,13 @@ const screenEnum = {
 
 const CreateAppUser = (props) => {
     const { createStationFormRef } = props;
-    const [creationForm] = Form.useForm();
     const [selectedClipboardUserName, setSelectedClipboardUserName] = useState(false);
     const [selectedClipboardToken, setSelectedClipboardToken] = useState(false);
     const [isCreatedUser, setCreatedUser] = useState(screenEnum['CREATE_USER_PAGE']);
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
     const [allowEdit, setAllowEdit] = useState(true);
 
-    const [formFields, setFormFields] = useState({
-        username: '',
-        user_type: 'application'
-    });
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         createStationFormRef.current = onNext;
@@ -55,7 +50,7 @@ const CreateAppUser = (props) => {
         getStartedDispatch({ type: 'SET_CREATE_APP_USER_DISABLE', payload: false });
         if (getStartedState?.username) {
             getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
-            setFormFields({ ...formFields, username: getStartedState.username });
+            setUsername(getStartedState.username);
             setAllowEdit(false);
         }
     }, []);
@@ -69,13 +64,20 @@ const CreateAppUser = (props) => {
         navigator.clipboard.writeText(copyParam);
     };
 
-    const updateFormState = (field, value) => {
-        let updatedValue = { ...formFields };
-        updatedValue[field] = value;
-        setFormFields((formFields) => ({ ...formFields, ...updatedValue }));
+    const onCopyClick = async (copyValue, setImageState) => {
+        onCopy(copyValue);
+        setImageState(true);
+        setTimeout(() => {
+            setImageState(false);
+        }, 3000);
     };
 
-    const createAppUser = async (bodyRequest) => {
+    const handleCreateUser = async () => {
+        getStartedDispatch({ type: 'IS_LOADING', payload: true });
+        const bodyRequest = {
+            username: username,
+            user_type: 'application'
+        };
         try {
             const data = await httpRequest('POST', ApiEndpoints.ADD_USER, bodyRequest);
             setCreatedUser(screenEnum['DATA_WAITING']);
@@ -89,36 +91,14 @@ const CreateAppUser = (props) => {
 
                 getStartedDispatch({ type: 'SET_CREATE_APP_USER_DISABLE', payload: true });
                 getStartedDispatch({ type: 'IS_APP_USER_CREATED', payload: true });
-                await sleep(2);
-                setCreatedUser(screenEnum['DATA_RECIEVED']);
-                getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
+                setTimeout(() => {
+                    setCreatedUser(screenEnum['DATA_RECIEVED']);
+                    getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
+                }, 2000);
             }
         } catch (error) {
             getStartedDispatch({ type: 'IS_LOADING', payload: false });
             setCreatedUser(screenEnum['CREATE_USER_PAGE']);
-            console.log(error);
-        }
-    };
-    const onCopyClick = async (copyValue, setImageState) => {
-        onCopy(copyValue);
-        setImageState(true);
-        await sleep(3);
-    };
-
-    const onFinish = async () => {
-        try {
-            getStartedDispatch({ type: 'IS_LOADING', payload: true });
-            try {
-                const bodyRequest = {
-                    username: formFields.username,
-                    user_type: 'application'
-                };
-                createAppUser(bodyRequest);
-            } catch (error) {
-                console.log('err create user', error);
-            }
-        } catch (error) {
-            console.log(`validate error ${JSON.stringify(error)}`);
         }
     };
 
@@ -135,9 +115,9 @@ const CreateAppUser = (props) => {
                     borderColorType="gray"
                     width="371px"
                     height="38px"
-                    onBlur={(e) => updateFormState('username', e.target.value)}
-                    onChange={(e) => updateFormState('username', e.target.value)}
-                    value={formFields.username}
+                    onBlur={(e) => setUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
                     disabled={!allowEdit}
                 />
                 <Button
@@ -148,14 +128,14 @@ const CreateAppUser = (props) => {
                     fontSize="12px"
                     fontWeight="bold"
                     marginTop="25px"
-                    disabled={!allowEdit || formFields.username.length === 0}
-                    onClick={onFinish}
+                    disabled={!allowEdit || username.length === 0}
+                    onClick={handleCreateUser}
                     isLoading={getStartedState?.isLoading}
                 />
             </div>
             {isCreatedUser === screenEnum['DATA_WAITING'] && (
                 <div className="creating-the-user-container">
-                    <img src={CreatingTheUser} alt="creating-the-user"></img>
+                    <Lottie className="lottie" animationData={userCreator} loop={true} />
                     <p className="create-the-user-header">User is getting created</p>
                 </div>
             )}
@@ -199,10 +179,12 @@ const CreateAppUser = (props) => {
                     </div>
                 </div>
             )}
-            <div className="information-container">
-                <img src={Information} alt="information" className="information-img" />
-                <p className="information">Please note when you close this modal, you will not be able to restore your user details!!</p>
-            </div>
+            {isCreatedUser === screenEnum['DATA_RECIEVED'] && (
+                <div className="information-container">
+                    <img src={Information} alt="information" className="information-img" />
+                    <p className="information">Please note when you close this modal, you will not be able to restore your user details!!</p>
+                </div>
+            )}
         </div>
     );
 };

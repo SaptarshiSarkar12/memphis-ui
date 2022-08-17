@@ -8,13 +8,11 @@
     }
 
     .creating-the-user-container {
-        // background-color: aquamarine;
         text-align: center;
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
-        // margin-top: 10px;
         .create-the-user-header {
             margin-bottom: 20px;
             font-weight: 600;
@@ -22,9 +20,9 @@
             line-height: 20px;
             color: #979797;
         }
-        .create-the-user-lottie {
-            height: 140px;
-            width: 100px;
+        .lottie {
+            height: 100px;
+            width: 90px;
         }
     }
 
@@ -33,7 +31,8 @@
         background: rgba(239, 239, 243, 0.05);
         border: 1px solid #f3f3f3;
         border-radius: 4px;
-        margin: 15px 20px;
+        margin-top: 50px;
+        width: calc(100% - 20px);
         height:140px;
         .user-details-container {
             height: 44px;
@@ -80,21 +79,15 @@
 
     .information-container {
         display: flex;
-        justify-content: center;
-        align-items: center;
         margin-top: 10px;
-        text-align: center;
-
         .information-img {
             margin-right: 5px;
             align-self: center;
             width: 13.33px;
-            height: 13.33px;
         }
         .information {
             font-weight: 400;
             font-size: 12px;
-            line-height: 150%;
             color: #b4b4b4;
             margin: 0;
         }

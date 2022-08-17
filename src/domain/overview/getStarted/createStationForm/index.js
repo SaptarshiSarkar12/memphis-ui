@@ -111,7 +111,6 @@ const CreateStationForm = (props) => {
                 getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
             }
         } catch (error) {
-            console.log(error);
         } finally {
             getStartedDispatch({ type: 'IS_LOADING', payload: false });
         }

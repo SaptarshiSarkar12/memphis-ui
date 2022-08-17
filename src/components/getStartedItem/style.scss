@@ -12,9 +12,10 @@
         position: relative;
         .get-started-header{
             padding-left: 3px;
+            height: 60px;
         }
         .get-started-body {
-            height: calc(100% - 50px);
+            height: calc(100% - 40px);
             padding-top: 15px;
             padding-left: 3px;
             overflow-y: auto;

@@ -49,10 +49,8 @@ const Finish = (props) => {
 
     const doneNextSteps = async () => {
         try {
-            const data = await httpRequest('POST', ApiEndpoints.DONE_NEXT_STEPS);
-        } catch (error) {
-            console.log(error);
-        }
+            await httpRequest('POST', ApiEndpoints.DONE_NEXT_STEPS);
+        } catch (error) {}
     };
 
     return (

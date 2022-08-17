@@ -12,19 +12,17 @@
 // limitations under the License.
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Form } from 'antd';
 import Lottie from 'lottie-react';
 import { CopyBlock, atomOneLight } from 'react-code-blocks';
 import SelectComponent from '../../../../components/select';
 import Button from '../../../../components/button';
-import SuccessfullyReceivedProduce from '../../../../assets/images/successfullyReceivedProduce.svg';
 import successProdCons from '../../../../assets/lotties/successProdCons.json';
 import { GetStartedStoreContext } from '..';
 import { httpRequest } from '../../../../services/http';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import './style.scss';
 import TitleComponent from '../../../../components/titleComponent';
-import { CODE_EXAMPLE, DOCKER_CODE_EXAMPLE } from '../../../../const/SDKExample';
+import { CODE_EXAMPLE } from '../../../../const/SDKExample';
 import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../../const/localStorageConsts';
 
 export const produceConsumeScreenEnum = {
@@ -35,8 +33,7 @@ export const produceConsumeScreenEnum = {
 
 const ProduceConsumeData = (props) => {
     const { waitingImage, waitingTitle, successfullTitle, activeData, dataName, displayScreen, screen } = props;
-    const [creationForm] = Form.useForm();
-    const [isCopyToClipBoard, setCopyToClipBoard] = useState(displayScreen);
+    const [currentPhase, setCurrentPhase] = useState(displayScreen);
     const [getStartedState, getStartedDispatch] = useContext(GetStartedStoreContext);
     const [intervalStationDetails, setintervalStationDetails] = useState();
 
@@ -74,16 +71,13 @@ const ProduceConsumeData = (props) => {
 
     const getStationDetails = async () => {
         try {
-            console.log('getStationDetails');
             const data = await httpRequest('GET', `${ApiEndpoints.GET_STATION_DATA}?station_name=${getStartedState?.formFieldsCreateStation?.name}`);
             if (data) {
                 if (data?.messages?.length > 0) {
-                    setCopyToClipBoard(produceConsumeScreenEnum['DATA_RECIEVED']);
+                    setCurrentPhase(produceConsumeScreenEnum['DATA_RECIEVED']);
                     getStartedDispatch({ type: 'GET_STATION_DATA', payload: data });
                     clearInterval(intervalStationDetails);
                 }
-
-                // console.log(data);
             }
         } catch (error) {
             if (error?.status === 666) {
@@ -94,17 +88,15 @@ const ProduceConsumeData = (props) => {
 
     useEffect(() => {
         changeDynamicCode(langSelected);
-        if (displayScreen !== isCopyToClipBoard) {
+        if (displayScreen !== currentPhase) {
             if (displayScreen === produceConsumeScreenEnum['DATA_WAITING']) {
-                console.log('in');
                 onCopyToClipBoard();
             }
-            setCopyToClipBoard(displayScreen);
+            setCurrentPhase(displayScreen);
         }
     }, [displayScreen]);
 
     const onCopyToClipBoard = () => {
-        console.log('out');
         let interval = setInterval(() => {
             getStationDetails();
         }, 3000);
@@ -112,35 +104,33 @@ const ProduceConsumeData = (props) => {
     };
 
     useEffect(() => {
-        if (isCopyToClipBoard === produceConsumeScreenEnum['DATA_WAITING']) {
+        if (currentPhase === produceConsumeScreenEnum['DATA_WAITING']) {
             getStartedDispatch({ type: 'SET_HIDDEN_BUTTON', payload: true });
         } else {
             getStartedDispatch({ type: 'SET_HIDDEN_BUTTON', payload: false });
             getStartedDispatch({ type: 'SET_NEXT_DISABLE', payload: false });
         }
 
-        if (isCopyToClipBoard === produceConsumeScreenEnum['DATA_RECIEVED']) {
+        if (currentPhase === produceConsumeScreenEnum['DATA_RECIEVED']) {
             clearInterval(intervalStationDetails);
         }
         return () => {
             getStartedDispatch({ type: 'SET_HIDDEN_BUTTON', payload: false });
             clearInterval(intervalStationDetails);
         };
-    }, [isCopyToClipBoard]);
+    }, [currentPhase]);
 
     useEffect(() => {
-        console.log(getStartedState?.stationData);
         if (
             getStartedState?.stationData &&
             getStartedState?.stationData[activeData] &&
             Object.keys(getStartedState?.stationData[activeData]).length >= 1 &&
             getStartedState?.stationData[activeData][0]?.name === dataName
         ) {
-            setCopyToClipBoard(produceConsumeScreenEnum['DATA_RECIEVED']);
-            // clearInterval(intervalStationDetails);
+            setCurrentPhase(produceConsumeScreenEnum['DATA_RECIEVED']);
         }
         return () => {
-            if (isCopyToClipBoard === produceConsumeScreenEnum['DATA_RECIEVED']) {
+            if (currentPhase === produceConsumeScreenEnum['DATA_RECIEVED']) {
                 clearInterval(intervalStationDetails);
             }
         };
@@ -148,28 +138,46 @@ const ProduceConsumeData = (props) => {
 
     return (
         <div className="create-produce-data">
-            {/* <div name="languages" style={{ marginBottom: '0' }}> */}
-            {/* <div className="select-container"> */}
-            {isCopyToClipBoard === produceConsumeScreenEnum['DATA_SNIPPET'] && (
-                <div>
-                    <TitleComponent headerTitle="Language" typeTitle="sub-header"></TitleComponent>
-                    <SelectComponent
-                        initialValue={langSelected}
-                        value={langSelected}
-                        colorType="navy"
-                        backgroundColorType="none"
-                        borderColorType="gray"
-                        radiusType="semi-round"
-                        width="450px"
-                        height="50px"
-                        options={props.languages}
-                        onChange={(e) => handleSelectLang(e)}
-                        dropdownClassName="select-options"
-                    />
+            {currentPhase === produceConsumeScreenEnum['DATA_SNIPPET'] && (
+                <div className="code-snippet">
+                    <div className="lang">
+                        <p>Language</p>
+                        <SelectComponent
+                            initialValue={langSelected}
+                            value={langSelected}
+                            colorType="navy"
+                            backgroundColorType="none"
+                            borderColorType="gray"
+                            radiusType="semi-round"
+                            width="450px"
+                            height="50px"
+                            options={props.languages}
+                            onChange={(e) => handleSelectLang(e)}
+                            dropdownClassName="select-options"
+                        />
+                    </div>
+                    <div className="installation">
+                        <p>Installation</p>
+                        <div className="install-copy">
+                            <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
+                        </div>
+                    </div>
+                    <div className="code-example">
+                        <p>{props.produce ? 'Procude data' : 'Consume data'}</p>
+                        <div className="code-content">
+                            <CopyBlock
+                                language={CODE_EXAMPLE[langSelected].langCode}
+                                text={props.produce ? codeExample.producer : codeExample.consumer}
+                                showLineNumbers={true}
+                                theme={atomOneLight}
+                                wrapLines={true}
+                                codeBlock
+                            />
+                        </div>
+                    </div>
                 </div>
             )}
-            {/* </div> */}
-            {isCopyToClipBoard === produceConsumeScreenEnum['DATA_WAITING'] ? (
+            {currentPhase === produceConsumeScreenEnum['DATA_WAITING'] && (
                 <div className="data-waiting-container">
                     <Lottie className="image-waiting-successful" animationData={waitingImage} loop={true} />
                     <TitleComponent headerTitle={waitingTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
@@ -210,35 +218,13 @@ const ProduceConsumeData = (props) => {
                         />
                     </div>
                 </div>
-            ) : isCopyToClipBoard === produceConsumeScreenEnum['DATA_RECIEVED'] ? (
+            )}
+            {currentPhase === produceConsumeScreenEnum['DATA_RECIEVED'] && (
                 <div className="successfully-container">
                     <Lottie className="image-waiting-successful" animationData={successProdCons} loop={true} />
                     <TitleComponent headerTitle={successfullTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
                 </div>
-            ) : (
-                <div className="code-wrapper">
-                    <div className="installation">
-                        <p>Installation</p>
-                        <div className="install-copy">
-                            <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
-                        </div>
-                    </div>
-                    <div className="code-example">
-                        <p>{props.produce ? 'Procude data' : 'Consume data'}</p>
-                        <div className="code-content">
-                            <CopyBlock
-                                language={CODE_EXAMPLE[langSelected].langCode}
-                                text={props.produce ? codeExample.producer : codeExample.consumer}
-                                showLineNumbers={true}
-                                theme={atomOneLight}
-                                wrapLines={true}
-                                codeBlock
-                            />
-                        </div>
-                    </div>
-                </div>
             )}
-            {/* </div> */}
         </div>
     );
 };
