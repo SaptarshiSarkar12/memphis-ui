@@ -1,15 +1,23 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the Apache License, Version 2.0 (the “License”);
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an “AS IS” BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Licensed under the MIT License (the "License");
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// This license limiting reselling the software itself "AS IS".
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 export const CODE_EXAMPLE = {
     'Node.js': {
@@ -18,14 +26,15 @@ export const CODE_EXAMPLE = {
         producer: `const memphis = require("memphis-dev");
 
 (async function () {
+    let memphisConn;
     try {
-        await memphis.connect({
+        memphisConn = await memphis.connect({
             host: "<memphis-host>",
             username: "<application type username>",
             connectionToken: "<connection_token>"
         });
 
-        const producer = await memphis.producer({
+        const producer = await memphisConn.producer({
             stationName: "<station_name>",
             producerName: "myProducer"
         });
@@ -38,20 +47,21 @@ export const CODE_EXAMPLE = {
         console.log("All messages sent");
     } catch (ex) {
         console.log(ex);
-        memphis.close();
+        memphisConn && memphisConn.close();
     }
     })();`,
         consumer: `const memphis = require("memphis-dev");
 
 (async function () {
+    let memphisConn;
     try {
-        await memphis.connect({
+        memphisConn = await memphis.connect({
             host: "<memphis-host>",
             username: "<application type username>",
             connectionToken: "<connection_token>"
         });
         
-        const consumer = await memphis.consumer({
+        const consumer = await memphisConn.consumer({
             stationName: "<station_name>",
             consumerName: "myConsumer",
             consumerGroup: ""
@@ -65,7 +75,67 @@ export const CODE_EXAMPLE = {
         });
     } catch (ex) {
         console.log(ex);
-        memphis.close();
+        memphisConn && memphisConn.close();
+    }
+    })();`
+    },
+
+    Typescript: {
+        langCode: 'js',
+        installation: `npm i memphis-dev --save`,
+        producer: `import memphis from "memphis-dev"
+
+(async function () {
+    let memphisConn;
+    try {
+        memphisConn = await memphis.connect({
+            host: "<memphis-host>",
+            username: "<application type username>",
+            connectionToken: "<connection_token>"
+        });
+
+        const producer = await memphisConn.producer({
+            stationName: "<station_name>",
+            producerName: "myProducer"
+        });
+        for (let index = 0; index < 100; index++) {
+            await producer.produce({
+                message: Buffer.from('Hello world')
+            });
+            console.log("Message sent");
+        }
+        console.log("All messages sent");
+    } catch (ex) {
+        console.log(ex);
+        memphisConn && memphisConn.close();
+    }
+    })();`,
+        consumer: `import memphis from "memphis-dev"
+
+(async function () {
+    let memphisConn;
+    try {
+        memphisConn = await memphis.connect({
+            host: "<memphis-host>",
+            username: "<application type username>",
+            connectionToken: "<connection_token>"
+        });
+        
+        const consumer = await memphisConn.consumer({
+            stationName: "<station_name>",
+            consumerName: "myConsumer",
+            consumerGroup: ""
+        });
+        consumer.on("message", message => {
+            console.log(message.getData().toString());
+            message.ack();
+        });
+        consumer.on("error", error => {
+            console.log(error);
+        });
+    } catch (ex) {
+        console.log(ex);
+        memphisConn && memphisConn.close();
     }
     })();`
     },
