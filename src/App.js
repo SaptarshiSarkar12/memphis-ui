@@ -37,6 +37,7 @@ import SysLogs from './domain/sysLogs';
 import pathDomains from './router';
 import Users from './domain/users';
 import Login from './domain/login';
+import Signup from './domain/signup';
 
 const Desktop = ({ children }) => {
     const isDesktop = useMediaQuery({ minWidth: 850 });
@@ -97,7 +98,8 @@ const App = withRouter(() => {
                 {' '}
                 {!authCheck && (
                     <Switch>
-                        <Route exact path={pathDomains.login} component={process.env.REACT_APP_SANDBOX_ENV ? SandboxLogin : Login} />
+                        <Route exact path={pathDomains.login} component={process.env.REACT_APP_SANDBOX_ENV ? SandboxLogin : Signup} />
+                        {/* <Route exact path={pathDomains.login} component={process.env.REACT_APP_SANDBOX_ENV ? SandboxLogin : Login} /> */}
                         <PrivateRoute
                             exact
                             path={pathDomains.overview}
