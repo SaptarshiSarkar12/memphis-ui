@@ -70,7 +70,6 @@ const StationOverviewHeader = (props) => {
         changeDynamicCode(e);
     };
     useEffect(() => {
-        changeDynamicCode(langSelected);
         switch (stationState?.stationMetaData?.retention_type) {
             case 'message_age_sec':
                 setRetentionValue(convertSecondsToDate(stationState?.stationMetaData?.retention_value));
@@ -84,7 +83,7 @@ const StationOverviewHeader = (props) => {
             default:
                 break;
         }
-    }, []);
+    }, [stationState?.stationMetaData?.retention_type]);
 
     const changeDynamicCode = (lang) => {
         let codeEx = {};
@@ -199,7 +198,14 @@ const StationOverviewHeader = (props) => {
                 <div className="info-buttons">
                     <div className="sdk">
                         <p>SDK</p>
-                        <span onClick={() => setSdkModal(true)}>View Details {'>'}</span>
+                        <span
+                            onClick={() => {
+                                changeDynamicCode(langSelected);
+                                setSdkModal(true);
+                            }}
+                        >
+                            View Details {'>'}
+                        </span>
                     </div>
                     <div className="audit">
                         <p>Audit</p>
