@@ -41,18 +41,18 @@ const TransitionsModal = (props) => {
         warning,
         border,
         open = false,
-        hr = true
+        hr = true,
+        displayButtons = true
     } = props;
 
     const useStyles = makeStyles((theme) => ({
         dialogPaper: {
             display: 'flex',
-            // padding: "10px",
             justifyContent: 'center',
             width: width,
             height: height,
             border: border,
-            borderRadius: '4px',
+            borderRadius: '12px',
             minWidth: minWidth || '703px',
             minHeight: minHeight,
             overflowX: 'hidden',
@@ -121,31 +121,33 @@ const TransitionsModal = (props) => {
                 </span>
                 {props.children}
             </DialogContent>
-            <DialogActions>
-                <div
-                    style={{
-                        position: 'absolute',
-                        bottom: '0px',
-                        right: '10px'
-                    }}
-                >
-                    <Button
-                        className="modal-btn"
-                        width="83px"
-                        height="32px"
-                        placeholder="Close"
-                        colorType="white"
-                        radiusType="circle"
-                        backgroundColorType={warning ? 'orange' : 'purple'}
-                        fontSize="12px"
-                        fontWeight="600"
-                        onClick={() => {
-                            props.rBtnClick();
-                            props.clickOutside();
+            {displayButtons && (
+                <DialogActions>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: '0px',
+                            right: '10px'
                         }}
-                    />
-                </div>
-            </DialogActions>
+                    >
+                        <Button
+                            className="modal-btn"
+                            width="83px"
+                            height="32px"
+                            placeholder="Close"
+                            colorType="white"
+                            radiusType="circle"
+                            backgroundColorType={warning ? 'orange' : 'purple'}
+                            fontSize="12px"
+                            fontWeight="600"
+                            onClick={() => {
+                                props.rBtnClick();
+                                props.clickOutside();
+                            }}
+                        />
+                    </div>
+                </DialogActions>
+            )}
         </Dialog>
     ) : (
         <Dialog
@@ -180,30 +182,32 @@ const TransitionsModal = (props) => {
                 </span>
                 {props.children}
             </DialogContent>
-            <DialogActions>
-                {hr && <hr />}
-                <div className="btnContainer">
-                    <button className="cancel-button" disabled={lBtnDisabled} onClick={() => props.lBtnClick()}>
-                        {lBtnText}
-                    </button>
-                    <Button
-                        className="modal-btn"
-                        width="83px"
-                        height="32px"
-                        placeholder={progress ? <CircularProgress size={20} className={classes.buttonLoader} /> : rBtnText}
-                        disabled={rBtnDisabled}
-                        colorType="white"
-                        radiusType="circle"
-                        backgroundColorType={warning ? 'orange' : 'purple'}
-                        fontSize="12px"
-                        fontWeight="600"
-                        isLoading={isLoading}
-                        onClick={() => {
-                            props.rBtnClick();
-                        }}
-                    />
-                </div>
-            </DialogActions>
+            {displayButtons && (
+                <DialogActions>
+                    {hr && <hr />}
+                    <div className="btnContainer">
+                        <button className="cancel-button" disabled={lBtnDisabled} onClick={() => props.lBtnClick()}>
+                            {lBtnText}
+                        </button>
+                        <Button
+                            className="modal-btn"
+                            width="83px"
+                            height="32px"
+                            placeholder={progress ? <CircularProgress size={20} className={classes.buttonLoader} /> : rBtnText}
+                            disabled={rBtnDisabled}
+                            colorType="white"
+                            radiusType="circle"
+                            backgroundColorType={warning ? 'orange' : 'purple'}
+                            fontSize="12px"
+                            fontWeight="600"
+                            isLoading={isLoading}
+                            onClick={() => {
+                                props.rBtnClick();
+                            }}
+                        />
+                    </div>
+                </DialogActions>
+            )}
         </Dialog>
     );
 };

@@ -55,7 +55,6 @@ const Button = (props) => {
     const borderColor = border ? getBackgroundColor(border) : backgroundColor;
     const opacity = disabled ? '0.5' : '1';
     const boxShadow = getBoxShadows(boxShadowStyle);
-
     const styleButtonContainer = {
         margin: margin,
         textAlign: textAlign,
@@ -80,9 +79,9 @@ const Button = (props) => {
             opacity,
             minHeight: minHeight,
             minWidth: minWidth || '60px',
+            boxShadow,
             padding,
-            zIndex: zIndex,
-            boxShadow
+            zIndex: zIndex
         },
         loading: isLoading
     };

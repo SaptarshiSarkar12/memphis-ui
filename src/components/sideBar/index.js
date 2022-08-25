@@ -37,6 +37,9 @@ import { LOCAL_STORAGE_AVATAR_ID, LOCAL_STORAGE_COMPANY_LOGO, LOCAL_STORAGE_USER
 import { httpRequest } from '../../services/http';
 import { ApiEndpoints } from '../../const/apiEndpoints';
 import { DOC_URL } from '../../config';
+import Modal from '../modal';
+import Installation from '../installation';
+import installationIcon from '../../assets/images/installationIcon.svg';
 
 const { SubMenu } = Menu;
 
@@ -50,6 +53,7 @@ function SideBar() {
     const history = useHistory();
     const [botUrl, SetBotUrl] = useState(require('../../assets/images/bots/1.svg'));
     const [systemVersion, setSystemVersion] = useState('');
+    const [showInstallaion, setShowInstallaion] = useState(false);
 
     const getCompanyLogo = useCallback(async () => {
         try {
@@ -134,7 +138,6 @@ function SideBar() {
                         </Link>
                     </div>
                 </div>
-
                 <div className="item-wrapper">
                     <div id="e2e-tests-users-sidebar">
                         <Link to={pathDomains.users}>
@@ -149,6 +152,11 @@ function SideBar() {
                             </div>
                             <p className={state.route === 'users' ? 'checked' : 'name'}>Users</p>
                         </Link>
+                    </div>
+                </div>
+                <div className="item-wrapper">
+                    <div id="e2e-tests-users-sidebar">
+                        <p onClick={() => setShowInstallaion(true)}>Installation</p>
                     </div>
                 </div>
             </div>
@@ -206,6 +214,25 @@ function SideBar() {
                     <p>v{systemVersion}</p>
                 </div>
             </div>
+            <Modal
+                header={
+                    <label className="installation-icon-wrapper">
+                        <img src={installationIcon} />
+                    </label>
+                }
+                height="500px"
+                minWidth="480px"
+                hr={false}
+                closeAction={() => {
+                    setShowInstallaion(false);
+                }}
+                clickOutside={() => {
+                    setShowInstallaion(false);
+                }}
+                open={showInstallaion}
+            >
+                <Installation closeModal={() => setShowInstallaion(false)} />
+            </Modal>
         </div>
     );
 }

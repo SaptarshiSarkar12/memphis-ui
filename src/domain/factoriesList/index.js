@@ -64,7 +64,6 @@ function FactoriesList() {
     const removeFactory = (id) => {
         setFactoriesList(factoriesList.filter((item) => item.id !== id));
     };
-
     return (
         <div>
             <div className="factories-container">
