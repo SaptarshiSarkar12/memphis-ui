@@ -221,7 +221,7 @@ const CreateStationDetails = (props) => {
             </Form.Item>
             <div className="retention">
                 <p className="field-title">
-                    Retention <Helper text="By which criteria messages will be expel from the station" />
+                    Retention <Helper text="By which criteria messages will be expelled from the station" />
                 </p>
                 <Form.Item name="retention_type" initialValue={formFields.retention_type}>
                     <RadioButton options={retanionOptions} radioValue={formFields.retention_type} onChange={(e) => updateFormState('retention_type', e.target.value)} />

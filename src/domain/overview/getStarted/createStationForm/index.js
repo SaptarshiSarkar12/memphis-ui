@@ -204,7 +204,7 @@ const CreateStationForm = (props) => {
                 <TitleComponent
                     headerTitle="Retention type"
                     typeTitle="sub-header"
-                    headerDescription="By which criteria messages will be expel from the station"
+                    headerDescription="By which criteria messages will be expelled from the station"
                 ></TitleComponent>
                 <Form.Item name="retention_type" initialValue={getStartedState?.formFieldsCreateStation.retention_type}>
                     <RadioButton

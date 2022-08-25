@@ -145,7 +145,7 @@ const GetStarted = (props) => {
         <GetStartedStoreContext.Provider value={[getStartedState, getStartedDispatch]}>
             <div className="getstarted-container">
                 <h1 className="getstarted-header">Let's get you started</h1>
-                <p className="getstarted-header-description">Setup your account details to get more form the platform</p>
+                <p className="getstarted-header-description">Setup your account details to get more from the platform</p>
                 <div className="sub-getstarted-container">
                     <div className="side-step">
                         <SideStepList />
@@ -177,7 +177,7 @@ const GetStarted = (props) => {
                             <GetStartedItem
                                 headerImage={ProduceDataImg}
                                 headerTitle="Produce data"
-                                headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to produce data to memphis station"
+                                headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to produce data into a memphis station"
                                 onNext={onNext}
                                 onBack={onBack}
                             >

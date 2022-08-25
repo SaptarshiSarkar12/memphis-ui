@@ -171,7 +171,7 @@ const ProduceConsumeData = (props) => {
                         </div>
                     </div>
                     <div className="code-example">
-                        <p>{props.produce ? 'Procude data' : 'Consume data'}</p>
+                        <p>{props.produce ? 'Produce data' : 'Consume data'}</p>
                         <div className="code-content">
                             <CopyBlock
                                 language={CODE_EXAMPLE[langSelected].langCode}
