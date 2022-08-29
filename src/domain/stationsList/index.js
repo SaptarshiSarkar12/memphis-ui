@@ -273,7 +273,6 @@ const StationsList = () => {
                         minWidth="500px"
                         rBtnText="Add"
                         lBtnText="Cancel"
-                        closeAction={() => modalFlip(false)}
                         lBtnClick={() => {
                             modalFlip(false);
                         }}

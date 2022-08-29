@@ -168,7 +168,7 @@ const GetStarted = (props) => {
                         {getStartedState?.currentStep === 3 && (
                             <GetStartedItem
                                 headerImage={ProduceDataImg}
-                                headerTitle="Produce data"
+                                headerTitle="Create producer"
                                 headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to produce data to memphis station"
                                 onNext={onNext}
                                 onBack={onBack}
@@ -179,7 +179,7 @@ const GetStarted = (props) => {
                         {getStartedState?.currentStep === 4 && (
                             <GetStartedItem
                                 headerImage={ConsumeDataImg}
-                                headerTitle="Consume data"
+                                headerTitle="Create consumer"
                                 headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to consume data from memphis station"
                                 onNext={onNext}
                                 onBack={onBack}

@@ -161,7 +161,6 @@ const StationBoxOverview = (props) => {
                 minWidth="460px"
                 rBtnText="Cancel"
                 lBtnText="Remove"
-                closeAction={() => modalFlip(false)}
                 lBtnClick={() => {
                     removeStation(props.station.name);
                 }}

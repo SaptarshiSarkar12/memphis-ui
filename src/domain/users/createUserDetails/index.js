@@ -118,7 +118,6 @@ const CreateUserDetails = ({ createUserRef, closeModal }) => {
                             colorType="black"
                             backgroundColorType="none"
                             borderColorType="gray"
-                            width="508px"
                             height="40px"
                             fontSize="12px"
                             onBlur={handleUserNameChange}
@@ -137,7 +136,6 @@ const CreateUserDetails = ({ createUserRef, closeModal }) => {
                                 backgroundColorType="none"
                                 borderColorType="gray"
                                 radiusType="semi-round"
-                                width="508px"
                                 height="40px"
                                 options={userTypeOptions}
                                 onChange={(e) => handleSelectUserType(e)}
@@ -163,7 +161,6 @@ const CreateUserDetails = ({ createUserRef, closeModal }) => {
                                         colorType="black"
                                         backgroundColorType="none"
                                         borderColorType="gray"
-                                        width="508px"
                                         height="40px"
                                         fontSize="12px"
                                         value={generatedPassword}
@@ -194,7 +191,6 @@ const CreateUserDetails = ({ createUserRef, closeModal }) => {
                                             colorType="black"
                                             backgroundColorType="none"
                                             borderColorType="gray"
-                                            width="508px"
                                             height="40px"
                                             fontSize="12px"
                                         />
@@ -229,7 +225,6 @@ const CreateUserDetails = ({ createUserRef, closeModal }) => {
                                             colorType="black"
                                             backgroundColorType="none"
                                             borderColorType="gray"
-                                            width="508px"
                                             height="40px"
                                             fontSize="12px"
                                         />

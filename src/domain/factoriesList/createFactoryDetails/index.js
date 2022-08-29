@@ -80,7 +80,6 @@ const CreateFactoryDetails = (props) => {
                             colorType="black"
                             backgroundColorType="none"
                             borderColorType="gray"
-                            width="395px"
                             height="40px"
                             fontSize="12px"
                             onBlur={handleFactoryNameChange}
@@ -99,7 +98,6 @@ const CreateFactoryDetails = (props) => {
                             colorType="black"
                             backgroundColorType="none"
                             borderColorType="gray"
-                            width="400px"
                             numberOfRows="5"
                             fontSize="12px"
                             onBlur={handleDescriptionNameChange}

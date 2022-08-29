@@ -84,7 +84,6 @@ function Profile() {
                 minWidth="460px"
                 rBtnText="Cancel"
                 lBtnText="Remove"
-                closeAction={() => modalFlip(false)}
                 lBtnClick={() => {
                     removeMyUser();
                 }}

@@ -63,11 +63,9 @@ function UserItem(props) {
             )}
             <Modal
                 header="Remove user"
-                height="220px"
-                minWidth="440px"
+                height="120px"
                 rBtnText="Cancel"
                 lBtnText="Remove"
-                closeAction={() => modalFlip(false)}
                 lBtnClick={() => {
                     removeUser(props.content?.username);
                 }}

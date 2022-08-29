@@ -199,15 +199,7 @@ const StationOverviewHeader = (props) => {
                     </div>
                 </div>
             </div>
-            <Modal
-                header="SDK"
-                minHeight="730px"
-                minWidth="710px"
-                closeAction={() => setSdkModal(false)}
-                clickOutside={() => setSdkModal(false)}
-                open={sdkModal}
-                hr={false}
-            >
+            <Modal header="SDK" minHeight="730px" minWidth="710px" clickOutside={() => setSdkModal(false)} open={sdkModal}>
                 <div className="sdk-details-container">
                     <div className="select-lan">
                         <p>Language</p>
@@ -291,7 +283,6 @@ const StationOverviewHeader = (props) => {
                 }
                 minHeight="400px"
                 minWidth="800px"
-                closeAction={() => setAuditModal(false)}
                 clickOutside={() => setAuditModal(false)}
                 open={auditModal}
                 hr={false}

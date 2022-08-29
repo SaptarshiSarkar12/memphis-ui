@@ -56,7 +56,7 @@ function OverView() {
     const [isLoading, setisLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [allStations, setAllStations] = useState([]);
-    const [showWelcome, setShowWelcome] = useState(true);
+    const [showWelcome, setShowWelcome] = useState(false);
     const [welcomeMessage, setWelcomeMessage] = useState('');
 
     const getOverviewData = async () => {
@@ -137,11 +137,7 @@ function OverView() {
                                 ></img>
                             </div>
                             <div className="dynamic-sentences">
-                                {localStorage.getItem(LOCAL_STORAGE_ALREADY_LOGGED_IN) === 'true' ? (
-                                    <h1>Welcome Back, {username}</h1>
-                                ) : (
-                                    <h1>Welcome Aboard, {username}</h1>
-                                )}
+                                {localStorage.getItem(LOCAL_STORAGE_ALREADY_LOGGED_IN) === 'true' ? <h1>Welcome Back, {username}</h1> : <h1>Welcome, {username}</h1>}
                                 {/* <p className="ok-status">You’re a memphis superhero! All looks good!</p> */}
                             </div>
                         </div>
@@ -180,11 +176,9 @@ function OverView() {
             )}
             <Modal
                 header="Your station details"
-                minHeight="610px"
-                minWidth="500px"
+                height="500px"
                 rBtnText="Add"
                 lBtnText="Cancel"
-                closeAction={() => modalFlip(false)}
                 lBtnClick={() => {
                     modalFlip(false);
                 }}
@@ -200,11 +194,6 @@ function OverView() {
                 header={''}
                 height="300px"
                 minWidth="645px"
-                hr={false}
-                closeAction={() => {
-                    setShowWelcome(false);
-                    localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);
-                }}
                 clickOutside={() => {
                     setShowWelcome(false);
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);

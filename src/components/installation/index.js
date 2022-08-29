@@ -76,7 +76,7 @@ const Installation = ({ closeModal }) => {
                 <Button
                     width="224px"
                     height="34px"
-                    placeholder={installationPhase === 'Main' ? 'Confirm' : 'Finish'}
+                    placeholder={installationPhase === 'Main' ? 'Next' : 'Finish'}
                     colorType="white"
                     radiusType="circle"
                     backgroundColorType="purple"

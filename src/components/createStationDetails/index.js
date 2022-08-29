@@ -190,7 +190,7 @@ const CreateStationDetails = (props) => {
                         message: 'Please input station name!'
                     }
                 ]}
-                style={{ marginBottom: '0' }}
+                style={{ height: '70px' }}
             >
                 <div className="station-name">
                     <p className="field-title">
@@ -203,7 +203,6 @@ const CreateStationDetails = (props) => {
                         colorType="black"
                         backgroundColorType="none"
                         borderColorType="gray"
-                        width="450px"
                         height="40px"
                         onBlur={(e) => updateFormState('name', e.target.value)}
                         onChange={(e) => updateFormState('name', e.target.value)}
@@ -250,8 +249,8 @@ const CreateStationDetails = (props) => {
                     </div>
                 )}
                 {formFields.retention_type === 'bytes' && (
-                    <Form.Item name="retentionSizeValue" initialValue={retentionSizeValue}>
-                        <div className="size-value">
+                    <div className="retention-type">
+                        <Form.Item name="retentionSizeValue" initialValue={retentionSizeValue}>
                             <Input
                                 placeholder="Type"
                                 type="number"
@@ -265,13 +264,13 @@ const CreateStationDetails = (props) => {
                                 onChange={(e) => handleRetentionSizeChange(e)}
                                 value={retentionSizeValue}
                             />
-                            <p>bytes</p>
-                        </div>
-                    </Form.Item>
+                        </Form.Item>
+                        <p>bytes</p>
+                    </div>
                 )}
                 {formFields.retention_type === 'messages' && (
-                    <Form.Item name="retentionMessagesValue" initialValue={retentionMessagesValue}>
-                        <div className="messages-value">
+                    <div className="retention-type">
+                        <Form.Item name="retentionMessagesValue" initialValue={retentionMessagesValue}>
                             <Input
                                 placeholder="Type"
                                 type="number"
@@ -285,9 +284,9 @@ const CreateStationDetails = (props) => {
                                 onChange={(e) => handleRetentionMessagesChange(e)}
                                 value={retentionMessagesValue}
                             />
-                            <p>messages</p>
-                        </div>
-                    </Form.Item>
+                        </Form.Item>
+                        <p>messages</p>
+                    </div>
                 )}
             </div>
             <div className="storage">
@@ -326,7 +325,6 @@ const CreateStationDetails = (props) => {
                             backgroundColorType="none"
                             borderColorType="gray"
                             radiusType="semi-round"
-                            width="450px"
                             height="40px"
                             options={factoryNames}
                             onChange={(e) => updateFormState('factory_name', e)}

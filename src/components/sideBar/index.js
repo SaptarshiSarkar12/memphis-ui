@@ -220,16 +220,13 @@ function SideBar() {
                         <img src={installationIcon} />
                     </label>
                 }
-                height="500px"
+                height="auto"
                 minWidth="480px"
-                hr={false}
-                closeAction={() => {
-                    setShowInstallaion(false);
-                }}
                 clickOutside={() => {
                     setShowInstallaion(false);
                 }}
                 open={showInstallaion}
+                displayButtons={false}
             >
                 <Installation closeModal={() => setShowInstallaion(false)} />
             </Modal>
