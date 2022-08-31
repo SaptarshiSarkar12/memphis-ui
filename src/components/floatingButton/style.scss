@@ -2,61 +2,29 @@
     position: fixed;
     right: 0px;
     z-index: 111;
-    .closing{
+    .box-wrapper{
         cursor: pointer;
         background: #6557FF;
         border-radius: 16px 0px 0px 16px;
         width: 50px;
         height: 45px;
-        -webkit-animation: blink 2.0s linear infinite;
-        -moz-animation: blink 2.0s linear infinite;
-        -ms-animation: blink 2.0s linear infinite;
-        -o-animation: blink 2.0s linear infinite;
-        animation: blink 2.0s linear infinite;
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-    .expend{
-        animation: mymove 2s ;
-    }
-    .opening{
-        width: 160px;
-        height: 107px;
-        display: flex;
-        align-items: center;
-        .expand{
-            background: white;
-            position: absolute;
-            border-radius: 53px;
-            width: 25px;
-            height: 25px;
-            border: 1px solid var(--purple);
-            transform: rotate(90deg);
-            left: -10px;
-            cursor: pointer;
-            svg {
-                color: var(--purple);
-
-            }
-            .expand:hover{
-                
-            }
-
-        }
-       
-        .box-wrapper{
-                width: 160px;
-                height: 107px;
-                background: #6557FF;
-                border-radius: 16px 0px 0px 16px;
-                box-shadow: rgb(101 87 255 / 76%) 12px 12px 20px 0px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-evenly;
-                padding-left: 25px;
-                color: #ffffff;
+        animation: reduce 1s;
+        box-shadow: 0px 0px 20px 0px #6557ff;
+        .box-open{
+            width: 160px;
+            height: 107px;
+            background: #6557FF;
+            border-radius: 16px 0px 0px 16px;
+            box-shadow: rgb(101 87 255 / 76%) 12px 12px 20px 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding-left: 25px;
+            color: #ffffff;
             p{
                 margin: 0;
                 font-weight: 600;
@@ -70,34 +38,58 @@
                 text-decoration: underline;
             }
         }
+        .close-box{
+            background: white;
+            position: absolute;
+            border-radius: 53px;
+            width: 25px;
+            height: 25px;
+            border: 1px solid var(--purple);
+            transform: rotate(90deg);
+            left: -10px;
+            cursor: pointer;
+            svg {
+                color: var(--purple);
+            }
+        }
+        .download-icon{
+            animation : pulse 3s infinite;
+
+        }
     }
-}
-
-
-@keyframes mymove {
-  50% {width: 500px;}
-  100% {width: 500px;}
-}
-
-@keyframes blink {
-    0% {
-        box-shadow: -2px 0px 20px 2px #6557ff;
-    }
-    50% {
+    .open{
+        animation: expend 1s;
+        width: 160px;
+        height: 107px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
         box-shadow: none;
     }
-    100% {
-        box-shadow: -2px 0px 20px 2px #6557ff;
-    }
 }
-@-webkit-keyframes blink {
-    0% {
-        box-shadow: -2px 0px 20px 2px #6557ff;
+
+
+@keyframes expend {
+  from {width: 50px; height: 45px;}
+  to {width: 160px; height: 107px;}
+}
+
+@keyframes reduce {
+    from {width: 160px; height: 107px;}
+    to {width: 50px; height: 45px;}
+  }
+
+@keyframes pulse {
+    from {
+        transform : scale(1);
+        opacity   : 1;
     }
     50% {
-        box-shadow: 0 0 0;
+        transform : scale(0.75);
+        opacity   : 0.8;
     }
-    100% {
-        box-shadow: -2px 0px 20px 2px #6557ff;
+    to {
+        transform : scale(1);
+        opacity   : 1;
     }
 }

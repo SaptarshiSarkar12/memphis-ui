@@ -27,7 +27,7 @@ const FloatingButton = () => {
     const [expendBox, setexpendBoxBox] = useState(false);
 
     const openModal = () => {
-        setOpenBox(false);
+        setexpendBoxBox(false);
         setShowInstallaion(true);
     };
 
@@ -35,23 +35,21 @@ const FloatingButton = () => {
         <div className="floating-button-container">
             <Draggable defaultPosition={{ x: 0, y: 600 }} bounds="body" axis="y">
                 <div>
-                    {!openBox && (
-                        <div className={!expendBox ? 'closing' : 'closing expend'} onClick={() => setexpendBoxBox(true)}>
-                            <CloudDownloadIcon />
-                        </div>
-                    )}
-                    {openBox && (
-                        <div className="opening">
-                            <div className="expand" onClick={() => setOpenBox(false)}>
-                                <ExpandLessIcon />
-                            </div>
-                            <div className="box-wrapper">
-                                <CloudDownloadIcon />
-                                <p onClick={openModal}>Install Now</p>
-                                <span onClick={openModal}>Choose an enviroment ></span>
-                            </div>
-                        </div>
-                    )}
+                    <div className={!expendBox ? 'box-wrapper' : 'box-wrapper open'} onClick={() => (!expendBox ? setexpendBoxBox(true) : null)}>
+                        {expendBox && (
+                            <>
+                                <div className="close-box" onClick={() => setexpendBoxBox(false)}>
+                                    <ExpandLessIcon />
+                                </div>
+                                <div className="box-open">
+                                    <CloudDownloadIcon />
+                                    <p onClick={openModal}>Install Now</p>
+                                    <span onClick={openModal}>Choose an enviroment ></span>
+                                </div>
+                            </>
+                        )}
+                        {!expendBox && <CloudDownloadIcon className="download-icon" />}
+                    </div>
                 </div>
             </Draggable>
             <Modal
