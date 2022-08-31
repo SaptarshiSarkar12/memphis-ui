@@ -16,49 +16,82 @@ export const INSTALLATION_GUIDE = {
         header: 'Installation',
         description: (
             <span>
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature <a>Learn More</a>
+                Please choose your preferred environment to deploy memphis on{' '}
+                <a href="https://docs.memphis.dev/memphis-new/getting-started/1-installation" target="_blank">
+                    Learn More
+                </a>
             </span>
         )
     },
     Kubernetes: {
         header: 'Installation/Kubernetes',
-        description: (
-            <span>
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature <a>Learn More</a>
-            </span>
-        ),
-        StepOneTitle: 'Step 1 - Copy&Paste to your terminal',
-        StepOneCommand: `helm repo add memphis https://k8s.memphis.dev/charts/&&
-        helm install my-memphis memphis/memphis --create-namespace --namespace memphis`,
-        StepTwoTitle: 'Step 2 - Expose memphis to your localhost',
-        StepTwoCommand: `$# kubectl port-forward service/memphis-ui 9000:80 --namespace memphis & >/dev/null`,
-        StepThreeTitle: `Step 3 - Open memphis ${(<a>UI</a>)}`,
-        StepThreeCommand: `http://localhost:9000`
+        description: <span>Memphis can be deployed over any kubernetes cluster above version 1.20, including minikub</span>,
+        steps: [
+            {
+                title: 'Step 1 - Copy&Paste to your terminal',
+                command: `helm repo add memphis https://k8s.memphis.dev/charts/&& \nhelm install my-memphis memphis/memphis --create-namespace --namespace memphis`,
+                icon: 'copy'
+            },
+            {
+                title: 'Step 2 - Expose memphis to your localhost',
+                command: `$# kubectl port-forward service/memphis-ui 9000:80 --namespace memphis & >/dev/null`,
+                icon: 'copy'
+            },
+            {
+                title: (
+                    <span>
+                        Step 3 - Open memphis{' '}
+                        <a href="http://localhost:9000" target="_blank">
+                            UI
+                        </a>
+                    </span>
+                ),
+                command: (
+                    <a href="http://localhost:9000" target="_blank">
+                        http://localhost:9000
+                    </a>
+                ),
+                icon: 'link'
+            }
+        ],
+        showLinks: true,
+        videoLink: 'https://youtu.be/OmUJXqvFK4M',
+        docsLink: 'https://docs.memphis.dev/memphis-new/deployment/kubernetes'
     },
     'Docker Compose': {
         header: 'Installation/Docker',
-        description: (
-            <span>
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature <a>Learn More</a>
-            </span>
-        ),
-        StepOneTitle: 'Step 1 - Copy&Paste to your terminal',
-        StepOneCommand: `curl -s https://memphisdev.github.io/memphis-docker/docker-compose.yml -o docker-compose.yml && 
-        docker compose -f docker-compose.yml -p memphis up`,
-        StepTwoTitle: `Step 3 - Open memphis ${(<a>UI</a>)}`,
-        StepTwoCommand: `http://localhost:9000`
+        description: <span>Memphis can be deployed over docker engine, swarm, and compose</span>,
+        steps: [
+            {
+                title: 'Step 1 - Copy&Paste to your terminal',
+                command: `curl -s https://memphisdev.github.io/memphis-docker/docker-compose.yml -o docker-compose.yml && \ndocker compose -f docker-compose.yml -p memphis up`,
+                icon: 'copy'
+            },
+            {
+                title: (
+                    <span>
+                        Step 2 - Open memphis{' '}
+                        <a href="http://localhost:9000" target="_blank">
+                            UI
+                        </a>
+                    </span>
+                ),
+                command: (
+                    <a href="http://localhost:9000" target="_blank">
+                        http://localhost:9000
+                    </a>
+                ),
+                icon: 'link'
+            }
+        ],
+        showLinks: true,
+        videoLink: 'https://youtu.be/cXAk60hMtHs',
+        docsLink: 'https://docs.memphis.dev/memphis-new/deployment/docker-compose#step-1-download-compose.yaml-file'
     },
     'Cloud Providers': {
-        header: 'Installation/Docker',
-        description: (
-            <span>
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature <a>Learn More</a>
-            </span>
-        ),
-        StepOneTitle: 'Step 1 - Copy&Paste to your terminal',
-        StepOneCommand: `curl -s https://memphisdev.github.io/memphis-docker/docker-compose.yml -o docker-compose.yml && 
-        docker compose -f docker-compose.yml -p memphis up`,
-        StepTwoTitle: `Step 3 - Open memphis ${(<a>UI</a>)}`,
-        StepTwoCommand: `http://localhost:9000`
+        header: 'Installation/Cloud Providers',
+        description: <span>Deploy Memphis to your preferred cloud provider directly. Dedicated kubernetes cluster with memphis installed will be deployed.</span>,
+        steps: [],
+        showLinks: false
     }
 };

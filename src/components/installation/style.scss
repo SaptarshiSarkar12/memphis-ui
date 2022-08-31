@@ -1,7 +1,7 @@
 .installation-modal{
     display: flex;
     flex-direction: column;
-    height: calc(100% - 60px);
+    height: calc(100%);
     justify-content: space-between;
     p{
         margin: 0;
@@ -9,6 +9,7 @@
     header{
         p{
             font-family: 'InterSemiBold';
+            font-weight: 500;
             font-size: 18px;
             line-height: 28px;
             margin-bottom: 8px;
@@ -26,7 +27,7 @@
         }
     }
     content {
-        height: 260px;
+        height: 500px;
         .content-title{
             font-weight: 400;
             font-size: 16px;
@@ -39,7 +40,6 @@
             align-items: flex-start;
             padding: 16px;
             gap: 4px;
-            width: 432px;
             height: 52px;            
             background: #FFFFFF;
             border: 1px solid #EAECF0;

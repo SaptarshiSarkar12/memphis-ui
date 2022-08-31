@@ -23,7 +23,7 @@ import { Context } from '../../hooks/store';
 import Throughput from './throughput';
 import Resources from './resources';
 
-import docsIcon from '../../assets/images/docsIcon.png';
+import docsIcon from '../../assets/images/docsIcon.svg';
 import discordIcon from '../../assets/images/discordColor.png';
 import slackIcon from '../../assets/images/slackColor.png';
 
@@ -193,7 +193,6 @@ function OverView() {
             <Modal
                 header={''}
                 height="300px"
-                minWidth="645px"
                 clickOutside={() => {
                     setShowWelcome(false);
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);

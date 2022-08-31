@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 
 import { INSTALLATION_GUIDE } from '../../const/installationGuide';
 import Button from '../button';
+import InstallationCommand from './ components/installationCommand';
 
 const option = ['Kubernetes', 'Docker Compose', 'Cloud Providers'];
 
@@ -51,10 +52,13 @@ const Installation = ({ closeModal }) => {
                         </div>
                     </>
                 )}
-                {installationPhase === 'Info' && (
-                    <>
-                        <p className="content-title">Choose your preferred environment</p>
-                    </>
+                {installationPhase !== 'Main' && (
+                    <InstallationCommand
+                        steps={INSTALLATION_GUIDE[installationPhase].steps}
+                        showLinks={INSTALLATION_GUIDE[installationPhase].showLinks}
+                        videoLink={INSTALLATION_GUIDE[installationPhase].videoLink}
+                        docsLink={INSTALLATION_GUIDE[installationPhase].docsLink}
+                    />
                 )}
             </content>
             <buttons is="x3d">

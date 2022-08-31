@@ -37,9 +37,6 @@ import { LOCAL_STORAGE_AVATAR_ID, LOCAL_STORAGE_COMPANY_LOGO, LOCAL_STORAGE_USER
 import { httpRequest } from '../../services/http';
 import { ApiEndpoints } from '../../const/apiEndpoints';
 import { DOC_URL } from '../../config';
-import Modal from '../modal';
-import Installation from '../installation';
-import installationIcon from '../../assets/images/installationIcon.svg';
 
 const { SubMenu } = Menu;
 
@@ -53,7 +50,6 @@ function SideBar() {
     const history = useHistory();
     const [botUrl, SetBotUrl] = useState(require('../../assets/images/bots/1.svg'));
     const [systemVersion, setSystemVersion] = useState('');
-    const [showInstallaion, setShowInstallaion] = useState(false);
 
     const getCompanyLogo = useCallback(async () => {
         try {
@@ -155,9 +151,7 @@ function SideBar() {
                     </div>
                 </div>
                 <div className="item-wrapper">
-                    <div id="e2e-tests-users-sidebar">
-                        <p onClick={() => setShowInstallaion(true)}>Installation</p>
-                    </div>
+                    <div id="e2e-tests-users-sidebar"></div>
                 </div>
             </div>
             <div id="e2e-tests-settings-btn" className="bottom-icons">
@@ -214,22 +208,6 @@ function SideBar() {
                     <p>v{systemVersion}</p>
                 </div>
             </div>
-            <Modal
-                header={
-                    <label className="installation-icon-wrapper">
-                        <img src={installationIcon} />
-                    </label>
-                }
-                height="auto"
-                minWidth="480px"
-                clickOutside={() => {
-                    setShowInstallaion(false);
-                }}
-                open={showInstallaion}
-                displayButtons={false}
-            >
-                <Installation closeModal={() => setShowInstallaion(false)} />
-            </Modal>
         </div>
     );
 }

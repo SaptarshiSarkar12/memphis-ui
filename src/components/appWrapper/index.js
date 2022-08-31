@@ -12,10 +12,12 @@
 // limitations under the License.
 
 import SideBar from '../sideBar';
+import FloatingButton from '../floatingButton';
 
 function AppWrapper(props) {
     return (
         <div className="sidebar-and-containers">
+            <FloatingButton />
             <SideBar />
             {props.content}
         </div>

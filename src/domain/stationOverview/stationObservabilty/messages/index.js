@@ -244,7 +244,7 @@ const Messages = () => {
                         <Button
                             width="80px"
                             height="32px"
-                            placeholder="Ignore"
+                            placeholder="Drop"
                             colorType="white"
                             radiusType="circle"
                             backgroundColorType="purple"

@@ -1,0 +1,76 @@
+// Copyright 2021-2022 The Memphis Authors
+// Licensed under the Apache License, Version 2.0 (the “License”);
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an “AS IS” BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import './style.scss';
+
+import React, { useState } from 'react';
+import Modal from '../modal';
+import Installation from '../installation';
+import installationIcon from '../../assets/images/installationIcon.svg';
+import Draggable from 'react-draggable';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
+const FloatingButton = () => {
+    const [showInstallaion, setShowInstallaion] = useState(false);
+    const [openBox, setOpenBox] = useState(true);
+    const [expendBox, setexpendBoxBox] = useState(false);
+
+    const openModal = () => {
+        setOpenBox(false);
+        setShowInstallaion(true);
+    };
+
+    return (
+        <div className="floating-button-container">
+            <Draggable defaultPosition={{ x: 0, y: 600 }} bounds="body" axis="y">
+                <div>
+                    {!openBox && (
+                        <div className={!expendBox ? 'closing' : 'closing expend'} onClick={() => setexpendBoxBox(true)}>
+                            <CloudDownloadIcon />
+                        </div>
+                    )}
+                    {openBox && (
+                        <div className="opening">
+                            <div className="expand" onClick={() => setOpenBox(false)}>
+                                <ExpandLessIcon />
+                            </div>
+                            <div className="box-wrapper">
+                                <CloudDownloadIcon />
+                                <p onClick={openModal}>Install Now</p>
+                                <span onClick={openModal}>Choose an enviroment ></span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </Draggable>
+            <Modal
+                header={
+                    <label className="installation-icon-wrapper">
+                        <img src={installationIcon} />
+                    </label>
+                }
+                height="680px"
+                clickOutside={() => {
+                    setShowInstallaion(false);
+                }}
+                open={showInstallaion}
+                displayButtons={false}
+            >
+                <Installation closeModal={() => setShowInstallaion(false)} />
+            </Modal>
+        </div>
+    );
+};
+
+export default FloatingButton;

@@ -80,8 +80,7 @@ function Profile() {
         <div className="profile-container">
             <Modal
                 header="Remove user"
-                height="260px"
-                minWidth="460px"
+                height="120px"
                 rBtnText="Cancel"
                 lBtnText="Remove"
                 lBtnClick={() => {
