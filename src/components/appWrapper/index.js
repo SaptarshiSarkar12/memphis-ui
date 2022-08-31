@@ -17,7 +17,7 @@ import FloatingButton from '../floatingButton';
 function AppWrapper(props) {
     return (
         <div className="sidebar-and-containers">
-            <FloatingButton />
+            {process.env.REACT_APP_SANDBOX_ENV && <FloatingButton />}
             <SideBar />
             {props.content}
         </div>

@@ -86,7 +86,7 @@ const Installation = ({ closeModal }) => {
                     backgroundColorType="purple"
                     fontSize="12px"
                     fontWeight="bold"
-                    onClick={() => setInstallationPhase(option[selectedOption])}
+                    onClick={() => (installationPhase === 'Main' ? setInstallationPhase(option[selectedOption]) : closeModal())}
                 />
             </buttons>
         </div>
