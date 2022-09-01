@@ -1,15 +1,23 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the Apache License, Version 2.0 (the “License”);
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an “AS IS” BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Licensed under the MIT License (the "License");
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// This license limiting reselling the software itself "AS IS".
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import './App.scss';
 
@@ -17,6 +25,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import io from 'socket.io-client';
+import { message } from 'antd';
 
 import { LOCAL_STORAGE_TOKEN } from './const/localStorageConsts';
 import { HANDLE_REFRESH_INTERVAL, SOCKET_URL } from './config';
@@ -39,19 +48,24 @@ import Users from './domain/users';
 import Login from './domain/login';
 import Signup from './domain/signup';
 
-const Desktop = ({ children }) => {
-    const isDesktop = useMediaQuery({ minWidth: 850 });
-    return isDesktop ? children : null;
-};
-
-const Mobile = ({ children }) => {
-    const isMobile = useMediaQuery({ maxWidth: 849 });
-    return isMobile ? children : null;
-};
-
 const App = withRouter(() => {
     const [authCheck, setAuthCheck] = useState(true);
     const [state, dispatch] = useContext(Context);
+    const isMobile = useMediaQuery({ maxWidth: 849 });
+
+    useEffect(() => {
+        if (isMobile) {
+            message.warn({
+                key: 'memphisWarningMessage',
+                duration: 0,
+                content: 'Hi, please pay attention. We do not support these dimensions.',
+                style: { cursor: 'not-allowed' }
+            });
+        }
+        return () => {
+            message.destroy('memphisWarningMessage');
+        };
+    }, [isMobile]);
 
     const history = useHistory();
 

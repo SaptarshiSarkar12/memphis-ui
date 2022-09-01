@@ -57,8 +57,7 @@ function OverView() {
     const [isLoading, setisLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [allStations, setAllStations] = useState([]);
-    const [showWelcome, setShowWelcome] = useState(true);
-    const [welcomeMessage, setWelcomeMessage] = useState('');
+    const [showWelcome, setShowWelcome] = useState(false);
 
     const getOverviewData = async () => {
         setisLoading(true);
@@ -77,7 +76,6 @@ function OverView() {
         getAllStations();
         dispatch({ type: 'SET_ROUTE', payload: 'overview' });
         setShowWelcome(process.env.REACT_APP_SANDBOX_ENV && localStorage.getItem(LOCAL_STORAGE_WELCOME_MESSAGE) === 'true');
-        setWelcomeMessage(process.env.REACT_APP_SANDBOX_ENV ? 'Hey ' + capitalizeFirst(localStorage.getItem(LOCAL_STORAGE_USER_NAME)) + ',' : '');
         getOverviewData();
         setBotImage(state?.userData?.avatar_id || localStorage.getItem(LOCAL_STORAGE_AVATAR_ID));
         SetUsername(localStorage.getItem(LOCAL_STORAGE_USER_NAME));
@@ -199,7 +197,7 @@ function OverView() {
             </Modal>
             <Modal
                 header={''}
-                height="460px"
+                height="470px"
                 minWidth="645px"
                 hr={false}
                 closeAction={() => {
@@ -210,7 +208,8 @@ function OverView() {
                     setShowWelcome(false);
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);
                 }}
-                open={showWelcome}
+                displayButtons={false}
+                open={!showWelcome}
             >
                 <div className="sandbox-welcome">
                     <img src={welcome} alt="docs" className="welcome-img"></img>
