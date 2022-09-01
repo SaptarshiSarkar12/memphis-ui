@@ -22,7 +22,7 @@ import Copied from '../../../../assets/images/copied.svg';
 import comingSoonBox from '../../../../assets/images/comingSoonBox.svg';
 import redirectIcon from '../../../../assets/images/redirectIcon.svg';
 import videoIcon from '../../../../assets/images/videoIcon.svg';
-import docsIcon from '../../../../assets/images/docsIcon.svg';
+import docsLogo from '../../../../assets/images/docsLogo.svg';
 import { Link } from 'react-router-dom';
 
 const InstallationCommand = ({ steps, showLinks, videoLink, docsLink }) => {
@@ -75,7 +75,7 @@ const InstallationCommand = ({ steps, showLinks, videoLink, docsLink }) => {
                     </Link>
                     <Link to={{ pathname: docsLink }} target="_blank">
                         <div className="link-wrapper">
-                            <img src={docsIcon} />
+                            <img src={docsLogo} />
                             <p>Link to docs</p>
                             <ChevronRightOutlined />
                         </div>
