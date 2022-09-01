@@ -142,7 +142,6 @@ function SideBar() {
                         </Link>
                     </div>
                 </div>
-
                 <div className="item-wrapper">
                     <div id="e2e-tests-users-sidebar">
                         <Link to={pathDomains.users}>
@@ -158,6 +157,9 @@ function SideBar() {
                             <p className={state.route === 'users' ? 'checked' : 'name'}>Users</p>
                         </Link>
                     </div>
+                </div>
+                <div className="item-wrapper">
+                    <div id="e2e-tests-users-sidebar"></div>
                 </div>
             </div>
             <div id="e2e-tests-settings-btn" className="bottom-icons">
