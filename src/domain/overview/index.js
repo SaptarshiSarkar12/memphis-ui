@@ -209,7 +209,7 @@ function OverView() {
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);
                 }}
                 displayButtons={false}
-                open={!showWelcome}
+                open={showWelcome}
             >
                 <div className="sandbox-welcome">
                     <img src={welcome} alt="docs" className="welcome-img"></img>
