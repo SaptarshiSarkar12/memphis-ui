@@ -28,7 +28,7 @@ node {
     }
 
     stage('Build and push docker image to Docker Hub') {
-      sh "docker buildx build --push -t ${repoUrlPrefix}/${imageName}-${gitBranch}-${test_suffix} ."
+  //    sh "docker buildx build --push -t ${repoUrlPrefix}/${imageName}-${gitBranch}-${test_suffix} ."
     }
 
     stage('Tests - Install/upgrade Memphis cli') {
@@ -45,7 +45,7 @@ node {
       dir ('memphis-docker'){
         git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-docker.git', branch: 'master'
       }
-      sh "docker-compose -f ./memphis-docker/docker-compose-dev-tests-ui.yml -p memphis up -d"
+      sh "docker-compose -f ./memphis-docker/docker-compose-dev.yml -p memphis up -d"
     }
 
     stage('Tests - Run e2e tests over Docker') {
@@ -58,7 +58,7 @@ node {
     }
 
     stage('Tests - Remove Docker compose') {
-      sh "docker-compose -f ./memphis-docker/docker-compose-dev-tests-ui.yml -p memphis down"
+      sh "docker-compose -f ./memphis-docker/docker-compose-dev.yml -p memphis down"
       sh "docker volume prune -f"
     }
 
@@ -71,7 +71,7 @@ node {
       	dir ('memphis-k8s'){
        	  git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-k8s.git', branch: gitBranch
       	}
-      	sh "helm upgrade --atomic --install memphis-tests memphis-k8s/memphis --set analytics='false',teston='ui' --create-namespace --namespace memphis-$unique_id"
+      	sh "helm upgrade --atomic --install memphis-tests memphis-k8s/memphis --set analytics='false' --create-namespace --namespace memphis-$unique_id"
     }
 
     stage('Open port forwarding to memphis service') {
@@ -130,7 +130,7 @@ node {
         sh "rm -rf memphis-k8s"
       }
     }
-
+/*
     /////////////////////////////////////////////
     //////////////  BETA & MASTER  //////////////
     /////////////////////////////////////////////
@@ -204,7 +204,7 @@ node {
 		 }
 		}
 	  
-	  
+	*/  
     notifySuccessful()
 	  
   } catch (e) {
