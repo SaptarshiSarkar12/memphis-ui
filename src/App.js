@@ -48,9 +48,9 @@ import Users from './domain/users';
 import Login from './domain/login';
 
 const App = withRouter(() => {
-    const [authCheck, setAuthCheck] = useState(true);
     const [state, dispatch] = useContext(Context);
     const isMobile = useMediaQuery({ maxWidth: 849 });
+    const [authCheck, setAuthCheck] = useState(true);
 
     useEffect(() => {
         if (isMobile) {
@@ -111,7 +111,8 @@ const App = withRouter(() => {
                 {' '}
                 {!authCheck && (
                     <Switch>
-                        <Route exact path={pathDomains.login} component={process.env.REACT_APP_SANDBOX_ENV ? SandboxLogin : Login} />
+                        {process.env.REACT_APP_SANDBOX_ENV && <Route exact path={pathDomains.login} component={SandboxLogin} />}
+                        {!process.env.REACT_APP_SANDBOX_ENV && <Route exact path={pathDomains.login} component={Login} />}
                         <PrivateRoute
                             exact
                             path={pathDomains.overview}

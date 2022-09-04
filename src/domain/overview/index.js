@@ -23,7 +23,13 @@ import './style.scss';
 
 import React, { useEffect, useContext, useState, useRef } from 'react';
 
-import { LOCAL_STORAGE_ALREADY_LOGGED_IN, LOCAL_STORAGE_AVATAR_ID, LOCAL_STORAGE_USER_NAME, LOCAL_STORAGE_WELCOME_MESSAGE } from '../../const/localStorageConsts';
+import {
+    LOCAL_STORAGE_ALREADY_LOGGED_IN,
+    LOCAL_STORAGE_AVATAR_ID,
+    LOCAL_STORAGE_FULL_NAME,
+    LOCAL_STORAGE_USER_NAME,
+    LOCAL_STORAGE_WELCOME_MESSAGE
+} from '../../const/localStorageConsts';
 import CreateStationDetails from '../../components/createStationDetails';
 import discordLogo from '../../assets/images/discordLogo.svg';
 import githubLogo from '../../assets/images/githubLogo.svg';
@@ -64,7 +70,6 @@ function OverView() {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [allStations, setAllStations] = useState([]);
     const [showWelcome, setShowWelcome] = useState(false);
-    const [welcomeMessage, setWelcomeMessage] = useState('');
 
     const getOverviewData = async () => {
         setisLoading(true);
@@ -83,10 +88,13 @@ function OverView() {
         getAllStations();
         dispatch({ type: 'SET_ROUTE', payload: 'overview' });
         setShowWelcome(process.env.REACT_APP_SANDBOX_ENV && localStorage.getItem(LOCAL_STORAGE_WELCOME_MESSAGE) === 'true');
-        setWelcomeMessage(process.env.REACT_APP_SANDBOX_ENV ? 'Hey ' + capitalizeFirst(localStorage.getItem(LOCAL_STORAGE_USER_NAME)) + ',' : '');
         getOverviewData();
         setBotImage(state?.userData?.avatar_id || localStorage.getItem(LOCAL_STORAGE_AVATAR_ID));
-        SetUsername(localStorage.getItem(LOCAL_STORAGE_USER_NAME));
+        SetUsername(
+            localStorage.getItem(LOCAL_STORAGE_FULL_NAME) !== 'undefined' && localStorage.getItem(LOCAL_STORAGE_FULL_NAME) !== ''
+                ? capitalizeFirst(localStorage.getItem(LOCAL_STORAGE_FULL_NAME))
+                : capitalizeFirst(localStorage.getItem(LOCAL_STORAGE_USER_NAME))
+        );
     }, []);
 
     useEffect(() => {
