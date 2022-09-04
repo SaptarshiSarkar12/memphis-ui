@@ -28,7 +28,7 @@ node {
     }
 
     stage('Build and push docker image to Docker Hub') {
-      sh "docker buildx build --push -t ${repoUrlPrefix}/${imageName}-${gitBranch}-${test_suffix} ."
+  //    sh "docker buildx build --push -t ${repoUrlPrefix}/${imageName}-${gitBranch}-${test_suffix} ."
     }
 
     stage('Tests - Install/upgrade Memphis cli') {
@@ -45,7 +45,7 @@ node {
       dir ('memphis-docker'){
         git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-docker.git', branch: 'master'
       }
-      sh "docker-compose -f ./memphis-docker/docker-compose-dev-tests-ui.yml -p memphis up -d"
+      sh "docker-compose -f ./memphis-docker/docker-compose-dev.yml -p memphis up -d"
     }
 
     stage('Tests - Run e2e tests over Docker') {
@@ -58,7 +58,7 @@ node {
     }
 
     stage('Tests - Remove Docker compose') {
-      sh "docker-compose -f ./memphis-docker/docker-compose-dev-tests-ui.yml -p memphis down"
+      sh "docker-compose -f ./memphis-docker/docker-compose-dev.yml -p memphis down"
       sh "docker volume prune -f"
     }
 
