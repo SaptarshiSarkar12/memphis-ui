@@ -1,15 +1,23 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the Apache License, Version 2.0 (the “License”);
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an “AS IS” BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Licensed under the MIT License (the "License");
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// This license limiting reselling the software itself "AS IS".
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import './style.scss';
 
@@ -36,6 +44,7 @@ import TooltipComponent from '../../../components/tooltip/tooltip';
 import Auditing from '../auditing';
 import { InfoOutlined } from '@material-ui/icons';
 import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../const/localStorageConsts';
+import CustomTabs from '../../../components/Tabs';
 
 const StationOverviewHeader = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -44,9 +53,16 @@ const StationOverviewHeader = (props) => {
     const [retentionValue, setRetentionValue] = useState('');
     const [sdkModal, setSdkModal] = useState(false);
     const [auditModal, setAuditModal] = useState(false);
-    const selectLngOption = ['Go', 'Node.js'];
+    const selectLngOption = ['Go', 'Node.js', 'Typescript', 'Python'];
     const [langSelected, setLangSelected] = useState('Go');
-    const [codeExample, setCodeExample] = useState('');
+    const [codeExample, setCodeExample] = useState({
+        import: '',
+        connect: '',
+        producer: '',
+        consumer: ''
+    });
+    const [tabValue, setTabValue] = useState('0');
+    const tabs = ['Producer', 'Consumer'];
     const url = window.location.href;
     const stationName = url.split('factories/')[1].split('/')[1];
     const handleSelectLang = (e) => {
@@ -54,7 +70,6 @@ const StationOverviewHeader = (props) => {
         changeDynamicCode(e);
     };
     useEffect(() => {
-        changeDynamicCode(langSelected);
         switch (stationState?.stationMetaData?.retention_type) {
             case 'message_age_sec':
                 setRetentionValue(convertSecondsToDate(stationState?.stationMetaData?.retention_value));
@@ -68,17 +83,21 @@ const StationOverviewHeader = (props) => {
             default:
                 break;
         }
-    }, []);
+    }, [stationState?.stationMetaData?.retention_type]);
 
     const changeDynamicCode = (lang) => {
-        let codeEx = CODE_EXAMPLE[lang].code;
+        let codeEx = {};
+        codeEx.producer = CODE_EXAMPLE[lang].producer;
+        codeEx.consumer = CODE_EXAMPLE[lang].consumer;
         let host = process.env.REACT_APP_SANDBOX_ENV
             ? 'broker.sandbox.memphis.dev'
             : localStorage.getItem(LOCAL_STORAGE_ENV) === 'docker'
             ? 'localhost'
             : 'memphis-cluster.' + localStorage.getItem(LOCAL_STORAGE_NAMESPACE) + '.svc.cluster.local';
-        codeEx = codeEx.replaceAll('<memphis-host>', host);
-        codeEx = codeEx.replaceAll('<station_name>', stationName);
+        codeEx.producer = codeEx.producer.replaceAll('<memphis-host>', host);
+        codeEx.consumer = codeEx.consumer.replaceAll('<memphis-host>', host);
+        codeEx.producer = codeEx.producer.replaceAll('<station_name>', stationName);
+        codeEx.consumer = codeEx.consumer.replaceAll('<station_name>', stationName);
         setCodeExample(codeEx);
     };
 
@@ -179,23 +198,22 @@ const StationOverviewHeader = (props) => {
                 <div className="info-buttons">
                     <div className="sdk">
                         <p>SDK</p>
-                        <span onClick={() => setSdkModal(true)}>View Details ></span>
+                        <span
+                            onClick={() => {
+                                changeDynamicCode(langSelected);
+                                setSdkModal(true);
+                            }}
+                        >
+                            View Details {'>'}
+                        </span>
                     </div>
                     <div className="audit">
                         <p>Audit</p>
-                        <span onClick={() => setAuditModal(true)}>View Details ></span>
+                        <span onClick={() => setAuditModal(true)}>View Details {'>'}</span>
                     </div>
                 </div>
             </div>
-            <Modal
-                header="SDK"
-                minHeight="700px"
-                minWidth="700px"
-                closeAction={() => setSdkModal(false)}
-                clickOutside={() => setSdkModal(false)}
-                open={sdkModal}
-                hr={false}
-            >
+            <Modal header="SDK" width="710px" clickOutside={() => setSdkModal(false)} open={sdkModal} displayButtons={false}>
                 <div className="sdk-details-container">
                     <div className="select-lan">
                         <p>Language</p>
@@ -219,18 +237,37 @@ const StationOverviewHeader = (props) => {
                             <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
                         </div>
                     </div>
-                    <div className="code-example">
-                        <p>Code</p>
-                        <div className="code-content">
-                            <CopyBlock
-                                language={CODE_EXAMPLE[langSelected].langCode}
-                                text={codeExample}
-                                showLineNumbers={true}
-                                theme={atomOneLight}
-                                wrapLines={true}
-                                codeBlock
-                            />
-                        </div>
+                    <div className="tabs">
+                        <CustomTabs value={tabValue} onChange={(tabValue) => setTabValue(tabValue)} tabs={tabs}></CustomTabs>
+                        {tabValue === '0' && (
+                            <div className="code-example">
+                                <div className="code-content">
+                                    <CopyBlock
+                                        language={CODE_EXAMPLE[langSelected].langCode}
+                                        text={codeExample.producer}
+                                        showLineNumbers={true}
+                                        theme={atomOneLight}
+                                        wrapLines={true}
+                                        codeBlock
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {tabValue === '1' && (
+                            <div className="code-example">
+                                <div className="code-content">
+                                    <CopyBlock
+                                        language={CODE_EXAMPLE[langSelected].langCode}
+                                        text={codeExample.consumer}
+                                        showLineNumbers={true}
+                                        theme={atomOneLight}
+                                        wrapLines={true}
+                                        codeBlock
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </Modal>
@@ -244,13 +281,12 @@ const StationOverviewHeader = (props) => {
                         </div>
                     </div>
                 }
-                minHeight="400px"
-                minWidth="800px"
-                closeAction={() => setAuditModal(false)}
+                displayButtons={false}
+                height="300px"
+                width="800px"
                 clickOutside={() => setAuditModal(false)}
                 open={auditModal}
                 hr={false}
-                className="audit"
             >
                 <Auditing />
             </Modal>
