@@ -129,7 +129,7 @@ function OverView() {
         }
     };
 
-    const stationsOfUser = allStations.filter((station) => station.created_by_user === username);
+    const stationsOfUser = allStations.filter((station) => station.created_by_user === localStorage.getItem(LOCAL_STORAGE_USER_NAME));
     return (
         <div className="overview-container">
             {isLoading && (
