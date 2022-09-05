@@ -29,7 +29,7 @@ export const INSTALLATION_GUIDE = {
         steps: [
             {
                 title: 'Step 1 - Copy & Paste to your terminal',
-                command: `helm repo add memphis https://k8s.memphis.dev/charts/&& \nhelm install my-memphis memphis/memphis --create-namespace --namespace memphis`,
+                command: `helm repo add memphis https://k8s.memphis.dev/charts/ --force-update &&  \nhelm install my-memphis memphis/memphis --create-namespace --namespace memphis`,
                 icon: 'copy'
             },
             {
