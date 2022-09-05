@@ -32,19 +32,21 @@ import Loader from '../../components/loader';
 import { Context } from '../../hooks/store';
 import Modal from '../../components/modal';
 import Factory from './factory';
+import SearchInput from '../../components/searchInput';
+import { SearchOutlined } from '@material-ui/icons';
 
-function FactoriesList() {
+function SchemaList() {
     const [state, dispatch] = useContext(Context);
-    const [factoriesList, setFactoriesList] = useState([]);
+    const [schemaList, setSchemaList] = useState([]);
     const [modalIsOpen, modalFlip] = useState(false);
     const createFactoryRef = useRef(null);
     const [isLoading, setisLoading] = useState(false);
 
-    const getFactories = async () => {
+    const getSchemas = async () => {
         setisLoading(true);
         try {
             const data = await httpRequest('GET', ApiEndpoints.GEL_ALL_FACTORIES);
-            setFactoriesList(data);
+            setSchemaList(data);
             setisLoading(false);
         } catch (error) {
             setisLoading(false);
@@ -53,12 +55,12 @@ function FactoriesList() {
 
     useEffect(() => {
         dispatch({ type: 'SET_ROUTE', payload: 'schema' });
-        getFactories();
+        getSchemas();
     }, []);
 
     useEffect(() => {
         state.socket?.on('factories_overview_data', (data) => {
-            setFactoriesList(data);
+            setSchemaList(data);
         });
 
         setTimeout(() => {
@@ -70,61 +72,80 @@ function FactoriesList() {
     }, [state.socket]);
 
     const removeFactory = (id) => {
-        setFactoriesList(factoriesList.filter((item) => item.id !== id));
+        setSchemaList(schemaList.filter((item) => item.id !== id));
     };
     return (
-        <div>
-            <div className="factories-container">
-                <h1 className="main-header-h1">Factories</h1>
-                <div className="one-edge-shadow">
-                    <div className="factories-header-flex">
-                        <h3>Select a factory to edit</h3>
+        <div className="schema-container">
+            <h1 className="main-header-h1">Schema</h1>
+            <div className="action-section">
+                <SearchInput
+                    placeholder="Search here"
+                    colorType="navy"
+                    backgroundColorType="none"
+                    width="10vw"
+                    height="27px"
+                    borderRadiusType="circle"
+                    borderColorType="gray"
+                    boxShadowsType="gray"
+                    iconComponent={<SearchOutlined />}
+                    // onChange={handleSearch}
+                    // value={searchInput}
+                />
+                <Button
+                    width="160px"
+                    height="36px"
+                    placeholder={'Create from blank'}
+                    colorType="white"
+                    radiusType="circle"
+                    backgroundColorType="purple"
+                    fontSize="12px"
+                    fontWeight="600"
+                    aria-haspopup="true"
+                    // onClick={() => addUserModalFlip(true)}
+                />
+                <Button
+                    width="145px"
+                    height="36px"
+                    placeholder={'Import schema'}
+                    colorType="white"
+                    radiusType="circle"
+                    backgroundColorType="purple"
+                    fontSize="12px"
+                    fontWeight="600"
+                    aria-haspopup="true"
+                    // onClick={() => addUserModalFlip(true)}
+                />
+            </div>
+            <div className="factories-list">
+                {isLoading && (
+                    <div className="loader-uploading">
+                        <Loader />
+                    </div>
+                )}
+                {schemaList.map((factory) => {
+                    return <Factory key={factory.id} content={factory} removeFactory={() => removeFactory(factory.id)}></Factory>;
+                })}
+                {!isLoading && schemaList.length === 0 && (
+                    <div className="no-factory-to-display">
+                        <img src={emptyList} width="100" height="100" alt="emptyList" />
+                        <p>There are no factories yet</p>
+                        <p className="sub-title">Get started by creating a factory</p>
                         <Button
                             className="modal-btn"
-                            width="160px"
-                            height="36px"
-                            placeholder={'Create new factory'}
+                            width="240px"
+                            height="50px"
+                            placeholder="Create your first factory"
                             colorType="white"
                             radiusType="circle"
                             backgroundColorType="purple"
-                            fontSize="14px"
+                            fontSize="12px"
                             fontWeight="600"
+                            aria-controls="usecse-menu"
                             aria-haspopup="true"
                             onClick={() => modalFlip(true)}
                         />
                     </div>
-                </div>
-                <div className="factories-list">
-                    {isLoading && (
-                        <div className="loader-uploading">
-                            <Loader />
-                        </div>
-                    )}
-                    {factoriesList.map((factory) => {
-                        return <Factory key={factory.id} content={factory} removeFactory={() => removeFactory(factory.id)}></Factory>;
-                    })}
-                    {!isLoading && factoriesList.length === 0 && (
-                        <div className="no-factory-to-display">
-                            <img src={emptyList} width="100" height="100" alt="emptyList" />
-                            <p>There are no factories yet</p>
-                            <p className="sub-title">Get started by creating a factory</p>
-                            <Button
-                                className="modal-btn"
-                                width="240px"
-                                height="50px"
-                                placeholder="Create your first factory"
-                                colorType="white"
-                                radiusType="circle"
-                                backgroundColorType="purple"
-                                fontSize="12px"
-                                fontWeight="600"
-                                aria-controls="usecse-menu"
-                                aria-haspopup="true"
-                                onClick={() => modalFlip(true)}
-                            />
-                        </div>
-                    )}
-                </div>
+                )}
             </div>
             <Modal
                 header="Create a factory"
@@ -148,4 +169,4 @@ function FactoriesList() {
     );
 }
 
-export default FactoriesList;
+export default SchemaList;

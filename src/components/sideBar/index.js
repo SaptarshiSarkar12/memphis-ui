@@ -29,12 +29,14 @@ import { Menu } from 'antd';
 
 import overviewIconActive from '../../assets/images/overviewIconActive.svg';
 import factoriesIconActive from '../../assets/images/factoriesIconActive.svg';
+import schemaIconActive from '../../assets/images/schemaIconActive.svg';
 import usersIconActive from '../../assets/images/usersIconActive.svg';
-import overviewIcon from '../../assets/images/overviewIcon.svg';
 import factoriesIcon from '../../assets/images/factoriesIcon.svg';
+import overviewIcon from '../../assets/images/overviewIcon.svg';
 import supportIcon from '../../assets/images/supportIcon.svg';
 import accountIcon from '../../assets/images/accountIcon.svg';
 import logoutIcon from '../../assets/images/logoutIcon.svg';
+import schemaIcon from '../../assets/images/schemaIcon.svg';
 import usersIcon from '../../assets/images/usersIcon.svg';
 import Logo from '../../assets/images/logo.svg';
 import BetaLogo from '../../assets/images/betaLogo.svg';
@@ -159,7 +161,20 @@ function SideBar() {
                     </div>
                 </div>
                 <div className="item-wrapper">
-                    <div id="e2e-tests-users-sidebar"></div>
+                    <div id="e2e-tests-users-sidebar">
+                        <Link to={pathDomains.schema}>
+                            <div className="icon">
+                                <div className={state.route === 'schema' ? 'circle-nav-item checked' : 'circle-nav-item'}>
+                                    {state.route === 'schema' ? (
+                                        <img src={schemaIconActive} alt="schemaIconActive" width="20" height="20"></img>
+                                    ) : (
+                                        <img src={schemaIcon} alt="schemaIcon" width="20" height="20"></img>
+                                    )}
+                                </div>
+                            </div>
+                            <p className={state.route === 'schema' ? 'checked' : 'name'}>Schema</p>
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div id="e2e-tests-settings-btn" className="bottom-icons">

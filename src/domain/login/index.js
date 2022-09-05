@@ -112,8 +112,8 @@ const Login = (props) => {
 
     return (
         <>
-            {!isLoading && isSignup && <Signup />}
-            {!isLoading && !isSignup && (
+            {!isLoading && !isSignup && <Signup />}
+            {!isLoading && isSignup && (
                 <section className="loginContainers">
                     {state.loading ? <Loader></Loader> : ''}
                     <div className="desktop-container">

@@ -46,6 +46,7 @@ import SysLogs from './domain/sysLogs';
 import pathDomains from './router';
 import Users from './domain/users';
 import Login from './domain/login';
+import SchemaList from './domain/Schema';
 
 const App = withRouter(() => {
     const [state, dispatch] = useContext(Context);
@@ -154,7 +155,20 @@ const App = withRouter(() => {
                         />
                         <PrivateRoute
                             exact
-                            path={pathDomains.factoriesList}
+                            path={pathDomains.schema}
+                            component={
+                                <AppWrapper
+                                    content={
+                                        <div>
+                                            <SchemaList />
+                                        </div>
+                                    }
+                                ></AppWrapper>
+                            }
+                        />
+                        {/* <PrivateRoute
+                            exact
+                            path={pathDomains.schema}
                             component={
                                 <AppWrapper
                                     content={
@@ -164,7 +178,7 @@ const App = withRouter(() => {
                                     }
                                 ></AppWrapper>
                             }
-                        />
+                        /> */}
                         <PrivateRoute
                             exact
                             path={`${pathDomains.factoriesList}/:id`}
