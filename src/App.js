@@ -139,7 +139,7 @@ const App = withRouter(() => {
                                 ></AppWrapper>
                             }
                         />
-                        <PrivateRoute
+                        {/* <PrivateRoute
                             exact
                             path={pathDomains.factoriesList}
                             component={
@@ -151,10 +151,10 @@ const App = withRouter(() => {
                                     }
                                 ></AppWrapper>
                             }
-                        />
+                        /> */}
                         <PrivateRoute
                             exact
-                            path={`${pathDomains.factoriesList}/:id`}
+                            path={pathDomains.stations}
                             component={
                                 <AppWrapper
                                     content={
