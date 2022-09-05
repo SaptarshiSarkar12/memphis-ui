@@ -45,6 +45,7 @@ node {
 
       stage('Push to sandbox'){
         sh "aws eks --region eu-central-1 update-kubeconfig --name sandbox-cluster"
+	sh "helm uninstall my-memphis -n memphis"
 	sh "rm -rf memphis-infra"
       	dir ('memphis-infra'){
        	  git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-infra.git', branch: gitBranch
