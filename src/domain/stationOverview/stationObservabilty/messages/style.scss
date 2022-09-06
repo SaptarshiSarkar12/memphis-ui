@@ -171,6 +171,11 @@
                 position: relative;
                 .ant-space{
                     width: 100%;
+                    .ant-collapse-content-box {
+                        max-height: 325px;
+                        overflow: auto;
+                        overflow-wrap:break-word;
+                    }
                 }
                
             }
