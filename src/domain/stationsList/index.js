@@ -26,7 +26,6 @@ import StationBoxOverview from './stationBoxOverview';
 import emptyList from '../../assets/images/emptyList.svg';
 import { httpRequest } from '../../services/http';
 import Button from '../../components/button';
-import Filter from '../../components/filter';
 import { Context } from '../../hooks/store';
 import Modal from '../../components/modal';
 import SearchInput from '../../components/searchInput';
@@ -79,10 +78,6 @@ const StationsList = () => {
         getAllStations();
     }, []);
 
-    useEffect(() => {
-        handleFilter();
-    }, [searchInput]);
-
     const getAllStations = async () => {
         try {
             const res = await httpRequest('GET', `${ApiEndpoints.GET_ALL_STATIONS}`);
@@ -96,9 +91,6 @@ const StationsList = () => {
         setSearchInput(e.target.value);
     };
 
-    const handleFilter = () => {
-        console.log(searchInput);
-    };
     // const handleRegisterToFactory = useCallback(
     //     (factoryName) => {
     //         state.socket?.emit('register_factory_overview_data', factoryName);
@@ -210,7 +202,6 @@ const StationsList = () => {
                         onChange={handleSearch}
                         value={searchInput}
                     />
-                    <Filter width="140px" height="36px" filterBy="Tags" filterList={['val1', 'val2', 'val3', 'val4', 'val5']}></Filter>
                     <Button
                         className="modal-btn"
                         width="180px"
