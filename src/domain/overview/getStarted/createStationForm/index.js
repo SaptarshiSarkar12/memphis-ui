@@ -358,7 +358,7 @@ const CreateStationForm = (props) => {
                             <InputNumber
                                 bordered={false}
                                 min={1}
-                                max={getStartedState?.desiredPods && getStartedState?.desiredPods <= 5 ? getStartedState?.desiredPods : 5}
+                                max={getStartedState?.actualPods && getStartedState?.actualPods <= 5 ? getStartedState?.actualPods : 5}
                                 keyboard={true}
                                 value={getStartedState?.formFieldsCreateStation?.replicas}
                                 onChange={(e) => updateFormState('replicas', e)}

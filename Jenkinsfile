@@ -28,7 +28,7 @@ node {
     }
 
     stage('Build and push docker image to Docker Hub') {
-      sh "docker buildx build --push -t ${repoUrlPrefix}/${imageName}-${gitBranch}-${test_suffix} ."
+      sh "docker buildx build --push -t ${repoUrlPrefix}/${imageName}-master-${test_suffix} ."
     }
 
     stage('Tests - Install/upgrade Memphis cli') {
@@ -43,7 +43,7 @@ node {
     stage('Tests - Docker compose install') {
       sh "rm -rf memphis-docker"
       dir ('memphis-docker'){
-        git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-docker.git', branch: gitBranch
+        git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-docker.git', branch: 'master'
       }
       sh "docker-compose -f ./memphis-docker/docker-compose-dev-tests-ui.yml -p memphis up -d"
     }
@@ -69,7 +69,7 @@ node {
     stage('Tests - Install memphis with helm') {
       	sh "rm -rf memphis-k8s"
       	dir ('memphis-k8s'){
-       	  git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-k8s.git', branch: gitBranch
+       	  git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-k8s.git', branch: 'master'
       	}
       	sh "helm upgrade --atomic --install memphis-tests memphis-k8s/memphis --set analytics='false',teston='ui' --create-namespace --namespace memphis-$unique_id"
     }
@@ -77,7 +77,7 @@ node {
     stage('Open port forwarding to memphis service') {
       sh(script: """until kubectl get pods --selector=app=memphis-ui -o=jsonpath="{.items[*].status.phase}" -n memphis-$unique_id  | grep -q "Running" ; do sleep 1; done""", returnStdout: true)
       sh "nohup kubectl port-forward service/memphis-ui 9000:80 --namespace memphis-$unique_id &"
-      sh "nohup kubectl port-forward service/memphis-cluster 7766:7766 6666:6666 5555:5555 --namespace memphis-$unique_id &"
+      sh "nohup kubectl port-forward service/memphis-cluster 6666:6666 5555:5555 --namespace memphis-$unique_id &"
     }
 
     stage('Tests - Run e2e tests over kubernetes') {
@@ -109,7 +109,7 @@ node {
       }
       else{
 	if (env.BRANCH_NAME ==~ /(staging)/) {
-    	  sh "docker buildx build --push --tag ${repoUrlPrefix}/${imageName}-${gitBranch}:${versionTag} --tag ${repoUrlPrefix}/${imageName}-${gitBranch} --platform linux/amd64,linux/arm64 ."
+    	  sh "docker buildx build --push --tag ${repoUrlPrefix}/${imageName}-master --platform linux/amd64,linux/arm64 ."
 	}
 	else{
 	  sh "docker buildx build --push --tag ${repoUrlPrefix}/${imageName}:${versionTag} --tag ${repoUrlPrefix}/${imageName} --platform linux/amd64,linux/arm64 ."
