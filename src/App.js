@@ -112,11 +112,8 @@ const App = withRouter(() => {
                 {' '}
                 {!authCheck && (
                     <Switch>
-<<<<<<< HEAD
-=======
                         {process.env.REACT_APP_SANDBOX_ENV && <Route exact path={pathDomains.login} component={SandboxLogin} />}
                         {!process.env.REACT_APP_SANDBOX_ENV && <Route exact path={pathDomains.login} component={Login} />}
->>>>>>> c5652c701d19775d8d8c72ad53a51ea0bc6c09e6
                         <PrivateRoute
                             exact
                             path={pathDomains.overview}
