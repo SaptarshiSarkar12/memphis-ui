@@ -33,25 +33,69 @@ const FilterComponent = (props) => {
         setAnchorEl(null);
     };
 
-    // const handleClick = (e) => {
-    //     onClick(e);
-    // };
+    const [filterData, setFilterData] = useState([
+        {
+            name: 'tags',
+            label: 'Tags',
+            data: [
+                {
+                    name: 'GitHub',
+                    type: 'checkbox',
+                    view: 'label',
+                    color: '#00A5FF',
+                    background: 'rgba(0, 165, 255, 0.1)'
+                },
+                {
+                    name: 'Mixpod',
+                    type: 'checkbox',
+                    view: 'label',
+                    color: '#5542F6',
+                    background: 'rgba(85, 66, 246, 0.1)'
+                },
+                {
+                    name: 'Success',
+                    type: 'checkbox',
+                    view: 'label',
+                    color: '#FFA043',
+                    background: 'rgba(255, 160, 67, 0.1)'
+                }
+            ]
+        },
+        {
+            name: 'creatrdBy',
+            label: 'Created by',
+            data: [
+                {
+                    name: 'Avraham',
+                    type: 'checkbox',
+                    view: 'circle',
+                    color: 'white',
+                    background: 'green'
+                }
+            ]
+        },
+        {
+            name: 'storageType',
+            label: 'Storage type',
+            data: [
+                {
+                    name: 'Memory',
+                    type: 'checkbox',
+                    view: 'text',
+                    color: 'black',
+                    background: 'green'
+                },
+                {
+                    name: 'File',
+                    type: 'checkbox',
+                    view: 'text',
+                    color: 'black',
+                    background: 'green'
+                }
+            ]
+        }
+    ]);
 
-    // const borderRadius = getBorderRadius(radiusType);
-    // const color = getFontColor(colorType);
-    // const backgroundColor = getBackgroundColor(backgroundColorType);
-    // const borderColor = border ? getBackgroundColor(border) : backgroundColor;
-    // const opacity = disabled ? '0.5' : '1';
-    // const boxShadow = getBoxShadows(boxShadowStyle);
-
-    // const styleButtonContainer = {
-    //     margin: margin,
-    //     textAlign: textAlign,
-    //     marginBottom: marginBottom,
-    //     marginTop: marginTop,
-    //     marginRight: marginRight,
-    //     alignSelf: alignSelf
-    // };
     const fieldProps = {
         style: { width, height }
     };
@@ -108,17 +152,58 @@ const FilterComponent = (props) => {
                     handleClickMenu(e);
                 }}
             />
-            <label>Filter By: </label>
+            <label>Filters </label>
             <label className="filter-by">{filterBy}</label>
-            <Popover id="long-menu" classes={{ paper: 'Menu c' }} anchorEl={anchorEl} onClose={handleCloseMenu} open={open}>
-                {filterList?.map((item, index) => (
-                    <MenuItem key={item + index}>
-                        <div className="filter-item">
-                            <Checkbox onClick={() => handleClickCB(item)} checked={chosenFilter.includes(item)} />
-                            <label>{item}</label>
-                        </div>
-                    </MenuItem>
-                ))}
+            <Popover anchorEl={anchorEl} classes={{ paper: 'Menu' }} onClose={handleCloseMenu} open={true}>
+                {/* open={open} */}
+                <div className="filter-menu">
+                    {filterData?.map((item) => {
+                        return (
+                            <div key={item.name}>
+                                <p>{item.label}</p>
+                                {item?.data.map((data) => {
+                                    return (
+                                        <MenuItem className="filter-item">
+                                            <Checkbox onClick={() => handleClickCB(item)} checked={true} />
+
+                                            {data.view === 'label' ? (
+                                                <label
+                                                    style={{
+                                                        fontSize: '12px',
+                                                        color: data.color,
+                                                        background: data.background,
+                                                        borderRadius: '4px',
+                                                        paddingRight: '5px',
+                                                        paddingLeft: '5px',
+                                                        marginLeft: '5px'
+                                                    }}
+                                                >
+                                                    {data.name}
+                                                </label>
+                                            ) : (
+                                                <label
+                                                    style={{
+                                                        fontSize: '12px',
+                                                        marginLeft: '5px'
+                                                    }}
+                                                >
+                                                    {data.name}
+                                                </label>
+                                            )}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </div>
+                            // <MenuItem key={item.name}>
+                            //     <div className="filter-item">
+                            //         <Checkbox onClick={() => handleClickCB(item)} checked={true} />
+                            //         {item.label}
+                            //     </div>
+                            // </MenuItem>
+                        );
+                        // });
+                    })}
+                </div>
             </Popover>
         </div>
     );

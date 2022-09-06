@@ -210,7 +210,7 @@ const StationsList = () => {
                         onChange={handleSearch}
                         value={searchInput}
                     />
-                    {/* <Filter width="140px" height="36px" filterBy="Tags" filterList={['val1', 'val2', 'val3', 'val4', 'val5']}></Filter> */}
+                    <Filter width="140px" height="36px" filterBy="Tags" filterList={['val1', 'val2', 'val3', 'val4', 'val5']}></Filter>
                     <Button
                         className="modal-btn"
                         width="180px"
