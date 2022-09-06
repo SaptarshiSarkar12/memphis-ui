@@ -1,15 +1,23 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the Apache License, Version 2.0 (the “License”);
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an “AS IS” BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Licensed under the MIT License (the "License");
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// This license limiting reselling the software itself "AS IS".
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import './style.scss';
 
@@ -82,7 +90,7 @@ const initialState = {
     nextDisable: false,
     isLoading: false,
     isHiddenButton: false,
-    desiredPods: null
+    actualPods: null
 };
 
 const GetStarted = (props) => {
@@ -129,7 +137,9 @@ const GetStarted = (props) => {
     const getOverviewData = async () => {
         try {
             const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
-            getStartedDispatch({ type: 'SET_DESIRED_PODS', payload: data?.system_components[1]?.desired_pods });
+            let indexOfBrokerComponent = data?.system_components.findIndex(item => item.component.includes("broker"));
+            indexOfBrokerComponent = indexOfBrokerComponent || 1;
+            getStartedDispatch({ type: 'SET_ACTUAL_PODS', payload: data?.system_components[indexOfBrokerComponent]?.actual_pods });
         } catch (error) {}
     };
 
@@ -137,7 +147,7 @@ const GetStarted = (props) => {
         <GetStartedStoreContext.Provider value={[getStartedState, getStartedDispatch]}>
             <div className="getstarted-container">
                 <h1 className="getstarted-header">Let's get you started</h1>
-                <p className="getstarted-header-description">Setup your account details to get more form the platform</p>
+                <p className="getstarted-header-description">Setup your account details to get more from the platform</p>
                 <div className="sub-getstarted-container">
                     <div className="side-step">
                         <SideStepList />
@@ -168,7 +178,7 @@ const GetStarted = (props) => {
                         {getStartedState?.currentStep === 3 && (
                             <GetStartedItem
                                 headerImage={ProduceDataImg}
-                                headerTitle="Produce data"
+                                headerTitle="Create producer"
                                 headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to produce data to memphis station"
                                 onNext={onNext}
                                 onBack={onBack}
@@ -179,7 +189,7 @@ const GetStarted = (props) => {
                         {getStartedState?.currentStep === 4 && (
                             <GetStartedItem
                                 headerImage={ConsumeDataImg}
-                                headerTitle="Consume data"
+                                headerTitle="Create consumer"
                                 headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to consume data from memphis station"
                                 onNext={onNext}
                                 onBack={onBack}

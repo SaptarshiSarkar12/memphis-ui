@@ -1,15 +1,23 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the Apache License, Version 2.0 (the “License”);
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an “AS IS” BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Licensed under the MIT License (the "License");
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// This license limiting reselling the software itself "AS IS".
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import './style.scss';
 
@@ -60,7 +68,7 @@ const storageOptions = [
 const CreateStationDetails = (props) => {
     const { chooseFactoryField = false, createStationRef, factoryName = '' } = props;
     const [factoryNames, setFactoryNames] = useState([]);
-    const [desiredPods, setDesiredPods] = useState(null);
+    const [actualPods, setActualPods] = useState(null);
     const [loading, setLoading] = useState([]);
     const [creationForm] = Form.useForm();
     const history = useHistory();
@@ -84,8 +92,10 @@ const CreateStationDetails = (props) => {
     const getOverviewData = async () => {
         try {
             const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
-            data?.system_components[1]?.desired_pods && setDesiredPods(data?.system_components[1]?.desired_pods);
-        } catch (error) {}
+            let indexOfBrokerComponent = data?.system_components.findIndex(item => item.component.includes("broker"));
+            indexOfBrokerComponent = indexOfBrokerComponent || 1;
+            data?.system_components[indexOfBrokerComponent]?.actual_pods && setActualPods(data?.system_components[indexOfBrokerComponent]?.actual_pods);
+        } catch (error) { }
     };
 
     const getAllFactories = async () => {
@@ -105,7 +115,7 @@ const CreateStationDetails = (props) => {
                     creationForm.setFieldsValue({ ['factories_List']: factories });
                 }
             }
-        } catch (error) {}
+        } catch (error) { }
         setLoading(false);
     };
 
@@ -167,7 +177,7 @@ const CreateStationDetails = (props) => {
                     replicas: values.replicas
                 };
                 createStation(bodyRequest);
-            } catch (error) {}
+            } catch (error) { }
         }
     };
 
@@ -177,7 +187,7 @@ const CreateStationDetails = (props) => {
             if (data) {
                 history.push(`${pathDomains.factoriesList}/${bodyRequest.factory_name}/${data.name}`);
             }
-        } catch (error) {}
+        } catch (error) { }
     };
 
     return (
@@ -190,7 +200,7 @@ const CreateStationDetails = (props) => {
                         message: 'Please input station name!'
                     }
                 ]}
-                style={{ marginBottom: '0' }}
+                style={{ height: '70px' }}
             >
                 <div className="station-name">
                     <p className="field-title">
@@ -203,7 +213,6 @@ const CreateStationDetails = (props) => {
                         colorType="black"
                         backgroundColorType="none"
                         borderColorType="gray"
-                        width="450px"
                         height="40px"
                         onBlur={(e) => updateFormState('name', e.target.value)}
                         onChange={(e) => updateFormState('name', e.target.value)}
@@ -213,7 +222,7 @@ const CreateStationDetails = (props) => {
             </Form.Item>
             <div className="retention">
                 <p className="field-title">
-                    Retention <Helper text="By which criteria messages will be expel from the station" />
+                    Retention <Helper text="By which criteria messages will be expelled from the station" />
                 </p>
                 <Form.Item name="retention_type" initialValue={formFields.retention_type}>
                     <RadioButton options={retanionOptions} radioValue={formFields.retention_type} onChange={(e) => updateFormState('retention_type', e.target.value)} />
@@ -250,8 +259,8 @@ const CreateStationDetails = (props) => {
                     </div>
                 )}
                 {formFields.retention_type === 'bytes' && (
-                    <Form.Item name="retentionSizeValue" initialValue={retentionSizeValue}>
-                        <div className="size-value">
+                    <div className="retention-type">
+                        <Form.Item name="retentionSizeValue" initialValue={retentionSizeValue}>
                             <Input
                                 placeholder="Type"
                                 type="number"
@@ -265,13 +274,13 @@ const CreateStationDetails = (props) => {
                                 onChange={(e) => handleRetentionSizeChange(e)}
                                 value={retentionSizeValue}
                             />
-                            <p>bytes</p>
-                        </div>
-                    </Form.Item>
+                        </Form.Item>
+                        <p>bytes</p>
+                    </div>
                 )}
                 {formFields.retention_type === 'messages' && (
-                    <Form.Item name="retentionMessagesValue" initialValue={retentionMessagesValue}>
-                        <div className="messages-value">
+                    <div className="retention-type">
+                        <Form.Item name="retentionMessagesValue" initialValue={retentionMessagesValue}>
                             <Input
                                 placeholder="Type"
                                 type="number"
@@ -285,9 +294,9 @@ const CreateStationDetails = (props) => {
                                 onChange={(e) => handleRetentionMessagesChange(e)}
                                 value={retentionMessagesValue}
                             />
-                            <p>messages</p>
-                        </div>
-                    </Form.Item>
+                        </Form.Item>
+                        <p>messages</p>
+                    </div>
                 )}
             </div>
             <div className="storage">
@@ -307,7 +316,7 @@ const CreateStationDetails = (props) => {
                         <InputNumber
                             bordered={false}
                             min={1}
-                            max={desiredPods && desiredPods <= 5 ? desiredPods : 5}
+                            max={actualPods && actualPods <= 5 ? actualPods : 5}
                             keyboard={true}
                             value={formFields.replicas}
                             onChange={(e) => updateFormState('replicas', e.target.value)}
@@ -326,7 +335,6 @@ const CreateStationDetails = (props) => {
                             backgroundColorType="none"
                             borderColorType="gray"
                             radiusType="semi-round"
-                            width="450px"
                             height="40px"
                             options={factoryNames}
                             onChange={(e) => updateFormState('factory_name', e)}
