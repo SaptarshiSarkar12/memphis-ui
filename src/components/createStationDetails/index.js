@@ -68,7 +68,7 @@ const storageOptions = [
 const CreateStationDetails = (props) => {
     const { chooseFactoryField = false, createStationRef, factoryName = '' } = props;
     const [factoryNames, setFactoryNames] = useState([]);
-    const [desiredPods, setDesiredPods] = useState(null);
+    const [actualPods, setActualPods] = useState(null);
     const [loading, setLoading] = useState([]);
     const [creationForm] = Form.useForm();
     const history = useHistory();
@@ -92,8 +92,10 @@ const CreateStationDetails = (props) => {
     const getOverviewData = async () => {
         try {
             const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
-            data?.system_components[1]?.desired_pods && setDesiredPods(data?.system_components[1]?.desired_pods);
-        } catch (error) {}
+            let indexOfBrokerComponent = data?.system_components.findIndex(item => item.component.includes("broker"));
+            indexOfBrokerComponent = indexOfBrokerComponent || 1;
+            data?.system_components[indexOfBrokerComponent]?.actual_pods && setActualPods(data?.system_components[indexOfBrokerComponent]?.actual_pods);
+        } catch (error) { }
     };
 
     const getAllFactories = async () => {
@@ -113,7 +115,7 @@ const CreateStationDetails = (props) => {
                     creationForm.setFieldsValue({ ['factories_List']: factories });
                 }
             }
-        } catch (error) {}
+        } catch (error) { }
         setLoading(false);
     };
 
@@ -175,7 +177,7 @@ const CreateStationDetails = (props) => {
                     replicas: values.replicas
                 };
                 createStation(bodyRequest);
-            } catch (error) {}
+            } catch (error) { }
         }
     };
 
@@ -185,7 +187,7 @@ const CreateStationDetails = (props) => {
             if (data) {
                 history.push(`${pathDomains.factoriesList}/${bodyRequest.factory_name}/${data.name}`);
             }
-        } catch (error) {}
+        } catch (error) { }
     };
 
     return (
@@ -314,7 +316,7 @@ const CreateStationDetails = (props) => {
                         <InputNumber
                             bordered={false}
                             min={1}
-                            max={desiredPods && desiredPods <= 5 ? desiredPods : 5}
+                            max={actualPods && actualPods <= 5 ? actualPods : 5}
                             keyboard={true}
                             value={formFields.replicas}
                             onChange={(e) => updateFormState('replicas', e.target.value)}

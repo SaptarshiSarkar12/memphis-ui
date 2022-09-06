@@ -90,7 +90,7 @@ const initialState = {
     nextDisable: false,
     isLoading: false,
     isHiddenButton: false,
-    desiredPods: null
+    actualPods: null
 };
 
 const GetStarted = (props) => {
@@ -137,7 +137,9 @@ const GetStarted = (props) => {
     const getOverviewData = async () => {
         try {
             const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
-            getStartedDispatch({ type: 'SET_DESIRED_PODS', payload: data?.system_components[1]?.desired_pods });
+            let indexOfBrokerComponent = data?.system_components.findIndex(item => item.component.includes("broker"));
+            indexOfBrokerComponent = indexOfBrokerComponent || 1;
+            getStartedDispatch({ type: 'SET_ACTUAL_PODS', payload: data?.system_components[indexOfBrokerComponent]?.actual_pods });
         } catch (error) {}
     };
 
