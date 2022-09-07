@@ -21,8 +21,8 @@
 
 import './style.scss';
 
-import React, { useEffect } from 'react';
 import { Modal } from 'antd';
+import React from 'react';
 
 import Button from '../button';
 

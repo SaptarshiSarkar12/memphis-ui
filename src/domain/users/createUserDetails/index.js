@@ -24,12 +24,12 @@ import './style.scss';
 import React, { useEffect, useState } from 'react';
 import { Form } from 'antd';
 
-import Input from '../../../components/Input';
-import RadioButton from '../../../components/radioButton';
-import { httpRequest } from '../../../services/http';
 import { ApiEndpoints } from '../../../const/apiEndpoints';
+import RadioButton from '../../../components/radioButton';
 import SelectComponent from '../../../components/select';
 import { generator } from '../../../services/generator';
+import { httpRequest } from '../../../services/http';
+import Input from '../../../components/Input';
 
 const CreateUserDetails = ({ createUserRef, closeModal }) => {
     const [creationForm] = Form.useForm();

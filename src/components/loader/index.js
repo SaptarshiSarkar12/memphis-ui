@@ -21,8 +21,8 @@
 
 import './style.scss';
 
-import React from 'react';
 import Lottie from 'lottie-react';
+import React from 'react';
 
 import animationData from '../../assets/lotties/MemphisGif.json';
 

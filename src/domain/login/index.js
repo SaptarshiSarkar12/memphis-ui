@@ -23,6 +23,7 @@ import './style.scss';
 
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import io from 'socket.io-client';
 import { Form } from 'antd';
 
 import { LOCAL_STORAGE_TOKEN } from '../../const/localStorageConsts';
@@ -36,7 +37,6 @@ import Loader from '../../components/loader';
 import { Context } from '../../hooks/store';
 import Input from '../../components/Input';
 import { SOCKET_URL } from '../../config';
-import io from 'socket.io-client';
 import Signup from '../signup';
 
 const Login = (props) => {

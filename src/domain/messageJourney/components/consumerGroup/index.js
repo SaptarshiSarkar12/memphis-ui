@@ -22,6 +22,7 @@
 import './style.scss';
 
 import React, { useEffect, useState } from 'react';
+
 import MultiCollapse from '../../../stationOverview/stationObservabilty/components/multiCollapse';
 
 const ConsumerGroup = ({ header, details, cgMembers }) => {

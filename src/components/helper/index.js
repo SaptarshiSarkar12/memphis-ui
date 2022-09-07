@@ -21,10 +21,11 @@
 
 import './style.scss';
 
-import React, { Fragment } from 'react';
 import HelpIcon from '@material-ui/icons/Help';
+import React, { Fragment } from 'react';
 
 import TooltipComponent from '../tooltip/tooltip';
+
 const Helper = ({ text }) => {
     return (
         <Fragment>

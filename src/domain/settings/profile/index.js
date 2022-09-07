@@ -25,19 +25,19 @@ import React, { useEffect, useContext, useState } from 'react';
 
 import { LOCAL_STORAGE_ALLOW_ANALYTICS, LOCAL_STORAGE_USER_NAME } from '../../../const/localStorageConsts';
 import { LOCAL_STORAGE_AVATAR_ID } from '../../../const/localStorageConsts';
+import { ApiEndpoints } from '../../../const/apiEndpoints';
 import Warning from '../../../assets/images/warning.svg';
-import Button from '../../../components/button';
-import { Context } from '../../../hooks/store';
-import Input from '../../../components/Input';
-import ImgLoader from './imgLoader';
 import Bot1 from '../../../assets/images/bots/1.svg';
 import Bot2 from '../../../assets/images/bots/2.svg';
 import Bot3 from '../../../assets/images/bots/3.svg';
-import pathDomains from '../../../router';
 import { httpRequest } from '../../../services/http';
-import { ApiEndpoints } from '../../../const/apiEndpoints';
-import Modal from '../../../components/modal';
 import Switcher from '../../../components/switcher';
+import Button from '../../../components/button';
+import { Context } from '../../../hooks/store';
+import Input from '../../../components/Input';
+import Modal from '../../../components/modal';
+import pathDomains from '../../../router';
+import ImgLoader from './imgLoader';
 
 function Profile() {
     const [userName, setUserName] = useState('');

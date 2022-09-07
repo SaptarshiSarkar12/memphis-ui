@@ -1,12 +1,3 @@
-import './style.scss';
-
-import { withStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import React, { useState } from 'react';
-
-import { getFontColor } from '../../../utils/styleTemplates';
-import comingSoonBox from '../../../assets/images/comingSoonBox.svg';
 // Copyright 2021-2022 The Memphis Authors
 // Licensed under the MIT License (the "License");
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,6 +19,15 @@ import comingSoonBox from '../../../assets/images/comingSoonBox.svg';
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import './style.scss';
+
+import { withStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import React, { useState } from 'react';
+
+import comingSoonBox from '../../../assets/images/comingSoonBox.svg';
+import { getFontColor } from '../../../utils/styleTemplates';
 import ApexChart from './areaChart';
 
 const AntTabs = withStyles({

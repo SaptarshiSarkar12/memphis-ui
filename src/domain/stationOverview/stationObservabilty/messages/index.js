@@ -20,39 +20,37 @@
 // SOFTWARE.
 
 import './style.scss';
-import { message } from 'antd';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { Checkbox } from 'antd';
-import { Space } from 'antd';
+import { InfoOutlined } from '@material-ui/icons';
+import { Checkbox, Space, message } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 import { convertBytes, numberWithCommas, parsingDate } from '../../../../services/valueConvertor';
-import Journey from '../../../../assets/images/journey.svg';
 import OverflowTip from '../../../../components/tooltip/overflowtip';
-import CustomTabs from '../../../../components/Tabs';
-import Button from '../../../../components/button';
-import { InfoOutlined } from '@material-ui/icons';
-import { StationStoreContext } from '../..';
+import { ApiEndpoints } from '../../../../const/apiEndpoints';
+import Journey from '../../../../assets/images/journey.svg';
 import CustomCollapse from '../components/customCollapse';
 import MultiCollapse from '../components/multiCollapse';
-import { useHistory } from 'react-router-dom';
 import { httpRequest } from '../../../../services/http';
-import { ApiEndpoints } from '../../../../const/apiEndpoints';
+import CustomTabs from '../../../../components/Tabs';
+import Button from '../../../../components/button';
+import { StationStoreContext } from '../..';
 
 const Messages = () => {
     const [stationState, stationDispatch] = useContext(StationStoreContext);
     const [selectedRowIndex, setSelectedRowIndex] = useState(0);
-    const [isCheck, setIsCheck] = useState([]);
     const [messageDetails, setMessageDetails] = useState({});
-    const [isCheckAll, setIsCheckAll] = useState(false);
     const [resendProcced, setResendProcced] = useState(false);
     const [ignoreProcced, setIgnoreProcced] = useState(false);
     const [loadMessageData, setLoadMessageData] = useState(false);
-    const url = window.location.href;
-    const stationName = url.split('factories/')[1].split('/')[1];
-
+    const [isCheckAll, setIsCheckAll] = useState(false);
     const [tabValue, setTabValue] = useState('0');
+    const [isCheck, setIsCheck] = useState([]);
+
+    const stationName = url.split('factories/')[1].split('/')[1];
     const tabs = ['All', 'Dead-letter'];
+    const url = window.location.href;
     const history = useHistory();
 
     useEffect(() => {

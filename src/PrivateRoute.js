@@ -19,9 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import React from 'react';
-import {} from 'react-router-dom';
 import { Route, Redirect } from 'react-router-dom';
+import React from 'react';
 
 import AuthService from './services/auth';
 

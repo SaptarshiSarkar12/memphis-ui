@@ -18,9 +18,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
 import './style.scss';
 
-import { styled } from '@material-ui/core';
 import { Switch } from 'antd';
 import React from 'react';
 

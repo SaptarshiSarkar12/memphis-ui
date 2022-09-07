@@ -20,11 +20,11 @@
 // SOFTWARE.
 
 import React, { useRef, useEffect, useState } from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const OverflowTip = (props) => {
-    const tooltipStyle = makeStyles((theme) => ({
+    const tooltipStyle = makeStyles(() => ({
         tooltip: {
             color: props.color === 'white' ? '#2B2E3F' : '#f7f7f7',
             backgroundColor: props.color === 'white' ? '#f7f7f7' : '#2B2E3F',

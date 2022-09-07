@@ -23,21 +23,21 @@ import './style.scss';
 
 import React, { createContext, useEffect, useReducer, useRef } from 'react';
 
-import CreateStationForm from './createStationForm';
-import SideStep from './sideStep';
-import CreateAppUser from './createAppUser';
-import ConsumeData from './consumeData';
-import Reducer from './hooks/reducer';
-import ProduceData from './produceData';
 import GetStartedItem from '../../../components/getStartedItem';
 import GetStartedIcon from '../../../assets/images/getStartedIcon.svg';
 import AppUserIcon from '../../../assets/images/usersIconActive.svg';
 import ProduceDataImg from '../../../assets/images/produceData.svg';
 import ConsumeDataImg from '../../../assets/images/consumeData.svg';
 import finishStep from '../../../assets/lotties/finishStep.json';
-import Finish from './finish';
-import { httpRequest } from '../../../services/http';
 import { ApiEndpoints } from '../../../const/apiEndpoints';
+import { httpRequest } from '../../../services/http';
+import CreateStationForm from './createStationForm';
+import CreateAppUser from './createAppUser';
+import ConsumeData from './consumeData';
+import ProduceData from './produceData';
+import Reducer from './hooks/reducer';
+import SideStep from './sideStep';
+import Finish from './finish';
 
 const steps = [{ stepName: 'Create Station' }, { stepName: 'Create App user' }, { stepName: 'Produce data' }, { stepName: 'Consume data' }, { stepName: 'Finish' }];
 
@@ -137,7 +137,7 @@ const GetStarted = (props) => {
     const getOverviewData = async () => {
         try {
             const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
-            let indexOfBrokerComponent = data?.system_components.findIndex(item => item.component.includes("broker"));
+            let indexOfBrokerComponent = data?.system_components.findIndex((item) => item.component.includes('broker'));
             indexOfBrokerComponent = indexOfBrokerComponent || 1;
             getStartedDispatch({ type: 'SET_ACTUAL_PODS', payload: data?.system_components[indexOfBrokerComponent]?.actual_pods });
         } catch (error) {}

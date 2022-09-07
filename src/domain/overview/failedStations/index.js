@@ -21,14 +21,14 @@
 
 import './style.scss';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import OverflowTip from '../../../components/tooltip/overflowtip';
+import { parsingDate } from '../../../services/valueConvertor';
 import ErrorSharpIcon from '@material-ui/icons/ErrorSharp';
 import { Context } from '../../../hooks/store';
 import pathDomains from '../../../router';
-import { parsingDate } from '../../../services/valueConvertor';
-import OverflowTip from '../../../components/tooltip/overflowtip';
 
 const FailedStations = () => {
     const [state, dispatch] = useContext(Context);

@@ -21,8 +21,8 @@
 
 import './App.scss';
 
-import { Switch, Route, withRouter } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import io from 'socket.io-client';
 import { message } from 'antd';
@@ -39,6 +39,7 @@ import SandboxLogin from './domain/sandboxLogin';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
+import SchemaList from './domain/Schema';
 import Overview from './domain/overview';
 import Settings from './domain/settings';
 import { Context } from './hooks/store';
@@ -46,7 +47,6 @@ import SysLogs from './domain/sysLogs';
 import pathDomains from './router';
 import Users from './domain/users';
 import Login from './domain/login';
-import SchemaList from './domain/Schema';
 
 const App = withRouter(() => {
     const [state, dispatch] = useContext(Context);
@@ -166,9 +166,9 @@ const App = withRouter(() => {
                                 ></AppWrapper>
                             }
                         />
-                        {/* <PrivateRoute
+                        <PrivateRoute
                             exact
-                            path={pathDomains.schema}
+                            path={pathDomains.factoriesList}
                             component={
                                 <AppWrapper
                                     content={
@@ -178,7 +178,7 @@ const App = withRouter(() => {
                                     }
                                 ></AppWrapper>
                             }
-                        /> */}
+                        />
                         <PrivateRoute
                             exact
                             path={`${pathDomains.factoriesList}/:id`}

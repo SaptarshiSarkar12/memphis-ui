@@ -22,17 +22,17 @@
 import './style.scss';
 
 import React, { useState, useEffect } from 'react';
-import { Button, Form, InputNumber } from 'antd';
+import { Form, InputNumber } from 'antd';
 
-import RadioButton from '../radioButton';
-import Input from '../Input';
-import SelectComponent from '../select';
-import { httpRequest } from '../../services/http';
-import { ApiEndpoints } from '../../const/apiEndpoints';
 import { convertDateToSeconds } from '../../services/valueConvertor';
+import { ApiEndpoints } from '../../const/apiEndpoints';
+import { httpRequest } from '../../services/http';
 import { useHistory } from 'react-router';
+import RadioButton from '../radioButton';
+import SelectComponent from '../select';
 import pathDomains from '../../router';
 import Helper from '../helper';
+import Input from '../Input';
 
 const retanionOptions = [
     {
@@ -92,10 +92,10 @@ const CreateStationDetails = (props) => {
     const getOverviewData = async () => {
         try {
             const data = await httpRequest('GET', ApiEndpoints.GET_MAIN_OVERVIEW_DATA);
-            let indexOfBrokerComponent = data?.system_components.findIndex(item => item.component.includes("broker"));
+            let indexOfBrokerComponent = data?.system_components.findIndex((item) => item.component.includes('broker'));
             indexOfBrokerComponent = indexOfBrokerComponent || 1;
             data?.system_components[indexOfBrokerComponent]?.actual_pods && setActualPods(data?.system_components[indexOfBrokerComponent]?.actual_pods);
-        } catch (error) { }
+        } catch (error) {}
     };
 
     const getAllFactories = async () => {
@@ -115,7 +115,7 @@ const CreateStationDetails = (props) => {
                     creationForm.setFieldsValue({ ['factories_List']: factories });
                 }
             }
-        } catch (error) { }
+        } catch (error) {}
         setLoading(false);
     };
 
@@ -177,7 +177,7 @@ const CreateStationDetails = (props) => {
                     replicas: values.replicas
                 };
                 createStation(bodyRequest);
-            } catch (error) { }
+            } catch (error) {}
         }
     };
 
@@ -187,7 +187,7 @@ const CreateStationDetails = (props) => {
             if (data) {
                 history.push(`${pathDomains.factoriesList}/${bodyRequest.factory_name}/${data.name}`);
             }
-        } catch (error) { }
+        } catch (error) {}
     };
 
     return (

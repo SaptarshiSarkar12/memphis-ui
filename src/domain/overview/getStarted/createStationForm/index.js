@@ -20,14 +20,16 @@
 // SOFTWARE.
 
 import './style.scss';
+
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, InputNumber } from 'antd';
-import TitleComponent from '../../../../components/titleComponent';
-import RadioButton from '../../../../components/radioButton';
-import Input from '../../../../components/Input';
+
 import { convertDateToSeconds } from '../../../../services/valueConvertor';
+import TitleComponent from '../../../../components/titleComponent';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
+import RadioButton from '../../../../components/radioButton';
 import { httpRequest } from '../../../../services/http';
+import Input from '../../../../components/Input';
 import { GetStartedStoreContext } from '..';
 
 const retanionOptions = [

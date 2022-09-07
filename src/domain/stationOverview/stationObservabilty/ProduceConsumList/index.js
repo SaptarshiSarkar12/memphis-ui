@@ -22,15 +22,14 @@
 import './style.scss';
 
 import React, { useContext, useEffect, useState } from 'react';
+import { Space } from 'antd';
 
+import { numberWithCommas } from '../../../../services/valueConvertor';
 import OverflowTip from '../../../../components/tooltip/overflowtip';
-
-import { StationStoreContext } from '../..';
 import StatusIndication from '../../../../components/indication';
 import CustomCollapse from '../components/customCollapse';
 import MultiCollapse from '../components/multiCollapse';
-import { Space } from 'antd';
-import { numberWithCommas } from '../../../../services/valueConvertor';
+import { StationStoreContext } from '../..';
 
 const ProduceConsumList = (props) => {
     const [stationState, stationDispatch] = useContext(StationStoreContext);

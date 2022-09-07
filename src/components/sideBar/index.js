@@ -22,13 +22,13 @@
 import './style.scss';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 
-import overviewIconActive from '../../assets/images/overviewIconActive.svg';
+import { LOCAL_STORAGE_AVATAR_ID, LOCAL_STORAGE_COMPANY_LOGO, LOCAL_STORAGE_FULL_NAME, LOCAL_STORAGE_USER_NAME } from '../../const/localStorageConsts';
 import factoriesIconActive from '../../assets/images/factoriesIconActive.svg';
+import overviewIconActive from '../../assets/images/overviewIconActive.svg';
 import schemaIconActive from '../../assets/images/schemaIconActive.svg';
 import usersIconActive from '../../assets/images/usersIconActive.svg';
 import factoriesIcon from '../../assets/images/factoriesIcon.svg';
@@ -38,22 +38,16 @@ import accountIcon from '../../assets/images/accountIcon.svg';
 import logoutIcon from '../../assets/images/logoutIcon.svg';
 import schemaIcon from '../../assets/images/schemaIcon.svg';
 import usersIcon from '../../assets/images/usersIcon.svg';
-import Logo from '../../assets/images/logo.svg';
 import BetaLogo from '../../assets/images/betaLogo.svg';
+import { ApiEndpoints } from '../../const/apiEndpoints';
+import Logo from '../../assets/images/logo.svg';
+import { httpRequest } from '../../services/http';
+import AuthService from '../../services/auth';
 import { Context } from '../../hooks/store';
 import pathDomains from '../../router';
-import AuthService from '../../services/auth';
-import { LOCAL_STORAGE_AVATAR_ID, LOCAL_STORAGE_COMPANY_LOGO, LOCAL_STORAGE_FULL_NAME, LOCAL_STORAGE_USER_NAME } from '../../const/localStorageConsts';
-import { httpRequest } from '../../services/http';
-import { ApiEndpoints } from '../../const/apiEndpoints';
 import { DOC_URL } from '../../config';
 
 const { SubMenu } = Menu;
-
-const Desktop = ({ children }) => {
-    const isDesktop = useMediaQuery({ minWidth: 850 });
-    return isDesktop ? children : null;
-};
 
 function SideBar() {
     const [state, dispatch] = useContext(Context);

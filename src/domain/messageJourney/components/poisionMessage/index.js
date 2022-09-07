@@ -21,13 +21,14 @@
 
 import './style.scss';
 
-import React, { useState } from 'react';
-import Button from '../../../../components/button';
-import CustomCollapse from '../../../stationOverview/stationObservabilty/components/customCollapse';
-import { Space } from 'antd';
-import { httpRequest } from '../../../../services/http';
-import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import { message as messageAnt } from 'antd';
+import React, { useState } from 'react';
+import { Space } from 'antd';
+
+import CustomCollapse from '../../../stationOverview/stationObservabilty/components/customCollapse';
+import { ApiEndpoints } from '../../../../const/apiEndpoints';
+import { httpRequest } from '../../../../services/http';
+import Button from '../../../../components/button';
 
 const PoisionMessage = ({ stationName, messageId, details, message, processing, returnBack }) => {
     const [resendProcess, setResendProcess] = useState(false);

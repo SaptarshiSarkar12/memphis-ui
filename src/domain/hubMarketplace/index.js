@@ -33,9 +33,9 @@ import { getFontColor } from '../../utils/styleTemplates';
 import Seperator from '../../assets/images/seperator.svg';
 import ConnectToHub from '../../components/connectToHub';
 import Connect from '../../assets/images/connect.svg';
-import Button from '../../components/button';
 import Close from '../../assets/images/close.svg';
 import FunctionDetails from './functionDetails';
+import Button from '../../components/button';
 import FunctionsList from './functionsList';
 
 const AntTabs = withStyles({

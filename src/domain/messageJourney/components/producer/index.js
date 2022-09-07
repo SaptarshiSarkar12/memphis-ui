@@ -22,6 +22,7 @@
 import './style.scss';
 
 import React from 'react';
+
 import StatusIndication from '../../../../components/indication';
 
 const Producer = ({ data }) => {

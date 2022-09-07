@@ -20,8 +20,9 @@
 // SOFTWARE.
 
 import React, { useContext, useEffect, useState } from 'react';
-import prodWaiting from '../../../../assets/lotties/prodWaiting.json';
+
 import ProduceConsumeData, { produceConsumeScreenEnum } from '../produceConsumeData';
+import prodWaiting from '../../../../assets/lotties/prodWaiting.json';
 import { GetStartedStoreContext } from '..';
 
 const ProduceData = (props) => {

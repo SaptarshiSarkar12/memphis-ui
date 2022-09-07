@@ -22,15 +22,16 @@
 import './style.scss';
 
 import React, { useContext, useEffect } from 'react';
-import Button from '../../../../components/button';
-import docsLogo from '../../../../assets/images/docsLogo.svg';
-import GithubLogo from '../../../../assets/images/githubLogo.svg';
-import discordLogo from '../../../../assets/images/discordLogo.svg';
 import { Link, useHistory } from 'react-router-dom';
-import { GetStartedStoreContext } from '..';
-import pathDomains from '../../../../router';
+
+import discordLogo from '../../../../assets/images/discordLogo.svg';
+import GithubLogo from '../../../../assets/images/githubLogo.svg';
+import docsLogo from '../../../../assets/images/docsLogo.svg';
 import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import { httpRequest } from '../../../../services/http';
+import Button from '../../../../components/button';
+import { GetStartedStoreContext } from '..';
+import pathDomains from '../../../../router';
 
 const Finish = (props) => {
     const { createStationFormRef } = props;

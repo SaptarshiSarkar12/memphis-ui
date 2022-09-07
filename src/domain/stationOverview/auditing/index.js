@@ -23,10 +23,7 @@ import './style.scss';
 
 import React, { useState } from 'react';
 
-import CustomTabs from '../../../components/Tabs';
 import GenericList from './genericList';
-import { Divider } from 'antd';
-import comingSoonBox from '../../../assets/images/comingSoonBox.svg';
 
 const auditColumns = [
     {
@@ -48,21 +45,8 @@ const auditColumns = [
 
 const Auditing = () => {
     const [tabValue, setTabValue] = useState(0);
-    const tabs = ['Audit'];
 
-    const handleChangeMenuItem = (_, newValue) => {
-        setTabValue(newValue);
-    };
-
-    return (
-        // <div className="auditing-container">
-        //     {tabValue === 0 && <p className="audit-hint">*last 30 days</p>}
-        //     <CustomTabs value={tabValue} onChange={handleChangeMenuItem} tabs={tabs}></CustomTabs>
-        //     <Divider />
-        //     <div className="auditing-body">{tabValue === 0 && <GenericList tab={tabValue} columns={auditColumns} />}</div>
-        // </div>
-        <GenericList tab={tabValue} columns={auditColumns} />
-    );
+    return <GenericList tab={tabValue} columns={auditColumns} />;
 };
 
 export default Auditing;

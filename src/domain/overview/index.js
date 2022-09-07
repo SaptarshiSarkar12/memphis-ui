@@ -22,6 +22,7 @@
 import './style.scss';
 
 import React, { useEffect, useContext, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
     LOCAL_STORAGE_ALREADY_LOGGED_IN,
@@ -37,7 +38,6 @@ import docsLogo from '../../assets/images/docsLogo.svg';
 import { ApiEndpoints } from '../../const/apiEndpoints';
 import welcome from '../../assets/images/welcome.svg';
 import { httpRequest } from '../../services/http';
-import { useMediaQuery } from 'react-responsive';
 import GenericDetails from './genericDetails';
 import FailedStations from './failedStations';
 import Loader from '../../components/loader';
@@ -45,20 +45,9 @@ import Button from '../../components/button';
 import { Context } from '../../hooks/store';
 import SysComponents from './sysComponents';
 import Modal from '../../components/modal';
-import { PRIVACY_URL } from '../../config';
-import { Link } from 'react-router-dom';
 import GetStarted from './getStarted';
 import Throughput from './throughput';
 import Resources from './resources';
-
-const Desktop = ({ children }) => {
-    const isDesktop = useMediaQuery({ minWidth: 850 });
-    return isDesktop ? children : null;
-};
-const Mobile = ({ children }) => {
-    const isMobile = useMediaQuery({ maxWidth: 849 });
-    return isMobile ? children : null;
-};
 
 function OverView() {
     const [state, dispatch] = useContext(Context);

@@ -23,22 +23,22 @@ import './style.scss';
 
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import io from 'socket.io-client';
 import { Form } from 'antd';
 
+import { GOOGLE_CLIENT_ID, GITHUB_CLIENT_ID, REDIRECT_URI, SOCKET_URL } from '../../config';
 import { LOCAL_STORAGE_TOKEN } from '../../const/localStorageConsts';
 import betaFullLogo from '../../assets/images/betaFullLogo.svg';
+import GitHubLogo from '../../assets/images/githubLogo.svg';
+import GoogleLogo from '../../assets/images/GoogleLogo.png';
 import { ApiEndpoints } from '../../const/apiEndpoints';
 import sharps from '../../assets/images/sharps.svg';
 import { httpRequest } from '../../services/http';
 import AuthService from '../../services/auth';
 import Button from '../../components/button';
 import Loader from '../../components/loader';
-import GitHubLogo from '../../assets/images/githubLogo.svg';
-import GoogleLogo from '../../assets/images/GoogleLogo.png';
 import { Context } from '../../hooks/store';
 import Input from '../../components/Input';
-import io from 'socket.io-client';
-import { GOOGLE_CLIENT_ID, GITHUB_CLIENT_ID, REDIRECT_URI, SOCKET_URL } from '../../config';
 
 const SandboxLogin = (props) => {
     const [state, dispatch] = useContext(Context);

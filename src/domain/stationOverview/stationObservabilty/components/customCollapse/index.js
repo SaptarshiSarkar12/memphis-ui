@@ -18,16 +18,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
 import './style.scss';
 
 import React, { useEffect, useState } from 'react';
 import { Collapse } from 'antd';
 
 import CollapseArrow from '../../../../../assets/images/collapseArrow.svg';
-import Copy from '../../../../../assets/images/copy.svg';
 import Copied from '../../../../../assets/images/copied.svg';
-import StatusIndication from '../../../../../components/indication';
-import { Details } from '@material-ui/icons';
+import Copy from '../../../../../assets/images/copy.svg';
 
 const { Panel } = Collapse;
 
@@ -53,7 +52,6 @@ const CustomCollapse = ({ status, data, header, defaultOpen, message }) => {
                     <div className="collapse-header">
                         <p className="title">{header}</p>
                         <status is="x3d">
-                            {/* {status && <StatusIndication is_active={data?.is_active} is_deleted={data?.is_deleted} />} */}
                             <img className={activeKey[0] === '1' ? 'collapse-arrow open' : 'collapse-arrow close'} src={CollapseArrow} alt="collapse-arrow" />
                         </status>
                     </div>

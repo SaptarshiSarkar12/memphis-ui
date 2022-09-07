@@ -19,9 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import React from 'react';
-import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
+import React from 'react';
 
 export default function ApexChart(props) {
     const series = [(props.data.usage / props.data.total) * 100];

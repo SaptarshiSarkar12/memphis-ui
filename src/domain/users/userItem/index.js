@@ -22,11 +22,12 @@
 import './style.scss';
 
 import React, { useEffect, useState } from 'react';
-import UserType from './userType';
-import { httpRequest } from '../../../services/http';
-import { ApiEndpoints } from '../../../const/apiEndpoints';
-import Modal from '../../../components/modal';
+
 import { parsingDate } from '../../../services/valueConvertor';
+import { ApiEndpoints } from '../../../const/apiEndpoints';
+import { httpRequest } from '../../../services/http';
+import Modal from '../../../components/modal';
+import UserType from './userType';
 
 function UserItem(props) {
     const defaultBotId = 1;

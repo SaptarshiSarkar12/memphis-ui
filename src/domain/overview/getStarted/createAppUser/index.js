@@ -18,23 +18,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
 import './style.scss';
 
 import React, { useState, useEffect, useContext } from 'react';
 import Lottie from 'lottie-react';
 
-import { httpRequest } from '../../../../services/http';
-import { ApiEndpoints } from '../../../../const/apiEndpoints';
-import Button from '../../../../components/button';
-import CopyIcon from '../../../../assets/images/copy.svg';
-import Information from '../../../../assets/images/information.svg';
-import UserCheck from '../../../../assets/images/userCheck.svg';
+import SelectedClipboard from '../../../../assets/images/selectedClipboard.svg';
 import userCreator from '../../../../assets/lotties/userCreator.json';
+import Information from '../../../../assets/images/information.svg';
 import ClickableImage from '../../../../components/clickableImage';
+import TitleComponent from '../../../../components/titleComponent';
+import UserCheck from '../../../../assets/images/userCheck.svg';
+import { ApiEndpoints } from '../../../../const/apiEndpoints';
+import CopyIcon from '../../../../assets/images/copy.svg';
+import { httpRequest } from '../../../../services/http';
+import Button from '../../../../components/button';
 import Input from '../../../../components/Input';
 import { GetStartedStoreContext } from '..';
-import SelectedClipboard from '../../../../assets/images/selectedClipboard.svg';
-import TitleComponent from '../../../../components/titleComponent';
 
 const screenEnum = {
     CREATE_USER_PAGE: 0,

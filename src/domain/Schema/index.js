@@ -21,25 +21,20 @@
 
 import './style.scss';
 
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
 
-import CreateFactoryDetails from './createFactoryDetails';
 import emptyList from '../../assets/images/emptyList.svg';
 import { ApiEndpoints } from '../../const/apiEndpoints';
+import SearchInput from '../../components/searchInput';
 import { httpRequest } from '../../services/http';
 import Button from '../../components/button';
 import Loader from '../../components/loader';
 import { Context } from '../../hooks/store';
-import Modal from '../../components/modal';
-import Factory from './factory';
-import SearchInput from '../../components/searchInput';
-import { SearchOutlined } from '@material-ui/icons';
 
 function SchemaList() {
     const [state, dispatch] = useContext(Context);
     const [schemaList, setSchemaList] = useState([]);
-    const [modalIsOpen, modalFlip] = useState(false);
-    const createFactoryRef = useRef(null);
     const [isLoading, setisLoading] = useState(false);
 
     const getSchemas = async () => {
@@ -58,42 +53,50 @@ function SchemaList() {
         getSchemas();
     }, []);
 
-    useEffect(() => {
-        state.socket?.on('factories_overview_data', (data) => {
-            setSchemaList(data);
-        });
-
-        setTimeout(() => {
-            state.socket?.emit('register_factories_overview_data');
-        }, 1000);
-        return () => {
-            state.socket?.emit('deregister');
-        };
-    }, [state.socket]);
-
-    const removeFactory = (id) => {
-        setSchemaList(schemaList.filter((item) => item.id !== id));
-    };
     return (
         <div className="schema-container">
             <h1 className="main-header-h1">Schema</h1>
             <div className="action-section">
                 <SearchInput
-                    placeholder="Search here"
+                    placeholder="Search schema"
                     colorType="navy"
-                    backgroundColorType="none"
-                    width="10vw"
-                    height="27px"
+                    backgroundColorType="gray-dark"
+                    width="288px"
+                    height="34px"
                     borderRadiusType="circle"
-                    borderColorType="gray"
-                    boxShadowsType="gray"
+                    borderColorType="none"
+                    boxShadowsType="none"
                     iconComponent={<SearchOutlined />}
                     // onChange={handleSearch}
                     // value={searchInput}
                 />
                 <Button
+                    width="111px"
+                    height="34px"
+                    placeholder={'Filters'}
+                    colorType="black"
+                    radiusType="circle"
+                    backgroundColorType="white"
+                    fontSize="12px"
+                    fontWeight="600"
+                    aria-haspopup="true"
+                    // onClick={() => addUserModalFlip(true)}
+                />
+                <Button
+                    width="81px"
+                    height="34px"
+                    placeholder={'Sort'}
+                    colorType="black"
+                    radiusType="circle"
+                    backgroundColorType="white"
+                    fontSize="12px"
+                    fontWeight="600"
+                    aria-haspopup="true"
+                    // onClick={() => addUserModalFlip(true)}
+                />
+                <Button
                     width="160px"
-                    height="36px"
+                    height="34px"
                     placeholder={'Create from blank'}
                     colorType="white"
                     radiusType="circle"
@@ -105,7 +108,7 @@ function SchemaList() {
                 />
                 <Button
                     width="145px"
-                    height="36px"
+                    height="34px"
                     placeholder={'Import schema'}
                     colorType="white"
                     radiusType="circle"
@@ -116,25 +119,25 @@ function SchemaList() {
                     // onClick={() => addUserModalFlip(true)}
                 />
             </div>
-            <div className="factories-list">
+            <div className="schema-list">
                 {isLoading && (
                     <div className="loader-uploading">
                         <Loader />
                     </div>
                 )}
-                {schemaList.map((factory) => {
-                    return <Factory key={factory.id} content={factory} removeFactory={() => removeFactory(factory.id)}></Factory>;
+                {schemaList.map((schema, index) => {
+                    return <div></div>;
                 })}
                 {!isLoading && schemaList.length === 0 && (
-                    <div className="no-factory-to-display">
+                    <div className="no-schema-to-display">
                         <img src={emptyList} width="100" height="100" alt="emptyList" />
-                        <p>There are no factories yet</p>
-                        <p className="sub-title">Get started by creating a factory</p>
+                        <p>There are no schema yet</p>
+                        <p className="sub-title">Get started by creating your first schema</p>
                         <Button
                             className="modal-btn"
                             width="240px"
                             height="50px"
-                            placeholder="Create your first factory"
+                            placeholder="Create your first schema"
                             colorType="white"
                             radiusType="circle"
                             backgroundColorType="purple"
@@ -142,29 +145,11 @@ function SchemaList() {
                             fontWeight="600"
                             aria-controls="usecse-menu"
                             aria-haspopup="true"
-                            onClick={() => modalFlip(true)}
+                            // onClick={() => modalFlip(true)}
                         />
                     </div>
                 )}
             </div>
-            <Modal
-                header="Create a factory"
-                height="380px"
-                width="440px"
-                rBtnText="Create"
-                lBtnText="Cancel"
-                lBtnClick={() => {
-                    modalFlip(false);
-                }}
-                clickOutside={() => modalFlip(false)}
-                rBtnClick={() => {
-                    createFactoryRef.current();
-                    // modalFlip(false);
-                }}
-                open={modalIsOpen}
-            >
-                <CreateFactoryDetails createFactoryRef={createFactoryRef} />
-            </Modal>
         </div>
     );
 }

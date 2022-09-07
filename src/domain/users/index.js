@@ -24,15 +24,15 @@ import './style.scss';
 import React, { useEffect, useContext, useState, useRef } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 
-import SearchInput from '../../components/searchInput';
 import { ApiEndpoints } from '../../const/apiEndpoints';
+import SearchInput from '../../components/searchInput';
 import CreateUserDetails from './createUserDetails';
 import { httpRequest } from '../../services/http';
+import Loader from '../../components/loader';
 import Button from '../../components/button';
 import { Context } from '../../hooks/store';
 import Modal from '../../components/modal';
 import UserItem from './userItem';
-import Loader from '../../components/loader';
 
 function Users() {
     const [state, dispatch] = useContext(Context);

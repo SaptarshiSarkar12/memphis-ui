@@ -52,7 +52,7 @@ function FactoriesList() {
     };
 
     useEffect(() => {
-        dispatch({ type: 'SET_ROUTE', payload: 'schema' });
+        dispatch({ type: 'SET_ROUTE', payload: 'factories' });
         getFactories();
     }, []);
 

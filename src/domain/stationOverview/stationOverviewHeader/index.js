@@ -23,28 +23,28 @@ import './style.scss';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { CopyBlock, atomOneLight } from 'react-code-blocks';
+import { InfoOutlined } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { Progress } from 'antd';
 
-import { CODE_EXAMPLE, DOCKER_CODE_EXAMPLE } from '../../../const/SDKExample';
+import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../const/localStorageConsts';
 import { convertBytes, convertSecondsToDate } from '../../../services/valueConvertor';
+import { CODE_EXAMPLE, DOCKER_CODE_EXAMPLE } from '../../../const/SDKExample';
 import averageMesIcon from '../../../assets/images/averageMesIcon.svg';
 import awaitingIcon from '../../../assets/images/awaitingIcon.svg';
+import TooltipComponent from '../../../components/tooltip/tooltip';
 import storageIcon from '../../../assets/images/storageIcon.svg';
 import memoryIcon from '../../../assets/images/memoryIcon.svg';
 import HealthyBadge from '../../../components/healthyBadge';
 import cpuIcon from '../../../assets/images/cpuIcon.svg';
 import SelectComponent from '../../../components/select';
+import CustomTabs from '../../../components/Tabs';
 import Button from '../../../components/button';
 import { Context } from '../../../hooks/store';
 import Modal from '../../../components/modal';
 import pathDomains from '../../../router';
 import { StationStoreContext } from '..';
-import TooltipComponent from '../../../components/tooltip/tooltip';
 import Auditing from '../auditing';
-import { InfoOutlined } from '@material-ui/icons';
-import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../const/localStorageConsts';
-import CustomTabs from '../../../components/Tabs';
 
 const StationOverviewHeader = (props) => {
     const [state, dispatch] = useContext(Context);

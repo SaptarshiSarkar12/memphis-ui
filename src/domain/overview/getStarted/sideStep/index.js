@@ -19,9 +19,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import React from 'react';
-import RightArrow from '../../../../assets/images/rightArrow.svg';
 import './style.scss';
+
+import React from 'react';
+
+import RightArrow from '../../../../assets/images/rightArrow.svg';
 import Done from '../../../../assets/images/done.svg';
 
 const SideStep = (props) => {

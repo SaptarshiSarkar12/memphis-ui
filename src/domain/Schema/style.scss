@@ -12,18 +12,7 @@
         justify-content: flex-end;
     }
 
-    .factories-header-flex {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        margin-top: 30px;
-        h3 {
-            font-weight: 400;
-            font-size: 14px;
-        }
-    }
-
-    .factories-list {
+    .schema-list {
         height: calc(95vh - 115px);
         width: 100%;
         position: relative;
@@ -34,7 +23,7 @@
         margin-top: 20px;
         gap: 16px;
         padding: 3px;
-        .no-factory-to-display {
+        .no-schema-to-display {
             position: relative;
             display: flex;
             flex-direction: column;
@@ -65,3 +54,4 @@
     position: absolute;
     max-height: calc(74%);
 }
+

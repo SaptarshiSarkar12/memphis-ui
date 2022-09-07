@@ -19,8 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import SideBar from '../sideBar';
 import FloatingButton from '../floatingButton';
+import SideBar from '../sideBar';
 
 function AppWrapper(props) {
     return (

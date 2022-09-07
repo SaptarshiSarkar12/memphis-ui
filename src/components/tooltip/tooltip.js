@@ -19,20 +19,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Zoom from '@material-ui/core/Zoom';
 import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+import React from 'react';
 
 const TooltipComponent = (props) => {
-    const tooltipStyle = makeStyles((theme) => ({
+    const tooltipStyle = makeStyles(() => ({
         tooltip: {
             color: props.color === 'white' ? '#2B2E3F' : '#f7f7f7',
             backgroundColor: props.color === 'white' ? '#f7f7f7' : '#2B2E3F',
             fontSize: '12px',
             fontWeight: 400,
             margin: '5px',
-            // textAlign: "center",
             boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
             whiteSpace: 'pre-line',
             minWidth: props.minWidth || '60px'

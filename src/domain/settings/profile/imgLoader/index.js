@@ -21,13 +21,13 @@
 
 import './style.scss';
 
+import { LoadingOutlined } from '@ant-design/icons';
 import React, { useContext, useState } from 'react';
 import { Upload, message, Modal } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
 
-import { httpRequest } from '../../../../services/http';
-import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import { LOCAL_STORAGE_COMPANY_LOGO } from '../../../../const/localStorageConsts';
+import { ApiEndpoints } from '../../../../const/apiEndpoints';
+import { httpRequest } from '../../../../services/http';
 import { Context } from '../../../../hooks/store';
 
 function getBase64(file) {

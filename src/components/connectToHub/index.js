@@ -28,8 +28,8 @@ import React, { useState } from 'react';
 import { Checkbox } from 'antd';
 
 import Close from '../../assets/images/close.svg';
-import Input from '../Input';
 import Button from '../button';
+import Input from '../Input';
 
 const useStyles = makeStyles((theme) => ({
     root: {

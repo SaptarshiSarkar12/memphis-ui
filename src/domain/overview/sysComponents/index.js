@@ -21,13 +21,13 @@
 
 import './style.scss';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Divider } from '@material-ui/core';
 
 import HealthyBadge from '../../../components/healthyBadge';
 import { Context } from '../../../hooks/store';
-import { Link } from 'react-router-dom';
 import pathDomains from '../../../router';
+import { Link } from 'react-router-dom';
 
 const SysComponents = () => {
     const [state, dispatch] = useContext(Context);

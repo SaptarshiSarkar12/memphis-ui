@@ -22,8 +22,9 @@
 import './style.scss';
 
 import React, { useState } from 'react';
-import ApexChart from './apexChart';
+
 import comingSoonBox from '../../../assets/images/comingSoonBox.svg';
+import ApexChart from './apexChart';
 
 const Resources = () => {
     const [resourcesTotal, setResources] = useState([

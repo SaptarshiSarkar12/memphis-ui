@@ -19,19 +19,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import React, { useState, useEffect, useContext } from 'react';
-import Lottie from 'lottie-react';
-import { CopyBlock, atomOneLight } from 'react-code-blocks';
-import SelectComponent from '../../../../components/select';
-import Button from '../../../../components/button';
-import successProdCons from '../../../../assets/lotties/successProdCons.json';
-import { GetStartedStoreContext } from '..';
-import { httpRequest } from '../../../../services/http';
-import { ApiEndpoints } from '../../../../const/apiEndpoints';
 import './style.scss';
-import TitleComponent from '../../../../components/titleComponent';
-import { CODE_EXAMPLE } from '../../../../const/SDKExample';
+
+import React, { useState, useEffect, useContext } from 'react';
+import { CopyBlock, atomOneLight } from 'react-code-blocks';
+import Lottie from 'lottie-react';
+
 import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../../const/localStorageConsts';
+import successProdCons from '../../../../assets/lotties/successProdCons.json';
+import TitleComponent from '../../../../components/titleComponent';
+import { ApiEndpoints } from '../../../../const/apiEndpoints';
+import SelectComponent from '../../../../components/select';
+import { CODE_EXAMPLE } from '../../../../const/SDKExample';
+import { httpRequest } from '../../../../services/http';
+import Button from '../../../../components/button';
+import { GetStartedStoreContext } from '..';
 
 export const produceConsumeScreenEnum = {
     DATA_SNIPPET: 0,
