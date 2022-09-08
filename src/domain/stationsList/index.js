@@ -37,7 +37,6 @@ import { parsingDate } from '../../services/valueConvertor';
 
 const StationsList = () => {
     const url = window.location.href;
-    // const urlfactoryName = url.split('factories/')[1].split('/')[0];
     const history = useHistory();
     const botId = 1;
 
@@ -45,11 +44,8 @@ const StationsList = () => {
     const [editName, seteditName] = useState(false);
     const [editDescription, seteditDescription] = useState(false);
     const [modalIsOpen, modalFlip] = useState(false);
-    const [factoryDetails, setFactoryDetails] = useState();
-    const [factoryName, setFactoryName] = useState('');
     const [stationsList, setStationList] = useState([]);
     const [searchInput, setSearchInput] = useState('');
-    const [factoryDescription, setFactoryDescription] = useState('');
     const [isLoading, setisLoading] = useState(false);
     const createStationRef = useRef(null);
     const [parseDate, setParseDate] = useState('');

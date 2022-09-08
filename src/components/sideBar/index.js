@@ -28,10 +28,10 @@ import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 
 import overviewIconActive from '../../assets/images/overviewIconActive.svg';
-import stationsIconActive from '../../assets/images/factoriesIconActive.svg';
+import stationsIconActive from '../../assets/images/stationsIconActive.svg';
 import usersIconActive from '../../assets/images/usersIconActive.svg';
 import overviewIcon from '../../assets/images/overviewIcon.svg';
-import stationsIcon from '../../assets/images/factoriesIcon.svg';
+import stationsIcon from '../../assets/images/stationsIcon.svg';
 import supportIcon from '../../assets/images/supportIcon.svg';
 import accountIcon from '../../assets/images/accountIcon.svg';
 import logoutIcon from '../../assets/images/logoutIcon.svg';
@@ -127,7 +127,7 @@ function SideBar() {
                     </Link>
                 </div>
                 <div className="item-wrapper">
-                    <div id="e2e-tests-factory-sidebar">
+                    <div id="e2e-tests-station-sidebar">
                         <Link to={pathDomains.stations}>
                             <div className="icon">
                                 <div className={state.route === 'stations' ? 'circle-nav-item checked' : 'circle-nav-item'}>

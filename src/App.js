@@ -32,7 +32,6 @@ import { HANDLE_REFRESH_INTERVAL, SOCKET_URL } from './config';
 import { handleRefreshTokenRequest } from './services/http';
 import StationOverview from './domain/stationOverview';
 import MessageJourney from './domain/messageJourney';
-import FactoriesList from './domain/factoriesList';
 import AppWrapper from './components/appWrapper';
 import StationsList from './domain/stationsList';
 import SandboxLogin from './domain/sandboxLogin';
@@ -153,19 +152,6 @@ const App = withRouter(() => {
                                 ></AppWrapper>
                             }
                         />
-                        {/* <PrivateRoute
-                            exact
-                            path={pathDomains.factoriesList}
-                            component={
-                                <AppWrapper
-                                    content={
-                                        <div>
-                                            <FactoriesList />
-                                        </div>
-                                    }
-                                ></AppWrapper>
-                            }
-                        /> */}
                         <PrivateRoute
                             exact
                             path={pathDomains.stations}
@@ -181,25 +167,12 @@ const App = withRouter(() => {
                         />
                         <PrivateRoute
                             exact
-                            path={`${pathDomains.factoriesList}/:id/:id`}
+                            path={`${pathDomains.stations}/:id`}
                             component={
                                 <AppWrapper
                                     content={
                                         <div>
                                             <StationOverview />
-                                        </div>
-                                    }
-                                ></AppWrapper>
-                            }
-                        />
-                        <PrivateRoute
-                            exact
-                            path={`${pathDomains.factoriesList}/:id/:id/:id`}
-                            component={
-                                <AppWrapper
-                                    content={
-                                        <div>
-                                            <MessageJourney />
                                         </div>
                                     }
                                 ></AppWrapper>
