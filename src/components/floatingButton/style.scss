@@ -1,7 +1,10 @@
 .floating-button-container{
-    position: fixed;
-    right: 0px;
-    z-index: 111;
+   
+    .react-draggable{
+        position: fixed;
+        right: 0px;
+        z-index: 1111;
+    }
     .box-wrapper{
         cursor: pointer;
         background: #6557FF;

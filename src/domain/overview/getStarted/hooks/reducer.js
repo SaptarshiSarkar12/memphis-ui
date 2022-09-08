@@ -93,10 +93,10 @@ const Reducer = (getStartedState, action) => {
                 ...getStartedState,
                 isHiddenButton: action.payload
             };
-        case 'SET_DESIRED_PODS':
+        case 'SET_ACTUAL_PODS':
             return {
                 ...getStartedState,
-                desiredPods: action.payload
+                actualPods: action.payload
             };
         default:
             return getStartedState;

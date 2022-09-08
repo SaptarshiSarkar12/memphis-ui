@@ -1,43 +1,55 @@
 // Copyright 2021-2022 The Memphis Authors
-// Licensed under the Apache License, Version 2.0 (the “License”);
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an “AS IS” BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Licensed under the MIT License (the "License");
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// This license limiting reselling the software itself "AS IS".
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import './style.scss';
 
 import React, { useEffect, useContext, useState, useRef } from 'react';
 
+import {
+    LOCAL_STORAGE_ALREADY_LOGGED_IN,
+    LOCAL_STORAGE_AVATAR_ID,
+    LOCAL_STORAGE_FULL_NAME,
+    LOCAL_STORAGE_USER_NAME,
+    LOCAL_STORAGE_WELCOME_MESSAGE
+} from '../../const/localStorageConsts';
+import CreateStationDetails from '../../components/createStationDetails';
+import discordLogo from '../../assets/images/discordLogo.svg';
+import githubLogo from '../../assets/images/githubLogo.svg';
+import docsLogo from '../../assets/images/docsLogo.svg';
+import { ApiEndpoints } from '../../const/apiEndpoints';
+import welcome from '../../assets/images/welcome.svg';
+import { httpRequest } from '../../services/http';
 import { useMediaQuery } from 'react-responsive';
-import FailedStations from './failedStations';
 import GenericDetails from './genericDetails';
-import SysComponents from './sysComponents';
+import FailedStations from './failedStations';
+import Loader from '../../components/loader';
+import Button from '../../components/button';
 import { Context } from '../../hooks/store';
+import SysComponents from './sysComponents';
+import Modal from '../../components/modal';
+import { PRIVACY_URL } from '../../config';
+import { Link } from 'react-router-dom';
+import GetStarted from './getStarted';
 import Throughput from './throughput';
 import Resources from './resources';
-
-import slackLogo from '../../assets/images/slack-logo.svg';
-import discordLogo from '../../assets/images/discord-logo.svg';
-import githubLogo from '../../assets/images/github-logo.svg';
-
-import Button from '../../components/button';
-import CreateStationDetails from '../../components/createStationDetails';
-import Modal from '../../components/modal';
-import { LOCAL_STORAGE_ALREADY_LOGGED_IN, LOCAL_STORAGE_AVATAR_ID, LOCAL_STORAGE_USER_NAME, LOCAL_STORAGE_WELCOME_MESSAGE } from '../../const/localStorageConsts';
-import { PRIVACY_URL } from '../../config';
-import { ApiEndpoints } from '../../const/apiEndpoints';
-import { httpRequest } from '../../services/http';
-import Loader from '../../components/loader';
-import GetStarted from './getStarted';
-import { Link } from 'react-router-dom';
-import welcome from '../../assets/images/welcome.svg';
 
 const Desktop = ({ children }) => {
     const isDesktop = useMediaQuery({ minWidth: 850 });
@@ -78,7 +90,11 @@ function OverView() {
         setShowWelcome(process.env.REACT_APP_SANDBOX_ENV && localStorage.getItem(LOCAL_STORAGE_WELCOME_MESSAGE) === 'true');
         getOverviewData();
         setBotImage(state?.userData?.avatar_id || localStorage.getItem(LOCAL_STORAGE_AVATAR_ID));
-        SetUsername(localStorage.getItem(LOCAL_STORAGE_USER_NAME));
+        SetUsername(
+            localStorage.getItem(LOCAL_STORAGE_FULL_NAME) !== 'undefined' && localStorage.getItem(LOCAL_STORAGE_FULL_NAME) !== ''
+                ? capitalizeFirst(localStorage.getItem(LOCAL_STORAGE_FULL_NAME))
+                : capitalizeFirst(localStorage.getItem(LOCAL_STORAGE_USER_NAME))
+        );
     }, []);
 
     useEffect(() => {
@@ -113,7 +129,7 @@ function OverView() {
         }
     };
 
-    const stationsOfUser = allStations.filter((station) => station.created_by_user === username);
+    const stationsOfUser = allStations.filter((station) => station.created_by_user === localStorage.getItem(LOCAL_STORAGE_USER_NAME));
     return (
         <div className="overview-container">
             {isLoading && (
@@ -136,11 +152,7 @@ function OverView() {
                                 ></img>
                             </div>
                             <div className="dynamic-sentences">
-                                {localStorage.getItem(LOCAL_STORAGE_ALREADY_LOGGED_IN) === 'true' ? (
-                                    <h1>Welcome Back, {username}</h1>
-                                ) : (
-                                    <h1>Welcome Aboard, {username}</h1>
-                                )}
+                                {localStorage.getItem(LOCAL_STORAGE_ALREADY_LOGGED_IN) === 'true' ? <h1>Welcome Back, {username}</h1> : <h1>Welcome, {username}</h1>}
                                 {/* <p className="ok-status">You’re a memphis superhero! All looks good!</p> */}
                             </div>
                         </div>
@@ -179,11 +191,9 @@ function OverView() {
             )}
             <Modal
                 header="Your station details"
-                minHeight="610px"
-                minWidth="500px"
+                height="500px"
                 rBtnText="Add"
                 lBtnText="Cancel"
-                closeAction={() => modalFlip(false)}
                 lBtnClick={() => {
                     modalFlip(false);
                 }}
@@ -198,8 +208,6 @@ function OverView() {
             <Modal
                 header={''}
                 height="470px"
-                minWidth="645px"
-                hr={false}
                 closeAction={() => {
                     setShowWelcome(false);
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);
@@ -208,18 +216,19 @@ function OverView() {
                     setShowWelcome(false);
                     localStorage.setItem(LOCAL_STORAGE_WELCOME_MESSAGE, false);
                 }}
-                displayButtons={false}
                 open={showWelcome}
+                displayButtons={false}
             >
                 <div className="sandbox-welcome">
                     <img src={welcome} alt="docs" className="welcome-img"></img>
-                    <label className="welcome-header">Welcome onboard</label>
-                    <label className="welcome-message">We are super happy to have you with us! Please remember that this is a sandbox</label>
-                    <label className="welcome-message">environment and is under constant modifications.</label>
+                    <label className="welcome-header">Welcome aboard</label>
+                    <label className="welcome-message">We are super happy to have you with us!</label>
+                    <label className="welcome-message">Please remember that this is a sandbox environment</label>
+                    <label className="welcome-message">and is under constant modifications.</label>
                     <label className="welcome-message">Downtimes might occur.</label>
                     <div>
-                        <Link to={{ pathname: 'https://join.slack.com/t/memphiscommunity/shared_invite/zt-1bdp9ydfk-QpwYIOTz4nkvTGtEL6kJYQ' }} target="_blank">
-                            <img src={slackLogo} alt="slack" className="sandbox-icon"></img>
+                        <Link to={{ pathname: 'https://app.gitbook.com/o/-MSyW3CRw3knM-KGk6G6/s/t7NJvDh5VSGZnmEsyR9h/memphis/overview' }} target="_blank">
+                            <img src={docsLogo} alt="slack" className="sandbox-icon"></img>
                         </Link>
                         <Link to={{ pathname: 'https://github.com/memphisdev/memphis-broker' }} target="_blank">
                             <img src={githubLogo} alt="github" className="sandbox-icon"></img>
@@ -231,7 +240,7 @@ function OverView() {
                     <Button
                         width="140px"
                         height="36px"
-                        placeholder={'Get Started'}
+                        placeholder="Get Started"
                         colorType="white"
                         radiusType="circle"
                         backgroundColorType="purple"

@@ -37,20 +37,21 @@ const Signup = (props) => {
     const history = useHistory();
     const [signupForm] = Form.useForm(); // form controller
     const [formFields, setFormFields] = useState({
-        email: '',
-        fullName: '',
+        username: '',
+        full_name: '',
         password: '',
-        subscription: true
+        subscription: true,
+        user_type: 'management'
     });
     const [error, setError] = useState('');
     const referer = props?.location?.state?.referer || '/overview';
 
     const handleEmailChange = (e) => {
-        setFormFields({ ...formFields, email: e.target.value });
+        setFormFields({ ...formFields, username: e.target.value });
     };
 
     const handleFullNameChange = (e) => {
-        setFormFields({ ...formFields, fullName: e.target.value });
+        setFormFields({ ...formFields, full_name: e.target.value });
     };
 
     const handlePasswordChange = (e) => {
@@ -60,153 +61,78 @@ const Signup = (props) => {
     const switchSubscription = () => {
         setFormFields({ ...formFields, subscription: !formFields.subscription });
     };
-    // const [loadingSubmit, setLoadingSubmit] = useState(false);
 
-    // useEffect(() => {
-    //     if (localStorage.getItem(LOCAL_STORAGE_TOKEN) && AuthService.isValidToken()) {
-    //         history.push(referer);
-    //     }
-    // }, []);
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
 
-    // const handleUserNameChange = (e) => {
-    //     setFormFields({ ...formFields, username: e.target.value });
-    // };
-
-    // const handlePasswordChange = (e) => {
-    //     setFormFields({ ...formFields, password: e.target.value });
-    // };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const values = await loginForm.validateFields();
-    //     if (values?.errorFields) {
-    //         return;
-    //     } else {
-    //         try {
-    //             setLoadingSubmit(true);
-    //             const { username, password } = formFields;
-    //             const data = await httpRequest('POST', ApiEndpoints.LOGIN, { username, password }, {}, {}, false);
-    //             if (data) {
-    //                 AuthService.saveToLocalStorage(data);
-    //                 const socket = await io.connect(SOCKET_URL, {
-    //                     path: '/api/socket.io',
-    //                     query: {
-    //                         authorization: data.jwt
-    //                     },
-    //                     reconnection: false
-    //                 });
-    //                 dispatch({ type: 'SET_USER_DATA', payload: data });
-    //                 dispatch({ type: 'SET_SOCKET_DETAILS', payload: socket });
-    //                 history.push(referer);
-    //             }
-    //         } catch (err) {
-    //             setError(err);
-    //         }
-    //         setLoadingSubmit(false);
-    //     }
-    // };
-
-    const layout = {
-        labelCol: {
-            span: 8
-        },
-        wrapperCol: {
-            span: 16
+    useEffect(() => {
+        if (localStorage.getItem(LOCAL_STORAGE_TOKEN) && AuthService.isValidToken()) {
+            history.push(referer);
         }
-    };
+    }, []);
 
-    const tailLayout = {
-        wrapperCol: {
-            offset: 8,
-            span: 16
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const values = await signupForm.validateFields();
+        if (values?.errorFields) {
+            return;
+        } else {
+            try {
+                setLoadingSubmit(true);
+                const data = await httpRequest('POST', ApiEndpoints.SIGNUP, formFields, {}, {}, false);
+                if (data) {
+                    AuthService.saveToLocalStorage(data);
+                    const socket = await io.connect(SOCKET_URL, {
+                        path: '/api/socket.io',
+                        query: {
+                            authorization: data.jwt
+                        },
+                        reconnection: false
+                    });
+                    dispatch({ type: 'SET_USER_DATA', payload: data });
+                    dispatch({ type: 'SET_SOCKET_DETAILS', payload: socket });
+                    history.push(referer);
+                }
+            } catch (err) {
+                setError(err);
+            }
+            setLoadingSubmit(false);
         }
     };
 
     return (
-        <section className="signup-container">
-            {state.loading ? <Loader></Loader> : ''}
-            <img alt="sharps" className="signup-img" src={signup}></img>
-            <div className="signup-form">
-                <img alt="logo" className="form-logo" src={betaFullLogo}></img>
-                <p className="signup-sub-title">Let’s get started with memphis</p>
-                <Form
-                    className="form-fields"
-                    {...layout}
-                    name="basic"
-                    initialValues={{
-                        remember: true
-                    }}
-                    form={signupForm}
-                >
-                    <Form.Item
-                        name="email"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Email can not be empty'
-                            }
-                        ]}
+        <>
+            <section className="signup-container">
+                {state.loading ? <Loader></Loader> : ''}
+                <img alt="sharps" className="signup-img" src={signup}></img>
+                <div className="signup-form">
+                    <img alt="logo" className="form-logo" src={betaFullLogo}></img>
+                    <p className="signup-sub-title">Let’s get started with memphis</p>
+                    <Form
+                        className="form-fields"
+                        name="basic"
+                        initialValues={{
+                            remember: true
+                        }}
+                        form={signupForm}
                     >
-                        <div className="field name">
-                            <p>Your email</p>
-                            <Input
-                                placeholder="name@company.com"
-                                type="text"
-                                radiusType="semi-round"
-                                colorType="gray"
-                                backgroundColorType="none"
-                                borderColorType="gray"
-                                width="470px"
-                                height="43px"
-                                minWidth="200px"
-                                onBlur={handleEmailChange}
-                                onChange={handleEmailChange}
-                                value={formFields.email}
-                            />
-                        </div>
-                    </Form.Item>
-                    <Form.Item
-                        name="fullname"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Fullname can not be empty'
-                            }
-                        ]}
-                    >
-                        <div className="field">
-                            <p>Full name</p>
-                            <Input
-                                placeholder="Type your name"
-                                type="text"
-                                radiusType="semi-round"
-                                colorType="gray"
-                                backgroundColorType="none"
-                                borderColorType="gray"
-                                width="470px"
-                                height="43px"
-                                minWidth="200px"
-                                onBlur={handleFullNameChange}
-                                onChange={handleFullNameChange}
-                                value={formFields.username}
-                            />
-                        </div>
-                    </Form.Item>
-                    <Form.Item
-                        name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Password can not be empty'
-                            }
-                        ]}
-                    >
-                        <div className="field password">
-                            <p>Password</p>
-                            <div id="e2e-tests-password">
+                        <Form.Item
+                            name="username"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Email can not be empty'
+                                },
+                                {
+                                    type: 'email',
+                                    message: 'Please insert a valid email'
+                                }
+                            ]}
+                        >
+                            <div className="field name">
+                                <p>Your email</p>
                                 <Input
-                                    placeholder="Password"
-                                    type="password"
+                                    placeholder="name@company.com"
+                                    type="text"
                                     radiusType="semi-round"
                                     colorType="gray"
                                     backgroundColorType="none"
@@ -214,45 +140,99 @@ const Signup = (props) => {
                                     width="470px"
                                     height="43px"
                                     minWidth="200px"
-                                    onChange={handlePasswordChange}
-                                    onBlur={handlePasswordChange}
-                                    value={formFields.password}
+                                    onBlur={handleEmailChange}
+                                    onChange={handleEmailChange}
+                                    value={formFields.username}
                                 />
                             </div>
+                        </Form.Item>
+                        <Form.Item
+                            name="full_name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Fullname can not be empty'
+                                }
+                            ]}
+                        >
+                            <div className="field">
+                                <p>Full name</p>
+                                <Input
+                                    placeholder="Type your name"
+                                    type="text"
+                                    radiusType="semi-round"
+                                    colorType="gray"
+                                    backgroundColorType="none"
+                                    borderColorType="gray"
+                                    width="470px"
+                                    height="43px"
+                                    minWidth="200px"
+                                    onBlur={handleFullNameChange}
+                                    onChange={handleFullNameChange}
+                                    value={formFields.full_name}
+                                />
+                            </div>
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Password can not be empty'
+                                }
+                            ]}
+                        >
+                            <div className="field password">
+                                <p>Password</p>
+                                <div id="e2e-tests-password">
+                                    <Input
+                                        placeholder="Password"
+                                        type="password"
+                                        radiusType="semi-round"
+                                        colorType="gray"
+                                        backgroundColorType="none"
+                                        borderColorType="gray"
+                                        width="470px"
+                                        height="43px"
+                                        minWidth="200px"
+                                        onChange={handlePasswordChange}
+                                        onBlur={handlePasswordChange}
+                                        value={formFields.password}
+                                    />
+                                </div>
+                            </div>
+                        </Form.Item>
+                        <p className="future-updates">Features and releases updates</p>
+                        <div className="toggle-analytics">
+                            <Form.Item name="subscription" initialValue={formFields.subscription} style={{ marginBottom: '0' }}>
+                                <Switcher onChange={() => switchSubscription()} checked={formFields.subscription} checkedChildren="" unCheckedChildren="" />
+                            </Form.Item>
+                            <label className="unselected-toggle">Receive features and releases updates (You can unsubscribe any time)</label>
                         </div>
-                    </Form.Item>
-                    <p className="future-updates">Features and releases updates</p>
-                    <div className="toggle-analytics">
-                        <Switcher onChange={() => switchSubscription()} checked={formFields.subscription} checkedChildren="" unCheckedChildren="" />
-                        <label className="unselected-toggle">Receive features and releases updates (You can unsubscribe any time)</label>
-                    </div>
-                    <Form.Item
-                        // {...tailLayout}
-                        className="button-container"
-                    >
-                        <Button
-                            width="470px"
-                            height="43px"
-                            minWidth="200px"
-                            placeholder="Continue"
-                            colorType="white"
-                            radiusType="circle"
-                            backgroundColorType="purple"
-                            fontSize="12px"
-                            fontWeight="600"
-                            // isLoading={loadingSubmit}
-                            // onClick={handleSubmit}
-                        />
-                    </Form.Item>
-
-                    {/* {error && (
-                        <div className="error-message">
-                            <p>The username and password you entered did not match our records. Please double-check and try again.</p>
-                        </div>
-                    )} */}
-                </Form>
-            </div>
-        </section>
+                        <Form.Item className="button-container">
+                            <Button
+                                width="470px"
+                                height="43px"
+                                minWidth="200px"
+                                placeholder="Continue"
+                                colorType="white"
+                                radiusType="circle"
+                                backgroundColorType="purple"
+                                fontSize="12px"
+                                fontWeight="600"
+                                isLoading={loadingSubmit}
+                                onClick={handleSubmit}
+                            />
+                        </Form.Item>
+                        {error && (
+                            <div className="error-message">
+                                <p>For some reason we couldn’t process your signup, please reach to support</p>
+                            </div>
+                        )}
+                    </Form>
+                </div>
+            </section>
+        </>
     );
 };
 
