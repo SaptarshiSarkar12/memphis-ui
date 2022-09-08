@@ -25,6 +25,7 @@ import axios from 'axios';
 import { SERVER_URL, SHOWABLE_ERROR_STATUS_CODE, AUTHENTICATION_ERROR_STATUS_CODE } from '../config';
 import { ApiEndpoints } from '../const/apiEndpoints';
 import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_EXPIRED_TOKEN } from '../const/localStorageConsts.js';
+import pathDomains from '../router';
 import AuthService from './auth';
 
 export async function httpRequest(method, endPointUrl, data = {}, headers = {}, queryParams = {}, authNeeded = true, timeout = 0) {
@@ -52,11 +53,15 @@ export async function httpRequest(method, endPointUrl, data = {}, headers = {}, 
             params: queryParams
         });
         const results = res.data;
-        return results;
+        if (res.headers['content-type'].includes('html')) {
+            window.location.assign(pathDomains.overview);
+        } else {
+            return results;
+        }
     } catch (err) {
         if (endPointUrl !== ApiEndpoints.LOGIN && err?.response?.status === AUTHENTICATION_ERROR_STATUS_CODE) {
             localStorage.clear();
-            window.location.assign('/login');
+            window.location.assign(pathDomains.login);
         }
         if (err?.response?.data?.message !== undefined && err?.response?.status === SHOWABLE_ERROR_STATUS_CODE) {
             message.warning({
@@ -70,7 +75,7 @@ export async function httpRequest(method, endPointUrl, data = {}, headers = {}, 
         if (err?.response?.data?.message !== undefined && err?.response?.status === 500) {
             message.error({
                 key: 'memphisErrorMessage',
-                content: 'We have some issues. Please contact support.',
+                content: 'We have some issues - please reach out to support',
                 duration: 5,
                 style: { cursor: 'pointer' },
                 onClick: () => message.destroy('memphisErrorMessage')
@@ -98,7 +103,7 @@ export async function handleRefreshTokenRequest() {
         return true;
     } catch (err) {
         localStorage.clear();
-        window.location.assign('/login');
+        window.location.assign(pathDomains.login);
         return false;
     }
 }

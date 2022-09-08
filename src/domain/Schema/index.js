@@ -31,21 +31,23 @@ import { httpRequest } from '../../services/http';
 import Button from '../../components/button';
 import Loader from '../../components/loader';
 import { Context } from '../../hooks/store';
+import SchemaBox from './components/schemaBox';
 
 function SchemaList() {
     const [state, dispatch] = useContext(Context);
-    const [schemaList, setSchemaList] = useState([]);
+    const [schemaList, setSchemaList] = useState([{ d: 1 }]);
     const [isLoading, setisLoading] = useState(false);
 
     const getSchemas = async () => {
-        setisLoading(true);
-        try {
-            const data = await httpRequest('GET', ApiEndpoints.GEL_ALL_FACTORIES);
-            setSchemaList(data);
-            setisLoading(false);
-        } catch (error) {
-            setisLoading(false);
-        }
+        // setisLoading(true);
+        // try {
+        //     debugger;
+        //     const data = await httpRequest('GET', ApiEndpoints.GEL_ALL_FACTORIES);
+        //     setSchemaList(data);
+        //     setisLoading(false);
+        // } catch (error) {
+        //     setisLoading(false);
+        // }
     };
 
     useEffect(() => {
@@ -126,7 +128,11 @@ function SchemaList() {
                     </div>
                 )}
                 {schemaList.map((schema, index) => {
-                    return <div></div>;
+                    return (
+                        <div>
+                            <SchemaBox />
+                        </div>
+                    );
                 })}
                 {!isLoading && schemaList.length === 0 && (
                     <div className="no-schema-to-display">
