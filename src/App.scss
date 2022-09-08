@@ -126,14 +126,14 @@
     display: flex;
     width: 100%;
 }
-.required-field-mark{
+.required-field-mark {
     color: var(--red);
 }
 
 .ant-checkbox-checked .ant-checkbox-inner {
     background-color: var(--purple);
     border-color: var(--purple);
-  }
-  .ant-checkbox-checked .ant-checkbox-inner::after {
+}
+.ant-checkbox-checked .ant-checkbox-inner::after {
     background-color: var(--purple);
 }

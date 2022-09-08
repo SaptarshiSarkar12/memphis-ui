@@ -33,17 +33,13 @@ import OverflowTip from '../../../components/tooltip/overflowtip';
 const FailedStations = () => {
     const [state, dispatch] = useContext(Context);
     return (
-        <div className="overview-wrapper failed-factories-container">
+        <div className="overview-wrapper failed-stations-container">
             <p className="overview-components-header">Stations</p>
-            {/* <p className="overview-components-header">Un-Healthy stations</p> */}
-            {/* <div className="factories-err-message">
-                <ErrorSharpIcon className="err-icon" theme="outlined" />
-                <p>For 5/23 stations, there may be a problem</p>
-            </div> */}
-            <div className="err-factories-list">
+            <div className="err-stations-list">
                 <div className="coulmns-table">
                     <span style={{ width: '100px' }}>Name</span>
-                    <span style={{ width: '100px' }}>Factory</span>
+                    <span style={{ width: '100px' }}>Total messages</span>
+                    <span style={{ width: '100px' }}>Poison messages</span>
                     <span style={{ width: '200px' }}>Creation date</span>
                     {/* <span style={{ width: '100px' }}>Status</span> */}
                     <span style={{ width: '100px' }}></span>
@@ -51,16 +47,20 @@ const FailedStations = () => {
                 <div className="rows-wrapper">
                     {state?.monitor_data?.stations?.map((station, index) => {
                         return (
-                            <div className="factory-row" key={index}>
+                            <div className="stations-row" key={index}>
                                 <OverflowTip text={station.name} width={'100px'}>
                                     {station.name}
                                 </OverflowTip>
-                                <OverflowTip text={station.factory_name} width={'100px'}>
-                                    {station.factory_name}
+                                <OverflowTip text={station.name} width={'100px'}>
+                                    {station.name}
+                                </OverflowTip>
+                                <OverflowTip text={station.name} width={'100px'}>
+                                    {station.name}
                                 </OverflowTip>
                                 <OverflowTip text={parsingDate(station.creation_date)} width={'200px'}>
                                     {parsingDate(station.creation_date)}
                                 </OverflowTip>
+                                Created by
                                 {/* {station.status === 1 && (
                                     <span style={{ width: '100px' }}>
                                         <div className="dot green"></div>
@@ -73,7 +73,7 @@ const FailedStations = () => {
                                         On idle
                                     </span>
                                 )} */}
-                                <Link style={{ cursor: 'pointer' }} to={`${pathDomains.factoriesList}/${station.factory_name}/${station.name}`}>
+                                <Link style={{ cursor: 'pointer' }} to={`${pathDomains.stations}/${station.name}`}>
                                     <span className="link-row" style={{ width: '100px' }}>
                                         Go to station
                                     </span>

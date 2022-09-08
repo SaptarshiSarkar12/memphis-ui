@@ -28,10 +28,10 @@ import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 
 import overviewIconActive from '../../assets/images/overviewIconActive.svg';
-import factoriesIconActive from '../../assets/images/factoriesIconActive.svg';
+import stationsIconActive from '../../assets/images/stationsIconActive.svg';
 import usersIconActive from '../../assets/images/usersIconActive.svg';
 import overviewIcon from '../../assets/images/overviewIcon.svg';
-import factoriesIcon from '../../assets/images/factoriesIcon.svg';
+import stationsIcon from '../../assets/images/stationsIcon.svg';
 import supportIcon from '../../assets/images/supportIcon.svg';
 import accountIcon from '../../assets/images/accountIcon.svg';
 import logoutIcon from '../../assets/images/logoutIcon.svg';
@@ -127,18 +127,18 @@ function SideBar() {
                     </Link>
                 </div>
                 <div className="item-wrapper">
-                    <div id="e2e-tests-factory-sidebar">
-                        <Link to={pathDomains.factoriesList}>
+                    <div id="e2e-tests-station-sidebar">
+                        <Link to={pathDomains.stations}>
                             <div className="icon">
-                                <div className={state.route === 'factories' ? 'circle-nav-item checked' : 'circle-nav-item'}>
-                                    {state.route === 'factories' ? (
-                                        <img src={factoriesIconActive} alt="factoriesIconActive" width="20" height="20"></img>
+                                <div className={state.route === 'stations' ? 'circle-nav-item checked' : 'circle-nav-item'}>
+                                    {state.route === 'stations' ? (
+                                        <img src={stationsIconActive} alt="stationsIconActive" width="20" height="20"></img>
                                     ) : (
-                                        <img src={factoriesIcon} alt="factoriesIcon" width="20" height="20"></img>
+                                        <img src={stationsIcon} alt="stationsIcon" width="20" height="20"></img>
                                     )}
                                 </div>
                             </div>
-                            <p className={state.route === 'factories' ? 'checked' : 'name'}>Factories</p>
+                            <p className={state.route === 'stations' ? 'checked' : 'name'}>Stations</p>
                         </Link>
                     </div>
                 </div>

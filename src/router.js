@@ -22,7 +22,7 @@
 const pathDomains = {
     login: '/login',
     overview: '/overview',
-    factoriesList: '/factories',
+    stations: '/stations',
     users: '/users',
     settings: '/settings',
     sysLogs: '/sysLogs'
