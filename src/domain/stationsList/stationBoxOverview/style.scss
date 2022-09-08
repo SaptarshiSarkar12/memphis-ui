@@ -4,90 +4,72 @@
     border-radius: 10px;
     box-shadow: 0px 0px 4px 3px rgba(221, 221, 221, 0.3);
     min-height: 60px;
-    margin-bottom: 10px;
+    margin-bottom: 17px;
     overflow: auto;
     padding: 20px;
     display: flex;
-    position: relative;
+    justify-content: space-between;
     .data-labels {
         color: #84818a;
         font-size: 12px;
+        font-weight: 500px;
     }
     .data-info {
         color: #2e2c34;
         font-size: 14px;
         margin-bottom: 0px;
         text-transform: capitalize;
+        margin-left: 1px;
+        margin-top: 10px;
+        font-weight: 500px;
+
+        .anticon svg {
+            color: #2e2c34;
+            width: 7px;
+            height: 20px;
+        }
+
+        .station-box-container .data-info .anticon svg {
+            width: 7px;
+            height: 20px;
+        }
     }
     .left-section {
         width: 22%;
-        padding-right: 15px;
         .station-name {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
-            margin-bottom: 0px;
+            margin-bottom: 10px;
         }
     }
     .middle-section {
-        width: 30%;
+        width: 11.5%;
         border-left: 1px solid #e9e9e9;
-        border-right: 1px solid #e9e9e9;
-        padding-right: 15px;
-        padding-left: 15px;
+        justify-content: space-between;
+        padding-left: 20px;
         display: flex;
         .station-created {
-            width: 30%;
             margin-right: 15px;
         }
     }
     .right-section {
-        width: 48%;
+        width: 50%;
         display: flex;
+        border-left: 1px solid #e9e9e9;
+        padding-left: 20px;
+
+        justify-content: space-between;
         .station-meta {
-            padding-left: 20px;
             img {
                 margin-right: 3px;
             }
         }
     }
-    // .station-box-header {
-    //     display: flex;
-    //     min-height: 60px;
-    //     padding-left: 20px;
-    //     justify-content: space-between;
-    //     h3,
-    //     p {
-    //         margin: 0;
-    //     }
-    //     .info-fields {
-    //         display: flex;
-    //         align-items: center;
-    //     }
-    //     .actions-side {
-    //         display: flex;
-    //         margin-right: 20px;
-    //         .hover-section {
-    //             display: flex;
-    //             color: var(--purple);
-    //         }
-    //         .action {
-    //             display: flex;
-    //             align-items: center;
-    //             margin-left: 20px;
-    //         }
-    //         .overview,
-    //         .edit {
-    //             font-weight: 600;
-    //             font-size: 12px;
-    //             cursor: pointer;
-    //         }
-    //         .station-menu {
-    //             .threedots-menu {
-    //                 color: #a9a9a9;
-    //                 margin-top: 0px;
-    //                 margin-left: 10px;
-    //             }
-    //         }
-    //     }
-    // }
+
+    .threedots-menu {
+        margin-left: 30px;
+    }
+    .MuiSvgIcon-root {
+        color: #84818a;
+    }
 }

@@ -27,6 +27,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
+import { MinusOutlined } from '@ant-design/icons';
 
 import { convertSecondsToDate } from '../../../services/valueConvertor';
 import Modal from '../../../components/modal';
@@ -81,10 +82,6 @@ const StationBoxOverview = (props) => {
                         <p className="data-info">{props.station.station.created_by_user}</p>
                     </OverflowTip>
                 </div>
-                <div>
-                    <label className="data-labels">Tags</label>
-                    <p className="data-info">tags here...</p>
-                </div>
             </div>
             <div className="right-section">
                 <div className="station-meta">
@@ -92,10 +89,16 @@ const StationBoxOverview = (props) => {
                     <label className="data-labels">Retention</label>
                     <p className="data-info">
                         <OverflowTip
-                            text={props.station.station.retention_type === 'message_age_sec' ? convertSecondsToDate(props.station.station.retention_value) : props.station.station.retention_value}
-                            width={'100px'}
+                            text={
+                                props.station.station.retention_type === 'message_age_sec'
+                                    ? convertSecondsToDate(props.station.station.retention_value)
+                                    : props.station.station.retention_value
+                            }
+                            width={'90px'}
                         >
-                            {props.station.station.retention_type === 'message_age_sec' ? convertSecondsToDate(props.station.station.retention_value) : props.station.station.retention_value}{' '}
+                            {props.station.station.retention_type === 'message_age_sec'
+                                ? convertSecondsToDate(props.station.station.retention_value)
+                                : props.station.station.retention_value}{' '}
                             {props.station.station.retention_type !== 'message_age_sec' && props.station.station.retention_type}
                         </OverflowTip>
                     </p>
@@ -113,23 +116,24 @@ const StationBoxOverview = (props) => {
                 <div className="station-meta">
                     <img src={totalMsgImg} alt="total messages" />
                     <label className="data-labels">Total messages</label>
-                    <p className="data-info">{props.station.total_messages}</p>
+                    <p className="data-info">{props.station.total_messages === 0 ? <MinusOutlined style={{ color: '#2E2C34' }} /> : props?.station?.total_messages}</p>
                 </div>
                 <div className="station-meta">
                     <img src={poisonMsgImg} alt="poison messages" />
                     <label className="data-labels">Poison messages</label>
-                    <p className="data-info">{(props?.station?.posion_messages).length === 0 ? 0 : props.station.posion_messages.length}</p>
+                    <p className="data-info">{props?.station?.posion_messages === 0 ? <MinusOutlined /> : props?.station?.posion_messages}</p>
                 </div>
+                <MoreVertIcon
+                    aria-controls="long-button"
+                    aria-haspopup="true"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleClickMenu(e);
+                    }}
+                    className="threedots-menu"
+                />
             </div>
-            <MoreVertIcon
-                aria-controls="long-button"
-                aria-haspopup="true"
-                onClick={(e) => {
-                    e.preventDefault();
-                    handleClickMenu(e);
-                }}
-                className="threedots-menu"
-            />
+
             <Popover id="long-menu" classes={{ paper: 'Menu c' }} anchorEl={anchorEl} onClose={handleCloseMenu} open={open}>
                 <MenuItem
                     onClick={() => {
