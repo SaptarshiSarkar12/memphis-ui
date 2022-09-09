@@ -156,7 +156,11 @@ const CreateStationDetails = (props) => {
 
     const createStation = async (bodyRequest) => {
         try {
-            await httpRequest('POST', ApiEndpoints.CREATE_STATION, bodyRequest);
+            const data = await httpRequest('POST', ApiEndpoints.CREATE_STATION, bodyRequest);
+            if (data) {
+                history.push(pathDomains.stations);
+            }
+            props.finish();
         } catch (error) {}
     };
 

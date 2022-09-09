@@ -20,7 +20,7 @@
 
 import './style.scss';
 
-import React, { useEffect, useContext, useState, useCallback } from 'react';
+import React, { useEffect, useContext, useState, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -34,6 +34,8 @@ import pathDomains from '../../router';
 import { parsingDate } from '../../services/valueConvertor';
 import stationsIcon from '../../assets/images/stationIcon.svg';
 import StationsInstructions from '../../components/stationsInstructions';
+import Modal from '../../components/modal';
+import CreateStationDetails from '../../components/createStationDetails';
 
 const StationsList = () => {
     const url = window.location.href;
@@ -129,6 +131,7 @@ const StationsList = () => {
                             description="t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of
                                 using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to usin"
                             button="Create New Station"
+                            newStation={() => modalFlip(true)}
                         />
                     </div>
                 );
@@ -144,13 +147,14 @@ const StationsList = () => {
                                 using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to usin"
                 button="Create New Station"
                 image={stationsIcon}
+                newStation={() => modalFlip(true)}
             />
         );
     };
 
     return (
-        <div className="factory-details-container">
-            <div className="factory-details-header">
+        <div className="stations-details-container">
+            <div className="stations-details-header">
                 <div className="left-side">
                     <label class="main-header-h1">
                         Stations <label class="num-stations">{stationsList?.length > 0 ? `(${stationsList?.length})` : null}</label>
@@ -185,9 +189,23 @@ const StationsList = () => {
                     />
                 </div>
             </div>
-            <div className="stations-content">
-                {renderStationsOverview()}
-            </div>
+            <div className="stations-content">{renderStationsOverview()}</div>
+            <Modal
+                header="Your station details"
+                height="460px"
+                rBtnText="Add"
+                lBtnText="Cancel"
+                lBtnClick={() => {
+                    modalFlip(false);
+                }}
+                rBtnClick={() => {
+                    createStationRef.current();
+                }}
+                clickOutside={() => modalFlip(false)}
+                open={modalIsOpen}
+            >
+                <CreateStationDetails finish={() => modalFlip(false)} createStationRef={createStationRef} />
+            </Modal>
         </div>
     );
 };

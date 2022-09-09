@@ -1,4 +1,4 @@
-.factory-details-container {
+.stations-details-container {
     width: calc(100% - 70px);
     position: absolute;
     padding: 1vw;
@@ -11,7 +11,7 @@
         font-size: 12px;
         font-weight: 400;
     }
-    .factory-details-header {
+    .stations-details-header {
         padding-top: 15px;
         height: 75px;
         display: flex;
@@ -83,7 +83,7 @@
                 width: 270px;
             }
 
-            .factories-length {
+            .stations-length {
                 display: flex;
                 height: 35px;
                 align-items: center;
@@ -94,7 +94,7 @@
                     margin: 0;
                 }
             }
-            .factory-owner {
+            .stations-owner {
                 height: 65px;
                 display: flex;
                 align-items: center;

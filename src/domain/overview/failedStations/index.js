@@ -21,10 +21,9 @@
 
 import './style.scss';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import ErrorSharpIcon from '@material-ui/icons/ErrorSharp';
 import { Context } from '../../../hooks/store';
 import pathDomains from '../../../router';
 import { parsingDate } from '../../../services/valueConvertor';
@@ -38,10 +37,8 @@ const FailedStations = () => {
             <div className="err-stations-list">
                 <div className="coulmns-table">
                     <span style={{ width: '100px' }}>Name</span>
-                    <span style={{ width: '100px' }}>Total messages</span>
-                    <span style={{ width: '100px' }}>Poison messages</span>
                     <span style={{ width: '200px' }}>Creation date</span>
-                    {/* <span style={{ width: '100px' }}>Status</span> */}
+                    <span style={{ width: '100px' }}>Created by</span>
                     <span style={{ width: '100px' }}></span>
                 </div>
                 <div className="rows-wrapper">
@@ -51,28 +48,12 @@ const FailedStations = () => {
                                 <OverflowTip text={station.name} width={'100px'}>
                                     {station.name}
                                 </OverflowTip>
-                                <OverflowTip text={station.name} width={'100px'}>
-                                    {station.name}
-                                </OverflowTip>
-                                <OverflowTip text={station.name} width={'100px'}>
-                                    {station.name}
-                                </OverflowTip>
                                 <OverflowTip text={parsingDate(station.creation_date)} width={'200px'}>
                                     {parsingDate(station.creation_date)}
                                 </OverflowTip>
-                                Created by
-                                {/* {station.status === 1 && (
-                                    <span style={{ width: '100px' }}>
-                                        <div className="dot green"></div>
-                                        In action
-                                    </span>
-                                )}
-                                {station.status === 2 && (
-                                    <span style={{ width: '100px' }}>
-                                        <div className="dot yellow"></div>
-                                        On idle
-                                    </span>
-                                )} */}
+                                <OverflowTip text={station.created_by_user} width={'100px'}>
+                                    {station.created_by_user}
+                                </OverflowTip>
                                 <Link style={{ cursor: 'pointer' }} to={`${pathDomains.stations}/${station.name}`}>
                                     <span className="link-row" style={{ width: '100px' }}>
                                         Go to station
