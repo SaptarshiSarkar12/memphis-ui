@@ -5,6 +5,12 @@
     min-width: 700px;
     height: 100%;
     overflow: auto;
+
+    ::-webkit-input-placeholder {
+        color: #818c99;
+        font-size: 12px;
+        font-weight: 400;
+    }
     .factory-details-header {
         padding-top: 15px;
         height: 75px;
@@ -15,8 +21,13 @@
             .main-header-h1 {
                 padding: 1px;
                 margin-bottom: 10px;
+                font-size: 24px;
+                font-weight: 600;
+                margin-left: 25px;
                 .num-stations {
                     color: #b4b4b4;
+                    font-weight: 400;
+                    font-size: 24px;
                 }
             }
             .edit-icon {
@@ -115,7 +126,7 @@
             }
         }
         .right-side {
-            margin-right: 2vw;
+            margin-right: 0.2vw;
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -126,6 +137,14 @@
                 margin-left: 15px;
                 margin-right: 15px;
             }
+            .search-icon .anticon svg {
+                height: 16.5px;
+                width: 16.5px;
+                margin-right: 5px;
+                margin-left: 10px;
+                color: '#818C99';
+                opacity: 1;
+            }
         }
     }
     .stations-content {
@@ -133,6 +152,7 @@
         padding: 3px 3px 2px 3px;
         position: relative;
         overflow: auto;
+        margin-left: 33px;
         .no-station-to-display {
             position: relative;
             display: flex;
