@@ -152,19 +152,6 @@ const App = withRouter(() => {
                                 ></AppWrapper>
                             }
                         />
-                        {/* <PrivateRoute
-                            exact
-                            path={pathDomains.factoriesList}
-                            component={
-                                <AppWrapper
-                                    content={
-                                        <div>
-                                            <FactoriesList />
-                                        </div>
-                                    }
-                                ></AppWrapper>
-                            }
-                        /> */}
                         <PrivateRoute
                             exact
                             path={pathDomains.stations}
@@ -180,25 +167,12 @@ const App = withRouter(() => {
                         />
                         <PrivateRoute
                             exact
-                            path={`${pathDomains.factoriesList}/:id/:id`}
+                            path={`${pathDomains.stations}/:id`}
                             component={
                                 <AppWrapper
                                     content={
                                         <div>
                                             <StationOverview />
-                                        </div>
-                                    }
-                                ></AppWrapper>
-                            }
-                        />
-                        <PrivateRoute
-                            exact
-                            path={`${pathDomains.factoriesList}/:id/:id/:id`}
-                            component={
-                                <AppWrapper
-                                    content={
-                                        <div>
-                                            <MessageJourney />
                                         </div>
                                     }
                                 ></AppWrapper>

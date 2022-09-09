@@ -37,13 +37,6 @@ export const ApiEndpoints = {
     DONE_NEXT_STEPS: '/usermgmt/doneNextSteps',
     GET_SIGNUP_FLAG: '/usermgmt/getSignUpFlag',
 
-    //Factory
-    CREATE_FACTORY: '/factories/createFactory',
-    GEL_ALL_FACTORIES: '/factories/getAllFactories',
-    GEL_FACTORY: '/factories/getFactory',
-    EDIT_FACTORY: '/factories/editFactory',
-    REMOVE_FACTORY: '/factories/removeFactory',
-
     //Station
     CREATE_STATION: '/stations/createStation',
     REMOVE_STATION: '/stations/removeStation',

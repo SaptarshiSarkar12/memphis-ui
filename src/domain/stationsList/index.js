@@ -36,6 +36,7 @@ import stationsIcon from '../../assets/images/stationIcon.svg';
 import StationsInstructions from '../../components/stationsInstructions';
 
 const StationsList = () => {
+    const url = window.location.href;
     const history = useHistory();
     const botId = 1;
 
@@ -44,6 +45,8 @@ const StationsList = () => {
     const [stationsList, setStationList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [searchInput, setSearchInput] = useState('');
+    const [isLoading, setisLoading] = useState(false);
+    const createStationRef = useRef(null);
     const [parseDate, setParseDate] = useState('');
     const [botUrl, SetBotUrl] = useState('');
     const [botImage, setBotImage] = useState('');
