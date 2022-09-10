@@ -1,0 +1,36 @@
+.empty-stations-container {
+    height: 70%;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+
+    .stations-icon {
+        width: 120.7px;
+        height: 96.56px;
+    }
+
+    .header-empty-stations {
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 37px;
+        color: #1d1d1d;
+    }
+
+    .header-empty-description {
+        font-size: 12px;
+        font-weight: 400;
+        color: #8f8f8f;
+        width: 35%;
+        margin-top: 12px;
+    }
+}
+.one-stations-container {
+    height: 70%;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
