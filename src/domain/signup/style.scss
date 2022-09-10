@@ -79,4 +79,16 @@
     .form-fields {
         z-index: 3;
     }
+    .error-message{
+        margin-top: 10px;
+    }
+    .version{
+        display: flex;
+        p{
+            font-weight: 400;
+            font-size: 12px;
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+    }
 }

@@ -71,7 +71,7 @@ const Signup = (props) => {
 
     const getSignupFlag = useCallback(async () => {
         const data = await httpRequest('GET', ApiEndpoints.GET_SIGNUP_FLAG);
-        if (data.exist) {
+        if (!data.exist) {
             history.push(pathDomains.login);
         }
         setisLoading(false);
@@ -95,7 +95,7 @@ const Signup = (props) => {
         }
     }, [getSignupFlag, getSystemVersion]);
 
-    const handleSubmit = useCallback(async (e) => {
+    const handleSubmit = async (e) => {
         const values = await signupForm.validateFields();
         if (values?.errorFields) {
             return;
@@ -121,11 +121,7 @@ const Signup = (props) => {
             }
             setLoadingSubmit(false);
         }
-    }, []);
-
-    useEffect(() => {
-        getSystemVersion().catch(setLoadingSubmit(false));
-    }, [handleSubmit]);
+    };
 
     return (
         <>
@@ -238,6 +234,11 @@ const Signup = (props) => {
                                 </Form.Item>
                                 <label className="unselected-toggle">Receive features and release updates (You can unsubscribe at any time)</label>
                             </div>
+                            {error && (
+                                <div className="error-message">
+                                    <p>For some reason we couldn’t process your signup, please reach to support</p>
+                                </div>
+                            )}
                             <Form.Item className="button-container">
                                 <Button
                                     width="276px"
@@ -256,15 +257,11 @@ const Signup = (props) => {
                                     onClick={handleSubmit}
                                 />
                             </Form.Item>
-                            {error && (
-                                <div className="error-message">
-                                    <p>For some reason we couldn’t process your signup, please reach to support</p>
-                                </div>
-                            )}
                         </Form>
-                        {/* <div className="version">
-                            <p>{systemVersion}</p>
-                        </div> */}
+                        <div className="version">
+                            <p>v0.3.5</p>
+                            <img src={betaBadge} />
+                        </div>
                     </div>
                 </section>
             )}
