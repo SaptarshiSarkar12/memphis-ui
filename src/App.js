@@ -46,6 +46,7 @@ import SysLogs from './domain/sysLogs';
 import pathDomains from './router';
 import Users from './domain/users';
 import Login from './domain/login';
+import Signup from './domain/signup';
 
 const App = withRouter(() => {
     const [state, dispatch] = useContext(Context);
@@ -101,7 +102,7 @@ const App = withRouter(() => {
                 return true;
             }
         } else {
-            history.push('/login');
+            history.push(pathDomains.signup);
         }
     };
 
@@ -112,6 +113,7 @@ const App = withRouter(() => {
                 {!authCheck && (
                     <Switch>
                         {process.env.REACT_APP_SANDBOX_ENV && <Route exact path={pathDomains.login} component={SandboxLogin} />}
+                        {!process.env.REACT_APP_SANDBOX_ENV && <Route exact path={pathDomains.signup} component={Signup} />}
                         {!process.env.REACT_APP_SANDBOX_ENV && <Route exact path={pathDomains.login} component={Login} />}
                         <PrivateRoute
                             exact

@@ -13,24 +13,26 @@
 
 import './style.scss';
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { KeyboardArrowRightRounded } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
+import io from 'socket.io-client';
 import { Form } from 'antd';
 
 import { LOCAL_STORAGE_TOKEN } from '../../const/localStorageConsts';
 import betaFullLogo from '../../assets/images/betaFullLogo.svg';
-import signup from '../../assets/images/signup.svg';
+import betaBadge from '../../assets/images/betaBadge.svg';
 import { ApiEndpoints } from '../../const/apiEndpoints';
-import sharps from '../../assets/images/sharps.svg';
+import signup from '../../assets/images/signup.svg';
 import { httpRequest } from '../../services/http';
+import Switcher from '../../components/switcher';
 import AuthService from '../../services/auth';
 import Button from '../../components/button';
 import Loader from '../../components/loader';
 import { Context } from '../../hooks/store';
 import Input from '../../components/Input';
-import Switcher from '../../components/switcher';
 import { SOCKET_URL } from '../../config';
-import io from 'socket.io-client';
+import pathDomains from '../../router';
 
 const Signup = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -44,6 +46,9 @@ const Signup = (props) => {
         user_type: 'management'
     });
     const [error, setError] = useState('');
+    const [systemVersion, setSystemVersion] = useState('');
+    const [isLoading, setisLoading] = useState(true);
+
     const referer = props?.location?.state?.referer || '/overview';
 
     const handleEmailChange = (e) => {
@@ -64,14 +69,33 @@ const Signup = (props) => {
 
     const [loadingSubmit, setLoadingSubmit] = useState(false);
 
+    const getSignupFlag = useCallback(async () => {
+        const data = await httpRequest('GET', ApiEndpoints.GET_SIGNUP_FLAG);
+        if (!data.exist) {
+            history.push(pathDomains.login);
+        }
+        setisLoading(false);
+    }, []);
+
+    const getSystemVersion = useCallback(async () => {
+        const data = await httpRequest('GET', ApiEndpoints.GET_CLUSTER_INFO);
+        if (data) {
+            setSystemVersion(data.version);
+        }
+        setisLoading(false);
+    }, []);
+
     useEffect(() => {
         if (localStorage.getItem(LOCAL_STORAGE_TOKEN) && AuthService.isValidToken()) {
             history.push(referer);
+        } else {
+            setisLoading(true);
+            getSignupFlag().catch(setisLoading(false));
+            getSystemVersion().catch(setisLoading(false));
         }
-    }, []);
+    }, [getSignupFlag, getSystemVersion]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = useCallback(async (e) => {
         const values = await signupForm.validateFields();
         if (values?.errorFields) {
             return;
@@ -97,97 +121,47 @@ const Signup = (props) => {
             }
             setLoadingSubmit(false);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        getSystemVersion().catch(setLoadingSubmit(false));
+    }, [handleSubmit]);
 
     return (
         <>
-            <section className="signup-container">
-                {state.loading ? <Loader></Loader> : ''}
-                <img alt="sharps" className="signup-img" src={signup}></img>
-                <div className="signup-form">
-                    <img alt="logo" className="form-logo" src={betaFullLogo}></img>
-                    <p className="signup-sub-title">Let’s get started with memphis</p>
-                    <Form
-                        className="form-fields"
-                        name="basic"
-                        initialValues={{
-                            remember: true
-                        }}
-                        form={signupForm}
-                    >
-                        <Form.Item
-                            name="username"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Email can not be empty'
-                                },
-                                {
-                                    type: 'email',
-                                    message: 'Please insert a valid email'
-                                }
-                            ]}
+            {!isLoading && (
+                <section className="signup-container">
+                    {state.loading ? <Loader></Loader> : ''}
+                    <img alt="signup-img" className="signup-img" src={signup}></img>
+                    <div className="signup-form">
+                        <img alt="logo" className="form-logo" src={betaFullLogo}></img>
+                        <p className="signup-sub-title">Let’s create your first user</p>
+                        <Form
+                            className="form-fields"
+                            name="basic"
+                            initialValues={{
+                                remember: true
+                            }}
+                            form={signupForm}
                         >
-                            <div className="field name">
-                                <p>Your email</p>
-                                <Input
-                                    placeholder="name@company.com"
-                                    type="text"
-                                    radiusType="semi-round"
-                                    colorType="gray"
-                                    backgroundColorType="none"
-                                    borderColorType="gray"
-                                    width="470px"
-                                    height="43px"
-                                    minWidth="200px"
-                                    onBlur={handleEmailChange}
-                                    onChange={handleEmailChange}
-                                    value={formFields.username}
-                                />
-                            </div>
-                        </Form.Item>
-                        <Form.Item
-                            name="full_name"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Fullname can not be empty'
-                                }
-                            ]}
-                        >
-                            <div className="field">
-                                <p>Full name</p>
-                                <Input
-                                    placeholder="Type your name"
-                                    type="text"
-                                    radiusType="semi-round"
-                                    colorType="gray"
-                                    backgroundColorType="none"
-                                    borderColorType="gray"
-                                    width="470px"
-                                    height="43px"
-                                    minWidth="200px"
-                                    onBlur={handleFullNameChange}
-                                    onChange={handleFullNameChange}
-                                    value={formFields.full_name}
-                                />
-                            </div>
-                        </Form.Item>
-                        <Form.Item
-                            name="password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Password can not be empty'
-                                }
-                            ]}
-                        >
-                            <div className="field password">
-                                <p>Password</p>
-                                <div id="e2e-tests-password">
+                            <Form.Item
+                                name="username"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Email can not be empty'
+                                    },
+                                    {
+                                        type: 'email',
+                                        message: 'Please insert a valid email'
+                                    }
+                                ]}
+                            >
+                                <div className="field name">
+                                    <p>Your email</p>
                                     <Input
-                                        placeholder="Password"
-                                        type="password"
+                                        placeholder="name@gmail.com"
+                                        type="text"
                                         radiusType="semi-round"
                                         colorType="gray"
                                         backgroundColorType="none"
@@ -195,43 +169,105 @@ const Signup = (props) => {
                                         width="470px"
                                         height="43px"
                                         minWidth="200px"
-                                        onChange={handlePasswordChange}
-                                        onBlur={handlePasswordChange}
-                                        value={formFields.password}
+                                        onBlur={handleEmailChange}
+                                        onChange={handleEmailChange}
+                                        value={formFields.username}
                                     />
                                 </div>
-                            </div>
-                        </Form.Item>
-                        <p className="future-updates">Features and releases updates</p>
-                        <div className="toggle-analytics">
-                            <Form.Item name="subscription" initialValue={formFields.subscription} style={{ marginBottom: '0' }}>
-                                <Switcher onChange={() => switchSubscription()} checked={formFields.subscription} checkedChildren="" unCheckedChildren="" />
                             </Form.Item>
-                            <label className="unselected-toggle">Receive features and releases updates (You can unsubscribe any time)</label>
-                        </div>
-                        <Form.Item className="button-container">
-                            <Button
-                                width="470px"
-                                height="43px"
-                                minWidth="200px"
-                                placeholder="Continue"
-                                colorType="white"
-                                radiusType="circle"
-                                backgroundColorType="purple"
-                                fontSize="12px"
-                                fontWeight="600"
-                                isLoading={loadingSubmit}
-                                onClick={handleSubmit}
-                            />
-                        </Form.Item>
-                        {error && (
-                            <div className="error-message">
-                                <p>For some reason we couldn’t process your signup, please reach to support</p>
+                            <Form.Item
+                                name="full_name"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Fullname can not be empty'
+                                    }
+                                ]}
+                            >
+                                <div className="field">
+                                    <p>Full name</p>
+                                    <Input
+                                        placeholder="Type your name"
+                                        type="text"
+                                        radiusType="semi-round"
+                                        colorType="gray"
+                                        backgroundColorType="none"
+                                        borderColorType="gray"
+                                        width="470px"
+                                        height="43px"
+                                        minWidth="200px"
+                                        onBlur={handleFullNameChange}
+                                        onChange={handleFullNameChange}
+                                        value={formFields.full_name}
+                                    />
+                                </div>
+                            </Form.Item>
+                            <Form.Item
+                                name="password"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Password can not be empty'
+                                    }
+                                ]}
+                            >
+                                <div className="field password">
+                                    <p>Password</p>
+                                    <div id="e2e-tests-password">
+                                        <Input
+                                            placeholder="Password"
+                                            type="password"
+                                            radiusType="semi-round"
+                                            colorType="gray"
+                                            backgroundColorType="none"
+                                            borderColorType="gray"
+                                            width="470px"
+                                            height="43px"
+                                            minWidth="200px"
+                                            onChange={handlePasswordChange}
+                                            onBlur={handlePasswordChange}
+                                            value={formFields.password}
+                                        />
+                                    </div>
+                                </div>
+                            </Form.Item>
+                            <p className="future-updates">Features and releases updates</p>
+                            <div className="toggle-analytics">
+                                <Form.Item name="subscription" initialValue={formFields.subscription} style={{ marginBottom: '0' }}>
+                                    <Switcher onChange={() => switchSubscription()} checked={formFields.subscription} checkedChildren="" unCheckedChildren="" />
+                                </Form.Item>
+                                <label className="unselected-toggle">Receive features and release updates (You can unsubscribe at any time)</label>
                             </div>
-                        )}
-                    </Form>
-                </div>
-            </section>
+                            <Form.Item className="button-container">
+                                <Button
+                                    width="276px"
+                                    height="43px"
+                                    placeholder={
+                                        <div className="placeholder-btn">
+                                            <p>Continue</p> <KeyboardArrowRightRounded />
+                                        </div>
+                                    }
+                                    colorType="white"
+                                    radiusType="circle"
+                                    backgroundColorType="purple"
+                                    fontSize="12px"
+                                    fontWeight="600"
+                                    isLoading={loadingSubmit}
+                                    onClick={handleSubmit}
+                                />
+                            </Form.Item>
+                            {error && (
+                                <div className="error-message">
+                                    <p>For some reason we couldn’t process your signup, please reach to support</p>
+                                </div>
+                            )}
+                        </Form>
+                        {/* <div className="version">
+                            <p>{systemVersion}</p>
+                        </div> */}
+                    </div>
+                </section>
+            )}
         </>
     );
 };
