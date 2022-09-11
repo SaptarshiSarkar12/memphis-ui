@@ -156,8 +156,8 @@ const StationsList = () => {
         <div className="stations-details-container">
             <div className="stations-details-header">
                 <div className="left-side">
-                    <label class="main-header-h1">
-                        Stations <label class="num-stations">{stationsList?.length > 0 ? `(${stationsList?.length})` : null}</label>
+                    <label className="main-header-h1">
+                        Stations <label className="num-stations">{stationsList?.length > 0 ? `(${stationsList?.length})` : null}</label>
                     </label>
                 </div>
                 <div className="right-side">
