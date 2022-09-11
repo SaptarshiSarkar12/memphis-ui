@@ -231,8 +231,14 @@ const StationOverviewHeader = (props) => {
                         <div className="installation">
                             <p>Installation</p>
                             <div className="install-copy">
-                                <p></p>
-                                <CopyBlock text={CODE_EXAMPLE[langSelected].installation} showLineNumbers={false} theme={atomOneLight} wrapLines={true} codeBlock />
+                                <CopyBlock
+                                    className="copyBlock"
+                                    text={CODE_EXAMPLE[langSelected].installation}
+                                    showLineNumbers={false}
+                                    theme={atomOneLight}
+                                    wrapLines={true}
+                                    codeBlock
+                                />
                             </div>
                         </div>
                         <div className="tabs">
