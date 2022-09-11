@@ -160,7 +160,6 @@ const CreateStationDetails = (props) => {
             if (data) {
                 history.push(`${pathDomains.stations}/${data.name}`);
             }
-            props.finish();
         } catch (error) {}
     };
 

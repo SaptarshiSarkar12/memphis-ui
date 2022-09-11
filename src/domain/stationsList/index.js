@@ -204,7 +204,7 @@ const StationsList = () => {
                 clickOutside={() => modalFlip(false)}
                 open={modalIsOpen}
             >
-                <CreateStationDetails finish={() => modalFlip(false)} createStationRef={createStationRef} />
+                <CreateStationDetails createStationRef={createStationRef} />
             </Modal>
         </div>
     );
