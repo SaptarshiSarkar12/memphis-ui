@@ -171,8 +171,7 @@ function OverView() {
                         />
                     </div>
                     <div className="overview-components">
-                        <GetStarted />
-                        {/* {stationsOfUser.length === 0 ? (
+                        {stationsOfUser.length === 0 ? (
                             <div className="left-side">
                                 <GetStarted />
                             </div>
@@ -182,7 +181,7 @@ function OverView() {
                                 <FailedStations />
                                 <Throughput />
                             </div>
-                        )} */}
+                        )}
                         <div className="right-side">
                             <Resources />
                             <SysComponents />
