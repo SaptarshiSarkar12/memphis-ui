@@ -93,12 +93,7 @@ const StationBoxOverview = (props) => {
                         <img src={retentionImg} alt="retention" />
                         <label className="data-labels">Retention</label>
                         <p className="data-info">
-                            <OverflowTip
-                                text={
-                                    retentionValue
-                                }
-                                width={'90px'}
-                            >
+                            <OverflowTip text={retentionValue} width={'90px'}>
                                 {retentionValue}
                             </OverflowTip>
                         </p>
@@ -144,31 +139,26 @@ const StationBoxOverview = (props) => {
                         handleCloseMenu();
                     }}
                 >
-                    <div className="menu-item-container">
-                        <div>
-                            <DeleteOutline className="menu-item-icon" />
-                            <label id="e2e-tests-remove-stations" className="menu-item-label">
-                                Remove
-                            </label>
-                        </div>
-                        <div>
-                    
-                            <img src={stationsIcon} alt="stationsIcon" style={{ height: '15px', width: '15px' }} />
-                            <Link
-                                id="e2e-tests-remove-stations"
-                                className="menu-item-label"
-                                style={{ color: 'black' }}
-                                to={`${pathDomains.stations}/${props.station.station.name}`}
-                            >
-                                Overview
-                            </Link>
-                        </div>
-                    </div>
+                    <DeleteOutline className="menu-item-icon" />
+                    <label id="e2e-tests-remove-stations" className="menu-item-label">
+                        Remove
+                    </label>
+                </MenuItem>
+                <MenuItem>
+                    <img src={stationsIcon} alt="stationsIcon" style={{ height: '15px', width: '15px' }} />
+                    <Link
+                        id="e2e-tests-remove-stations"
+                        className="menu-item-label"
+                        style={{ color: 'black' }}
+                        to={`${pathDomains.stations}/${props.station.station.name}`}
+                    >
+                        Overview
+                    </Link>
                 </MenuItem>
             </Popover>
             <Modal
                 header="Remove station"
-                height="260px"
+                height="100px"
                 minWidth="460px"
                 rBtnText="Cancel"
                 lBtnText="Remove"

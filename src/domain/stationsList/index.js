@@ -78,7 +78,6 @@ const StationsList = () => {
             setFilteredList(res.stations);
             setTimeout(() => {
                 setisLoading(false);
-
             }, 1000);
         } catch (err) {
             setisLoading(false);
@@ -133,11 +132,7 @@ const StationsList = () => {
                         {filteredList?.map((station) => (
                             <StationBoxOverview key={station.station.id} station={station} removeStation={() => removeStation(station.station.name)} />
                         ))}
-                        <StationsInstructions
-                            header="Add more stations"
-                            button="Add Station"
-                            newStation={() => modalFlip(true)}
-                        />
+                        <StationsInstructions header="Add more stations" button="Add Station" newStation={() => modalFlip(true)} />
                     </div>
                 );
             }
@@ -145,15 +140,7 @@ const StationsList = () => {
                 <StationBoxOverview key={station.station.id} station={station} removeStation={() => removeStation(station.station.name)} />
             ));
         }
-        return (
-            <StationsInstructions
-                header="You don’t have any station yet?"
-                button="Create New Station"
-                image={stationsIcon}
-                newStation={() => modalFlip(true)}
-                style={{ marginTop: '5%' }}
-            />
-        );
+        return <StationsInstructions header="You don’t have any station yet?" button="Create New Station" image={stationsIcon} newStation={() => modalFlip(true)} />;
     };
 
     return (

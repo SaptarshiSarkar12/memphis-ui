@@ -3,15 +3,18 @@ import React from 'react';
 import './style.scss';
 
 const StationsInstructions = (props) => {
-    const { header, button, image, newStation, style } = props;
-    const description = "Create your first station"
-    const sub_description = "A station is a distributed unit that producers store data at and consumers consume data from."
+    const { header, button, image, newStation } = props;
+    const description = 'Create your first station';
+    const sub_description = 'A station is a distributed unit that producers store data at and consumers consume data from.';
 
     return (
-        <div className="empty-stations-container" style={style}>
+        <div className="empty-stations-container">
             {image ? <img src={image} className="stations-icon" alt="stationsImage"></img> : null}
             <div className="header-empty-stations">{header}</div>
-            <p className="header-empty-description">{description} <br/>{sub_description}</p>
+            <p className="header-empty-description">
+                {description} <br />
+                {sub_description}
+            </p>
             <Button
                 className="modal-btn"
                 width="180px"
