@@ -1,14 +1,14 @@
 .empty-stations-container {
-    height: 70%;
+    height: calc(100% - 75px);
     text-align: center;
     align-items: center;
     flex-direction: column;
     display: flex;
     justify-content: center;
+    margin-top: 10%;
 
     .stations-icon {
-        width: 120.7px;
-        height: 96.56px;
+        width: 120px;
     }
 
     .header-empty-stations {
@@ -25,12 +25,4 @@
         width: 35%;
         margin-top: 12px;
     }
-}
-.one-stations-container {
-    height: 70%;
-    text-align: center;
-    align-items: center;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
 }

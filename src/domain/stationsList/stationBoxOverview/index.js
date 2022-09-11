@@ -28,6 +28,7 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
 import { MinusOutlined } from '@ant-design/icons';
+import pathDomains from '../../../router';
 
 import { convertSecondsToDate } from '../../../services/valueConvertor';
 import Modal from '../../../components/modal';
@@ -38,6 +39,8 @@ import storageImg from '../../../assets/images/storage.svg';
 import replicasImg from '../../../assets/images/replicas.svg';
 import totalMsgImg from '../../../assets/images/total_msg.svg';
 import poisonMsgImg from '../../../assets/images/poison_msg.svg';
+import { Link } from 'react-router-dom';
+import stationsIcon from '../../../assets/images/stationsIcon.svg';
 
 const StationBoxOverview = (props) => {
     const [modalIsOpen, modalFlip] = useState(false);
@@ -48,6 +51,7 @@ const StationBoxOverview = (props) => {
     useEffect(() => {
         switch (props.station.station.retention_type) {
             case 'message_age_sec':
+                convertSecondsToDate(props.station.station.retention_value);
                 setRetentionValue(convertSecondsToDate(props.station.station.retention_value));
                 break;
             case 'bytes':
@@ -70,69 +74,68 @@ const StationBoxOverview = (props) => {
     };
 
     return (
-        <div className="station-box-container">
-            <div className="left-section">
-                <p className="station-name">{props.station?.station?.name}</p>
-                <label className="data-labels">Created: {parsingDate(props.station.station.creation_date)}</label>
-            </div>
-            <div className="middle-section">
-                <div className="station-created">
-                    <label className="data-labels">Created by</label>
-                    <OverflowTip text={props.station.station.created_by_user} width={'100px'}>
-                        <p className="data-info">{props.station.station.created_by_user}</p>
-                    </OverflowTip>
+        <div>
+            <Link className="station-box-container" to={`${pathDomains.stations}/${props.station.station.name}`}>
+                <div className="left-section">
+                    <p className="station-name">{props.station?.station?.name}</p>
+                    <label className="data-labels">Created: {parsingDate(props.station.station.creation_date)}</label>
                 </div>
-            </div>
-            <div className="right-section">
-                <div className="station-meta">
-                    <img src={retentionImg} alt="retention" />
-                    <label className="data-labels">Retention</label>
-                    <p className="data-info">
-                        <OverflowTip
-                            text={
-                                props.station.station.retention_type === 'message_age_sec'
-                                    ? convertSecondsToDate(props.station.station.retention_value)
-                                    : props.station.station.retention_value
-                            }
-                            width={'90px'}
-                        >
-                            {props.station.station.retention_type === 'message_age_sec'
-                                ? convertSecondsToDate(props.station.station.retention_value)
-                                : props.station.station.retention_value}{' '}
-                            {props.station.station.retention_type !== 'message_age_sec' && props.station.station.retention_type}
+                <div className="middle-section">
+                    <div className="station-created">
+                        <label className="data-labels">Created by</label>
+                        <OverflowTip text={props.station.station.created_by_user} width={'100px'}>
+                            <p className="data-info">{props.station.station.created_by_user}</p>
                         </OverflowTip>
-                    </p>
+                    </div>
                 </div>
-                <div className="station-meta">
-                    <img src={storageImg} alt="storage" />
-                    <label className="data-labels">Storage Type</label>
-                    <p className="data-info">{props.station.station.storage_type}</p>
+                <div className="right-section">
+                    <div className="station-meta">
+                        <img src={retentionImg} alt="retention" />
+                        <label className="data-labels">Retention</label>
+                        <p className="data-info">
+                            <OverflowTip
+                                text={
+                                    retentionValue
+                                }
+                                width={'90px'}
+                            >
+                                {retentionValue}
+                            </OverflowTip>
+                        </p>
+                    </div>
+                    <div className="station-meta">
+                        <img src={storageImg} alt="storage" />
+                        <label className="data-labels">Storage Type</label>
+                        <p className="data-info">{props.station.station.storage_type}</p>
+                    </div>
+                    <div className="station-meta">
+                        <img src={replicasImg} alt="replicas" />
+                        <label className="data-labels">Replicas</label>
+                        <p className="data-info">{props.station.station.replicas}</p>
+                    </div>
+                    <div className="station-meta">
+                        <img src={totalMsgImg} alt="total messages" />
+                        <label className="data-labels">Total messages</label>
+                        <p className="data-info">
+                            {props.station.total_messages === 0 ? <MinusOutlined style={{ color: '#2E2C34' }} /> : props?.station?.total_messages}
+                        </p>
+                    </div>
+                    <div className="station-meta">
+                        <img src={poisonMsgImg} alt="poison messages" />
+                        <label className="data-labels">Poison messages</label>
+                        <p className="data-info">{props?.station?.posion_messages === 0 ? <MinusOutlined /> : props?.station?.posion_messages}</p>
+                    </div>
+                    <MoreVertIcon
+                        aria-controls="long-button"
+                        aria-haspopup="true"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleClickMenu(e);
+                        }}
+                        className="threedots-menu"
+                    />
                 </div>
-                <div className="station-meta">
-                    <img src={replicasImg} alt="replicas" />
-                    <label className="data-labels">Replicas</label>
-                    <p className="data-info">{props.station.station.replicas}</p>
-                </div>
-                <div className="station-meta">
-                    <img src={totalMsgImg} alt="total messages" />
-                    <label className="data-labels">Total messages</label>
-                    <p className="data-info">{props.station.total_messages === 0 ? <MinusOutlined style={{ color: '#2E2C34' }} /> : props?.station?.total_messages}</p>
-                </div>
-                <div className="station-meta">
-                    <img src={poisonMsgImg} alt="poison messages" />
-                    <label className="data-labels">Poison messages</label>
-                    <p className="data-info">{props?.station?.posion_messages === 0 ? <MinusOutlined /> : props?.station?.posion_messages}</p>
-                </div>
-                <MoreVertIcon
-                    aria-controls="long-button"
-                    aria-haspopup="true"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleClickMenu(e);
-                    }}
-                    className="threedots-menu"
-                />
-            </div>
+            </Link>
 
             <Popover id="long-menu" classes={{ paper: 'Menu c' }} anchorEl={anchorEl} onClose={handleCloseMenu} open={open}>
                 <MenuItem
@@ -141,10 +144,26 @@ const StationBoxOverview = (props) => {
                         handleCloseMenu();
                     }}
                 >
-                    <DeleteOutline className="menu-item-icon" />
-                    <label id="e2e-tests-remove-stations" className="menu-item-label">
-                        Remove
-                    </label>
+                    <div className="menu-item-container">
+                        <div>
+                            <DeleteOutline className="menu-item-icon" />
+                            <label id="e2e-tests-remove-stations" className="menu-item-label">
+                                Remove
+                            </label>
+                        </div>
+                        <div>
+                    
+                            <img src={stationsIcon} alt="stationsIcon" style={{ height: '15px', width: '15px' }} />
+                            <Link
+                                id="e2e-tests-remove-stations"
+                                className="menu-item-label"
+                                style={{ color: 'black' }}
+                                to={`${pathDomains.stations}/${props.station.station.name}`}
+                            >
+                                Overview
+                            </Link>
+                        </div>
+                    </div>
                 </MenuItem>
             </Popover>
             <Modal
