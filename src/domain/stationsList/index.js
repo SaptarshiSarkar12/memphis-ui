@@ -36,6 +36,7 @@ import stationsIcon from '../../assets/images/stationIcon.svg';
 import StationsInstructions from '../../components/stationsInstructions';
 import Modal from '../../components/modal';
 import CreateStationDetails from '../../components/createStationDetails';
+import Loader from '../../components/loader';
 
 const StationsList = () => {
     const url = window.location.href;
@@ -50,7 +51,7 @@ const StationsList = () => {
     const [isLoading, setisLoading] = useState(false);
     const createStationRef = useRef(null);
     const [parseDate, setParseDate] = useState('');
-    const [botUrl, SetBotUrl] = useState('');
+    const [botUrl, setBotUrl] = useState('');
     const [botImage, setBotImage] = useState('');
 
     useEffect(() => {
@@ -59,7 +60,7 @@ const StationsList = () => {
     }, []);
 
     useEffect(() => {
-        if (searchInput.length >= 2) setFilteredList(stationsList.filter((station) => station.station.name.startsWith(searchInput)));
+        if (searchInput.length >= 2) setFilteredList(stationsList.filter((station) => station.station.name.includes(searchInput)));
         else setFilteredList(stationsList);
     }, [searchInput]);
 
@@ -70,11 +71,17 @@ const StationsList = () => {
     }, [stationsList]);
 
     const getAllStations = async () => {
+        setisLoading(true);
         try {
             const res = await httpRequest('GET', `${ApiEndpoints.GET_STATIONS}`);
             setStationList(res.stations);
             setFilteredList(res.stations);
+            setTimeout(() => {
+                setisLoading(false);
+
+            }, 1000);
         } catch (err) {
+            setisLoading(false);
             return;
         }
     };
@@ -120,7 +127,7 @@ const StationsList = () => {
 
     const renderStationsOverview = () => {
         if (stationsList?.length > 0) {
-            if (stationsList?.length === 1) {
+            if (stationsList?.length <= 2) {
                 return (
                     <div>
                         {filteredList?.map((station) => (
@@ -128,9 +135,7 @@ const StationsList = () => {
                         ))}
                         <StationsInstructions
                             header="Add more stations"
-                            description="t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of
-                                using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to usin"
-                            button="Create New Station"
+                            button="Add Station"
                             newStation={() => modalFlip(true)}
                         />
                     </div>
@@ -143,11 +148,10 @@ const StationsList = () => {
         return (
             <StationsInstructions
                 header="You don’t have any station yet?"
-                description="t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of
-                                using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to usin"
                 button="Create New Station"
                 image={stationsIcon}
                 newStation={() => modalFlip(true)}
+                style={{ marginTop: '5%' }}
             />
         );
     };
@@ -157,39 +161,46 @@ const StationsList = () => {
             <div className="stations-details-header">
                 <div className="left-side">
                     <label className="main-header-h1">
-                        Stations <label className="num-stations">{stationsList?.length > 0 ? `(${stationsList?.length})` : null}</label>
+                        Stations <label className="num-stations">{stationsList?.length > 0 && `(${stationsList?.length})`}</label>
                     </label>
                 </div>
-                <div className="right-side">
-                    <SearchInput
-                        placeholder="Search Stations"
-                        placeholderColor="red"
-                        width="280px"
-                        height="37px"
-                        borderRadiusType="circle"
-                        backgroundColorType="#EBEDF0"
-                        iconComponent={<SearchOutlined style={{ color: '#818C99', marginTop: '10px' }} />}
-                        onChange={handleSearch}
-                        value={searchInput}
-                    />
-                    <Button
-                        className="modal-btn"
-                        width="180px"
-                        height="37px"
-                        placeholder="Create New Station"
-                        colorType="white"
-                        radiusType="circle"
-                        backgroundColorType="purple"
-                        fontSize="14px"
-                        fontWeight="bold"
-                        marginLeft="15px"
-                        aria-controls="usecse-menu"
-                        aria-haspopup="true"
-                        onClick={() => modalFlip(true)}
-                    />
-                </div>
+                {stationsList?.length > 0 ? (
+                    <div className="right-side">
+                        <SearchInput
+                            placeholder="Search Stations"
+                            placeholderColor="red"
+                            width="280px"
+                            height="37px"
+                            borderRadiusType="circle"
+                            backgroundColorType="gray-dark"
+                            iconComponent={<SearchOutlined style={{ color: '#818C99', marginTop: '10px' }} />}
+                            onChange={handleSearch}
+                            value={searchInput}
+                        />
+                        <Button
+                            className="modal-btn"
+                            width="180px"
+                            height="37px"
+                            placeholder="Create New Station"
+                            colorType="white"
+                            radiusType="circle"
+                            backgroundColorType="purple"
+                            fontSize="14px"
+                            fontWeight="bold"
+                            marginLeft="15px"
+                            aria-controls="usecse-menu"
+                            aria-haspopup="true"
+                            onClick={() => modalFlip(true)}
+                        />
+                    </div>
+                ) : null}
             </div>
-            <div className="stations-content">{renderStationsOverview()}</div>
+            {isLoading && (
+                <div className="loader-uploading">
+                    <Loader />
+                </div>
+            )}
+            {!isLoading && <div className="stations-content">{renderStationsOverview()}</div>}
             <Modal
                 header="Your station details"
                 height="460px"
