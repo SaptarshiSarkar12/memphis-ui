@@ -158,7 +158,7 @@ const CreateStationDetails = (props) => {
         try {
             const data = await httpRequest('POST', ApiEndpoints.CREATE_STATION, bodyRequest);
             if (data) {
-                history.push(pathDomains.stations);
+                history.push(`${pathDomains.stations}/${data.name}`);
             }
             props.finish();
         } catch (error) {}

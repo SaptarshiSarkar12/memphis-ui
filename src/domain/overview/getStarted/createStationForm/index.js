@@ -82,7 +82,7 @@ const CreateStationForm = (props) => {
     };
 
     const onFinish = async () => {
-        if (getStartedState?.formFieldsCreateStation.name) {
+        if (getStartedState?.completedSteps > 0) {
             getStartedDispatch({ type: 'SET_CURRENT_STEP', payload: getStartedState?.currentStep + 1 });
         } else {
             let retentionValue = 0;
