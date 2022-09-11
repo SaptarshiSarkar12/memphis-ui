@@ -3,10 +3,11 @@ import React from 'react';
 import './style.scss';
 
 const StationsInstructions = (props) => {
-    const { header, description, button, image, newStation } = props;
+    const { header, button, image, newStation, style } = props;
+    const description = "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to usin"
 
     return (
-        <div className="empty-stations-container">
+        <div className="empty-stations-container" style={style}>
             {image ? <img src={image} className="stations-icon" alt="stationsImage"></img> : null}
             <div className="header-empty-stations">{header}</div>
             <p className="header-empty-description">{description}</p>
