@@ -66,7 +66,7 @@ const StationsList = () => {
 
     useEffect(() => {
         if (searchInput !== '' && searchInput.length >= 2) {
-            setFilteredList(stationsList.filter((station) => station.station.name.startsWith(searchInput)));
+            setFilteredList(stationsList.filter((station) => station.station.name.includes(searchInput)));
         } else setFilteredList(stationsList);
     }, [stationsList]);
 
@@ -78,7 +78,7 @@ const StationsList = () => {
             setFilteredList(res.stations);
             setTimeout(() => {
                 setisLoading(false);
-            }, 1000);
+            }, 500);
         } catch (err) {
             setisLoading(false);
             return;
