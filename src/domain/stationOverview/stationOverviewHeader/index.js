@@ -27,7 +27,7 @@ import { useHistory } from 'react-router-dom';
 import { Progress } from 'antd';
 
 import { CODE_EXAMPLE, DOCKER_CODE_EXAMPLE } from '../../../const/SDKExample';
-import { convertBytes, convertSecondsToDate } from '../../../services/valueConvertor';
+import { convertBytes, convertSecondsToDate, numberWithCommas } from '../../../services/valueConvertor';
 import averageMesIcon from '../../../assets/images/averageMesIcon.svg';
 import awaitingIcon from '../../../assets/images/awaitingIcon.svg';
 import storageIcon from '../../../assets/images/storageIcon.svg';
@@ -148,7 +148,7 @@ const StationOverviewHeader = (props) => {
                         </div>
                         <div className="more-details">
                             <p className="title">Total messages</p>
-                            <p className="number">{stationState?.stationSocketData?.total_messages || 0}</p>
+                            <p className="number">{numberWithCommas(stationState?.stationSocketData?.total_messages) || 0}</p>
                         </div>
                     </div>
                     <TooltipComponent text="Include extra bytes added by memphis." width={'220px'} cursor="pointer">

@@ -279,7 +279,12 @@ const Messages = () => {
                 )}
             </div>
             <div className="tabs">
-                <CustomTabs value={tabValue} onChange={handleChangeMenuItem} tabs={tabs}></CustomTabs>
+                <CustomTabs
+                    value={tabValue}
+                    onChange={handleChangeMenuItem}
+                    tabs={tabs}
+                    disabled={stationState?.stationSocketData?.poison_messages?.length === 0}
+                ></CustomTabs>
             </div>
             {tabValue === '0' && stationState?.stationSocketData?.messages?.length > 0 && (
                 <div className="list-wrapper">

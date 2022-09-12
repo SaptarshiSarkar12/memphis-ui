@@ -27,13 +27,13 @@ import React from 'react';
 const { TabPane } = Tabs;
 
 const CustomTabs = (props) => {
-    const { tabs, onChange, value } = props;
+    const { tabs, onChange, value, disabled } = props;
 
     return (
-        <div className="tabs-container">
+        <div className={!disabled ? 'tabs-container hover' : 'tabs-container'}>
             <Tabs value={value} onChange={onChange}>
                 {tabs.map((tab, index) => (
-                    <TabPane key={index} tab={tab} />
+                    <TabPane key={index} tab={tab} disabled={disabled} />
                 ))}
             </Tabs>
         </div>
