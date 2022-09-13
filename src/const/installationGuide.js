@@ -18,6 +18,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+import gcpIcon from '../assets/images/gcpIcon.svg';
+import awsIcon from '../assets/images/awsIcon.svg';
 
 export const INSTALLATION_GUIDE = {
     Main: {
@@ -99,7 +101,31 @@ export const INSTALLATION_GUIDE = {
     'Cloud Providers': {
         header: 'Installation/Cloud Providers',
         description: <span>Deploy Memphis to your preferred cloud provider directly. Dedicated kubernetes cluster with memphis installed will be deployed.</span>,
-        steps: [],
+        steps: [
+            {
+                title: 'Choose your cloud:',
+                imgs: [
+                    {
+                        name: 'gcp',
+                        src: <img src={gcpIcon} />
+                    },
+                    {
+                        name: 'aws',
+                        src: <img src={awsIcon} />
+                    }
+                ]
+            },
+            {
+                title: 'Step 0 - Clone Memphis-Terraform repo',
+                command: `git clone git@github.com:memphisdev/memphis-terraform.git && cd memphis-terraform`,
+                icon: 'copy'
+            },
+            {
+                title: 'Step 1 - Deploy',
+                command: `make -C ./AWS/EKS/ allinone`,
+                icon: 'copy'
+            }
+        ],
         showLinks: false
     }
 };
