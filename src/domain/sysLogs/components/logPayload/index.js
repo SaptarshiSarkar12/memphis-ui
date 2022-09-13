@@ -19,14 +19,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-const pathDomains = {
-    login: '/login',
-    signup: '/signup',
-    overview: '/overview',
-    stations: '/stations',
-    users: '/users',
-    settings: '/settings',
-    sysLogs: '/logs'
+import './style.scss';
+
+import React, { useEffect, useContext } from 'react';
+
+import { capitalizeFirst, parsingDate } from '../../../../services/valueConvertor';
+import sourceIcon from '../../../../assets/images/sourceIcon.svg';
+import LogBadge from '../../../../components/logBadge';
+
+const LogPayload = ({ value, onSelected, selectedRow }) => {
+    return (
+        <div className={selectedRow === value.message_seq ? 'log-payload log-selected' : 'log-payload'} onClick={() => onSelected(value.message_seq)}>
+            {selectedRow === value.message_seq && <div className="selected"></div>}
+            <p className="title">{value.data}</p>
+            <p className="created-date">{parsingDate(value.creation_date)}</p>
+            <div className="log-info">
+                <div className="source">
+                    <img src={sourceIcon} />
+                    <p>{capitalizeFirst(value.source)}</p>
+                </div>
+                <LogBadge type={value.type} />
+            </div>
+        </div>
+    );
 };
 
-export default pathDomains;
+export default LogPayload;

@@ -24,42 +24,26 @@ import './style.scss';
 import React, { useEffect, useContext } from 'react';
 
 import { Context } from '../../hooks/store';
-import GenericList from './genericList';
-
-const logColumns = [
-    {
-        key: '1',
-        title: 'Source',
-        width: '100px'
-    },
-    {
-        key: '2',
-        title: 'Type',
-        width: '60px'
-    },
-    {
-        key: '3',
-        title: 'Creation date',
-        width: '200px'
-    },
-    {
-        key: '4',
-        title: 'Log',
-        width: '490px'
-    }
-];
+import clock from '../../assets/images/clock.svg';
+import LogsWrapper from './components/logsWrapper';
 
 const SysLogs = () => {
     const [state, dispatch] = useContext(Context);
 
     useEffect(() => {
-        dispatch({ type: 'SET_ROUTE', payload: 'overview' });
+        dispatch({ type: 'SET_ROUTE', payload: 'logs' });
     }, []);
 
     return (
         <div className="logs-container">
-            <h1 className="main-header-h1">System Logs</h1>
-            <GenericList columns={logColumns} />
+            <header is="3xd">
+                <h1 className="main-header-h1">System Logs</h1>
+                <div className="last-refresh">
+                    <img src={clock} />
+                    <p>Last refresh Today at 15:32 PM</p>
+                </div>
+            </header>
+            <LogsWrapper />
         </div>
     );
 };

@@ -34,7 +34,7 @@ import { httpRequest } from '../../../services/http';
 import { ApiEndpoints } from '../../../const/apiEndpoints';
 import { Context } from '../../../hooks/store';
 
-const GenericList = ({ columns }) => {
+const GenericListOld = ({ columns }) => {
     const types = ['all', 'info', 'warn', 'error'];
 
     const [logsState, setLogState] = useState({
@@ -245,4 +245,4 @@ const GenericList = ({ columns }) => {
     );
 };
 
-export default GenericList;
+export default GenericListOld;

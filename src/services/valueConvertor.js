@@ -123,3 +123,7 @@ export const numberWithCommas = (x) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     } else return 0;
 };
+
+export const capitalizeFirst = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
