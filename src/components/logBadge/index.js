@@ -31,19 +31,16 @@ const LogBadge = ({ type }) => {
         <div className="log-badge-container">
             {type && type === 'info' && (
                 <div className="info">
-                    <CheckCircleSharpIcon className="badge-icon" theme="outlined" />
                     <p>Info</p>
                 </div>
             )}
             {type && type === 'warn' && (
                 <div className="warn">
-                    <ErrorSharpIcon className="badge-icon" theme="outlined" />
                     <p>Warn</p>
                 </div>
             )}
             {type && type === 'error' && (
                 <div className="error">
-                    <Cancel className="badge-icon" theme="outlined" />
                     <p>Error</p>
                 </div>
             )}
