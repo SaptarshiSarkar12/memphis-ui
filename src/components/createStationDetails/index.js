@@ -148,9 +148,7 @@ const CreateStationDetails = (props) => {
                     replicas: values.replicas
                 };
                 createStation(bodyRequest);
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         }
     };
 

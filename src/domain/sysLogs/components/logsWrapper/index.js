@@ -102,7 +102,6 @@ const LogsWrapper = () => {
         state.socket?.on('syslogs_data', (data) => {
             setSocketOn(true);
             if (data) {
-                console.log(data.logs);
                 setLogs(data.logs);
             }
         });
