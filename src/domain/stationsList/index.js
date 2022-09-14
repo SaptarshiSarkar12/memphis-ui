@@ -182,22 +182,24 @@ const StationsList = () => {
                 </div>
             )}
             {!isLoading && <div className="stations-content">{renderStationsOverview()}</div>}
-            <Modal
-                header="Your station details"
-                height="460px"
-                rBtnText="Add"
-                lBtnText="Cancel"
-                lBtnClick={() => {
-                    modalFlip(false);
-                }}
-                rBtnClick={() => {
-                    createStationRef.current();
-                }}
-                clickOutside={() => modalFlip(false)}
-                open={modalIsOpen}
-            >
-                <CreateStationDetails createStationRef={createStationRef} />
-            </Modal>
+            <div id="e2e-createstation-modal">
+                <Modal
+                    header="Your station details"
+                    height="460px"
+                    rBtnText="Add"
+                    lBtnText="Cancel"
+                    lBtnClick={() => {
+                        modalFlip(false);
+                    }}
+                    rBtnClick={() => {
+                        createStationRef.current();
+                    }}
+                    clickOutside={() => modalFlip(false)}
+                    open={modalIsOpen}
+                >
+                    <CreateStationDetails createStationRef={createStationRef} />
+                </Modal>
+            </div>
         </div>
     );
 };

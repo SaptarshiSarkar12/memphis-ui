@@ -175,7 +175,7 @@ const CreateStationDetails = (props) => {
                 ]}
                 style={{ height: '70px' }}
             >
-                <div className="station-name">
+                <div className="station-name" id="e2e-createstation-name">
                     <p className="field-title">
                         <span className="required-field-mark">* </span>Station name
                     </p>
