@@ -27,57 +27,46 @@ import LogBadge from '../../../../components/logBadge';
 import Button from '../../../../components/button';
 import copy from '../../../../assets/images/copy.svg';
 import Copied from '../../../../assets/images/copied.svg';
-import { capitalizeFirst, parsingDate } from '../../../../services/valueConvertor';
+import { capitalizeFirst, cutInfoLog, parsingDate } from '../../../../services/valueConvertor';
 
 const LogContent = ({ displayedLog }) => {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = () => {
         setCopied(true);
-        navigator.clipboard.writeText(displayedLog.data);
+        navigator.clipboard.writeText(displayedLog?.data);
         setTimeout(() => {
             setCopied(false);
         }, 3000);
     };
 
     return (
-        <div className="log-content">
+        <div className="log-content-wrapper">
             <log-header is="3xd">
                 <p>Log Details</p>
             </log-header>
             <log-payload is="3xd">
-                <div className="source">
-                    <p className="title">Source</p>
-                    <span className="des">{capitalizeFirst(displayedLog.source)}</span>
+                <div className="log-details">
+                    <div className="source">
+                        <p className="title">Source</p>
+                        <span className="des">{displayedLog?.source && capitalizeFirst(displayedLog?.source)}</span>
+                    </div>
+                    <div className="type">
+                        <p className="title">Type</p>
+                        <LogBadge type={displayedLog?.type} />
+                    </div>
+                    <div className="date">
+                        <p className="title">Time</p>
+                        <span className="des">{parsingDate(displayedLog?.creation_date)}</span>
+                    </div>
                 </div>
-                <div className="type">
-                    <p className="title">Type</p>
-                    <LogBadge type={displayedLog.type} />
-                </div>
-                <div className="date">
-                    <p className="title">Time</p>
-                    <span className="des">{parsingDate(displayedLog.creation_date)}</span>
-                </div>
-                <Button
-                    width={'130px'}
-                    height="36px"
-                    placeholder={
-                        <div className="button-placholder">
-                            <img src={copied ? Copied : copy} />
-                            <p>Copy Log</p>
-                        </div>
-                    }
-                    colorType="black"
-                    radiusType="semi-round"
-                    border="gray"
-                    backgroundColorType={'white'}
-                    fontSize="14px"
-                    fontWeight="bold"
-                    onClick={() => handleCopy()}
-                />
+                <div></div>
             </log-payload>
             <log-content is="3xd">
-                <p>{displayedLog.data}</p>
+                <p>{cutInfoLog(displayedLog?.data)}</p>
+                <div className="copy-button" onClick={() => handleCopy()}>
+                    <img src={copied ? Copied : copy} />
+                </div>
             </log-content>
         </div>
     );

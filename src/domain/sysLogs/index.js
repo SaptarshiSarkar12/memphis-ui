@@ -24,7 +24,6 @@ import './style.scss';
 import React, { useEffect, useContext } from 'react';
 
 import { Context } from '../../hooks/store';
-import clock from '../../assets/images/clock.svg';
 import LogsWrapper from './components/logsWrapper';
 
 const SysLogs = () => {
@@ -38,10 +37,6 @@ const SysLogs = () => {
         <div className="logs-container">
             <header is="3xd">
                 <h1 className="main-header-h1">System Logs</h1>
-                <div className="last-refresh">
-                    <img src={clock} />
-                    <p>Last refresh Today at 15:32 PM</p>
-                </div>
             </header>
             <LogsWrapper />
         </div>

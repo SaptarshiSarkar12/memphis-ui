@@ -17,13 +17,8 @@
                 font-weight: 600;
                 font-size: 18px;
                 color: #1D1D1D;
-                padding: 15px;
+                padding: 25px;
                 line-height: 18px;
-                margin-bottom: 15px;
-                .logs-length{
-                    font-weight: 400;
-                    color: rgba(74, 73, 92, 0.8)
-                }
             }
             .search-input-container{
                 margin-right: 0;
@@ -31,16 +26,17 @@
                 justify-content: center;
             }
         }
-        logsl {
+        .logsl {
             display: flex;
             flex-direction: column;
             position: relative;
             width: 100%;
             align-items: center;
             margin-top: 10px;
-            height: calc(100% - 120px);
+            height: calc(100% - 90px) !important;
             overflow: auto;
-            .log-payload:nth-child(even) {
+            text-align:-webkit-center;
+            .even .log-payload {
                 background-color: #F9F9FA;
                 border-radius: 4px;
             }
