@@ -57,12 +57,13 @@ const LogsWrapper = () => {
                 setDisplayedLog(data.logs[0]);
                 setSelectedRow(data.logs[0].message_seq);
             }
-            let num = data.logs[data.logs.length - 1].message_seq;
-            if (num === stateRef.current[0]) {
+            let message_seq = data.logs[data.logs.length - 1].message_seq;
+            if (message_seq === stateRef.current[0]) {
                 setStopLoad(true);
+            } else {
+                setSeqNum(message_seq);
+                setLogs((users) => [...users, ...data.logs]);
             }
-            setSeqNum(num);
-            setLogs((users) => [...users, ...data.logs]);
         } catch (error) {}
     };
 
