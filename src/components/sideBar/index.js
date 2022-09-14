@@ -209,21 +209,21 @@ function SideBar() {
                             }
                         >
                             <Menu.Item key={1} className="customclass">
-                                <div className="item-wrapp">
+                                <div className="item-wrapp" id="e2e-tests-menu-preferences">
                                     <img src={accountIcon} width="15" height="15" alt="accountIcon" />
                                     <p className="item-title">Preferences</p>
                                 </div>
                             </Menu.Item>
                             <Menu.Item key={2}>
                                 <Link to={{ pathname: DOC_URL }} target="_blank">
-                                    <div className="item-wrapp">
+                                    <div className="item-wrapp" id="e2e-tests-menu-support">
                                         <img src={supportIcon} width="15" height="15" alt="supportIcon" />
                                         <p className="item-title">Support</p>
                                     </div>
                                 </Link>
                             </Menu.Item>
                             <Menu.Item key={3}>
-                                <div className="item-wrapp">
+                                <div className="item-wrapp" id="e2e-tests-menu-logout">
                                     <img src={logoutIcon} width="15" height="15" alt="logoutIcon" />
                                     <p className="item-title">Log out</p>
                                 </div>

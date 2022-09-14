@@ -118,15 +118,17 @@ const StationBoxOverview = (props) => {
                         <label className="data-labels poison">Poison messages</label>
                         <p className="data-info">{props?.station?.posion_messages === 0 ? <MinusOutlined /> : numberWithCommas(props?.station?.posion_messages)}</p>
                     </div>
-                    <MoreVertIcon
-                        aria-controls="long-button"
-                        aria-haspopup="true"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleClickMenu(e);
-                        }}
-                        className="threedots-menu"
-                    />
+                    <div id="e2e-tests-station-menu">
+                        <MoreVertIcon
+                            aria-controls="long-button"
+                            aria-haspopup="true"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleClickMenu(e);
+                            }}
+                            className="threedots-menu"
+                        />
+                    </div>
                 </div>
             </Link>
 
