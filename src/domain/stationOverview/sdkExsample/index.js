@@ -21,14 +21,13 @@
 
 import './style.scss';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CopyBlock, atomOneLight } from 'react-code-blocks';
 
 import SelectComponent from '../../../components/select';
 import { CODE_EXAMPLE } from '../../../const/SDKExample';
 import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../const/localStorageConsts';
 import CustomTabs from '../../../components/Tabs';
-import { StationStoreContext } from '..';
 
 const SdkExample = ({ consumer, showTabs = true }) => {
     const [langSelected, setLangSelected] = useState('Go');
@@ -41,8 +40,6 @@ const SdkExample = ({ consumer, showTabs = true }) => {
     });
     const tabs = ['Producer', 'Consumer'];
     const [tabValue, setTabValue] = useState(consumer ? 'Consumer' : 'Producer');
-
-    console.log(tabValue);
 
     const url = window.location.href;
     const stationName = url.split('stations/')[1];

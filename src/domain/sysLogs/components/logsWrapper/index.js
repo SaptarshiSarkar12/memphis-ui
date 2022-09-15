@@ -21,7 +21,7 @@
 
 import './style.scss';
 
-import { useState, useMemo, useRef, useEffect, useCallback, useContext } from 'react';
+import { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import Lottie from 'lottie-react';
 
@@ -46,14 +46,16 @@ const LogsWrapper = () => {
     const [seqNum, setSeqNum] = useState(-1);
     const [stopLoad, setStopLoad] = useState(false);
     const [socketOn, setSocketOn] = useState(false);
+    const [lastMgsSeq, setLastMgsSeq] = useState(-1);
 
     const stateRef = useRef([]);
-    stateRef.current = [seqNum, visibleRange, socketOn];
+    stateRef.current = [seqNum, visibleRange, socketOn, lastMgsSeq];
 
     const getLogs = async () => {
         try {
             const data = await httpRequest('GET', `${ApiEndpoints.GET_SYS_LOGS}?log_type=all&start_index=${stateRef.current[0]}`);
             if (stateRef.current[0] === -1) {
+                setLastMgsSeq(data.logs[0].message_seq);
                 setDisplayedLog(data.logs[0]);
                 setSelectedRow(data.logs[0].message_seq);
             }
@@ -90,7 +92,6 @@ const LogsWrapper = () => {
     }, [stateRef.current[1]]);
 
     const startListen = () => {
-        setStopLoad(false);
         setTimeout(() => {
             state.socket?.emit('register_syslogs_data');
         }, 2000);
@@ -104,9 +105,13 @@ const LogsWrapper = () => {
         state.socket?.on('syslogs_data', (data) => {
             setSocketOn(true);
             if (data) {
+                let lastMgsSeqIndex = data.logs.findIndex((log) => log.message_seq === stateRef.current[3]);
+                const uniqueItems = data.logs.slice(0, lastMgsSeqIndex);
+                console.log(data.logs);
                 setDisplayedLog(data.logs[0]);
                 setSelectedRow(data.logs[0].message_seq);
-                setLogs(data.logs);
+                setLastMgsSeq(data.logs[0].message_seq);
+                setLogs((users) => [...uniqueItems, ...users]);
             }
         });
         startListen();
@@ -125,7 +130,7 @@ const LogsWrapper = () => {
         <div className="logs-wrapper">
             <logs is="3xd">
                 <list-header is="3xd">
-                    <p className="header-title">Latest Logs</p>
+                    <p className="header-title">Latest Logs ({logs?.length})</p>
                     {/* {logs?.length > 0 && (
                         <SearchInput
                             placeholder="Search log..."
@@ -153,10 +158,6 @@ const LogsWrapper = () => {
                     )}
                     components={!stopLoad ? { Footer } : {}}
                 />
-                {logs?.length > 0 &&
-                    logs?.map((value, index) => {
-                        return;
-                    })}
             </logs>
             <LogContent displayedLog={displayedLog} />
         </div>
