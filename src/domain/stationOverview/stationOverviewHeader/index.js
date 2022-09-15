@@ -22,41 +22,28 @@
 import './style.scss';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { CopyBlock, atomOneLight } from 'react-code-blocks';
+import { InfoOutlined } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
-import { Progress } from 'antd';
 
-import { CODE_EXAMPLE, DOCKER_CODE_EXAMPLE } from '../../../const/SDKExample';
 import { convertBytes, convertSecondsToDate, numberWithCommas } from '../../../services/valueConvertor';
 import averageMesIcon from '../../../assets/images/averageMesIcon.svg';
 import awaitingIcon from '../../../assets/images/awaitingIcon.svg';
-import storageIcon from '../../../assets/images/storageIcon.svg';
-import memoryIcon from '../../../assets/images/memoryIcon.svg';
-import HealthyBadge from '../../../components/healthyBadge';
-import cpuIcon from '../../../assets/images/cpuIcon.svg';
-import SelectComponent from '../../../components/select';
+import TooltipComponent from '../../../components/tooltip/tooltip';
 import Button from '../../../components/button';
 import { Context } from '../../../hooks/store';
 import Modal from '../../../components/modal';
 import pathDomains from '../../../router';
 import { StationStoreContext } from '..';
-import TooltipComponent from '../../../components/tooltip/tooltip';
-import Auditing from '../auditing';
-import { InfoOutlined } from '@material-ui/icons';
-import { LOCAL_STORAGE_ENV, LOCAL_STORAGE_NAMESPACE } from '../../../const/localStorageConsts';
-import CustomTabs from '../../../components/Tabs';
 import SdkExample from '../sdkExsample';
+import Auditing from '../auditing';
 
-const StationOverviewHeader = (props) => {
+const StationOverviewHeader = () => {
     const [state, dispatch] = useContext(Context);
     const [stationState, stationDispatch] = useContext(StationStoreContext);
     const history = useHistory();
     const [retentionValue, setRetentionValue] = useState('');
     const [sdkModal, setSdkModal] = useState(false);
     const [auditModal, setAuditModal] = useState(false);
-    const [langSelected, setLangSelected] = useState('Go');
-
-    const [tabValue, setTabValue] = useState('0');
 
     useEffect(() => {
         switch (stationState?.stationMetaData?.retention_type) {
@@ -182,7 +169,6 @@ const StationOverviewHeader = (props) => {
                         <span onClick={() => setAuditModal(true)}>View Details {'>'}</span>
                     </div>
                 </div>
-                {/* </div> */}
                 <Modal header="SDK" width="710px" clickOutside={() => setSdkModal(false)} open={sdkModal} displayButtons={false}>
                     <SdkExample />
                 </Modal>
