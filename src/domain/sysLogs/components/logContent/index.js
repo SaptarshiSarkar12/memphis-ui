@@ -34,7 +34,7 @@ const LogContent = ({ displayedLog }) => {
 
     const handleCopy = () => {
         setCopied(true);
-        navigator.clipboard.writeText(displayedLog?.data);
+        navigator.clipboard.writeText(cutInfoLog(displayedLog?.data));
         setTimeout(() => {
             setCopied(false);
         }, 3000);

@@ -90,6 +90,7 @@ const LogsWrapper = () => {
     }, [stateRef.current[1]]);
 
     const startListen = () => {
+        setStopLoad(false);
         setTimeout(() => {
             state.socket?.emit('register_syslogs_data');
         }, 2000);
@@ -103,6 +104,8 @@ const LogsWrapper = () => {
         state.socket?.on('syslogs_data', (data) => {
             setSocketOn(true);
             if (data) {
+                setDisplayedLog(data.logs[0]);
+                setSelectedRow(data.logs[0].message_seq);
                 setLogs(data.logs);
             }
         });
@@ -166,7 +169,6 @@ const Footer = () => {
     return (
         <div
             style={{
-                padding: '2rem',
                 display: 'flex',
                 justifyContent: 'center',
                 height: '10vw',

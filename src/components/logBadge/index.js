@@ -21,9 +21,6 @@
 
 import './style.scss';
 
-import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp';
-import ErrorSharpIcon from '@material-ui/icons/ErrorSharp';
-import Cancel from '@material-ui/icons/Cancel';
 import React from 'react';
 
 const LogBadge = ({ type }) => {
@@ -39,7 +36,7 @@ const LogBadge = ({ type }) => {
                     <p>Warn</p>
                 </div>
             )}
-            {type && type === 'error' && (
+            {type && type === 'err' && (
                 <div className="error">
                     <p>Error</p>
                 </div>
