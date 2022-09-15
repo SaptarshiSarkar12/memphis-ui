@@ -46,6 +46,8 @@ const StationsList = () => {
     const [filteredList, setFilteredList] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [isLoading, setisLoading] = useState(false);
+    const [creatingProsessd, setCreatingProsessd] = useState(false);
+
     const createStationRef = useRef(null);
 
     useEffect(() => {
@@ -196,8 +198,9 @@ const StationsList = () => {
                     }}
                     clickOutside={() => modalFlip(false)}
                     open={modalIsOpen}
+                    isLoading={creatingProsessd}
                 >
-                    <CreateStationDetails createStationRef={createStationRef} />
+                    <CreateStationDetails createStationRef={createStationRef} handleClick={(e) => setCreatingProsessd(e)} />
                 </Modal>
             </div>
         </div>
