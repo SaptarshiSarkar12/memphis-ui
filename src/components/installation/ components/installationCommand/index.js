@@ -22,29 +22,16 @@
 import './style.scss';
 
 import { ChevronRightOutlined } from '@material-ui/icons';
-import React, { useState } from 'react';
+
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-import copyClipboard from '../../../../assets/images/copyClipboard.svg';
-import Copy from '../../../../assets/images/copy.svg';
-import Copied from '../../../../assets/images/copied.svg';
-import comingSoonBox from '../../../../assets/images/comingSoonBox.svg';
 import redirectIcon from '../../../../assets/images/redirectIcon.svg';
 import videoIcon from '../../../../assets/images/videoIcon.svg';
 import docsPurple from '../../../../assets/images/docsPurple.svg';
+import Copy from '../../../copy';
 
 const InstallationCommand = ({ steps, showLinks, videoLink, docsLink }) => {
-    const [copied, setCopied] = useState(null);
-    const [cloudSelected, setcloudSelected] = useState('');
-
-    const handleCopy = (key, data) => {
-        setCopied(key);
-        navigator.clipboard.writeText(data);
-        setTimeout(() => {
-            setCopied(null);
-        }, 3000);
-    };
-
     return (
         <div className="installation-command">
             {steps.length > 0 && (
@@ -56,7 +43,7 @@ const InstallationCommand = ({ steps, showLinks, videoLink, docsLink }) => {
                                 {value.command && (
                                     <div className="step-command">
                                         <span>{value.command}</span>
-                                        {value.icon === 'copy' && <img src={copied === key ? Copied : Copy} onClick={() => handleCopy(key, value.command)} />}
+                                        {value.icon === 'copy' && <Copy data={value.command} key={key} />}
                                         {value.icon === 'link' && (
                                             <Link to={{ pathname: 'http://localhost:5555' }} target="_blank">
                                                 <img src={redirectIcon} />
@@ -64,34 +51,9 @@ const InstallationCommand = ({ steps, showLinks, videoLink, docsLink }) => {
                                         )}
                                     </div>
                                 )}
-                                <div className="img-wrapper">
-                                    {value.imgs &&
-                                        value.imgs.map((value) => {
-                                            return (
-                                                <div
-                                                    key={value.name}
-                                                    className={cloudSelected === value.name ? 'img-cloud selected' : 'img-cloud'}
-                                                    onClick={() => setcloudSelected(value.name)}
-                                                >
-                                                    {cloudSelected === value.name && (
-                                                        <div className="selected-icon">
-                                                            <ChevronRightOutlined />
-                                                        </div>
-                                                    )}
-                                                    {value.src}
-                                                </div>
-                                            );
-                                        })}
-                                </div>
                             </div>
                         );
                     })}
-                </div>
-            )}
-            {steps.length === 0 && (
-                <div className="coming-soon-wrapper">
-                    <img src={comingSoonBox} />
-                    <p>Coming soon...</p>
                 </div>
             )}
             {showLinks && (

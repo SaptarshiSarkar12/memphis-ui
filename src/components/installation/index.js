@@ -27,6 +27,7 @@ import React, { useState } from 'react';
 import { INSTALLATION_GUIDE } from '../../const/installationGuide';
 import Button from '../button';
 import InstallationCommand from './ components/installationCommand';
+import CloudeProviders from './ components/cloudeProviders';
 
 const option = ['Kubernetes', 'Docker Compose', 'Cloud Providers'];
 
@@ -60,7 +61,7 @@ const Installation = ({ closeModal }) => {
                         </div>
                     </>
                 )}
-                {installationPhase !== 'Main' && (
+                {installationPhase !== 'Main' && installationPhase !== 'Cloud Providers' && (
                     <InstallationCommand
                         steps={INSTALLATION_GUIDE[installationPhase].steps}
                         showLinks={INSTALLATION_GUIDE[installationPhase].showLinks}
@@ -68,6 +69,7 @@ const Installation = ({ closeModal }) => {
                         docsLink={INSTALLATION_GUIDE[installationPhase].docsLink}
                     />
                 )}
+                {installationPhase === 'Cloud Providers' && <CloudeProviders steps={INSTALLATION_GUIDE[installationPhase]} />}
             </content>
             <buttons is="x3d">
                 <Button

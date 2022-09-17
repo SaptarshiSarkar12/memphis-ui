@@ -19,16 +19,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import SideBar from '../sideBar';
-import FloatingButton from '../floatingButton';
+import React, { useState } from 'react';
 
-function AppWrapper(props) {
+import copy from '../../assets/images/copy.svg';
+import copiedIcon from '../../assets/images/copied.svg';
+
+const Copy = ({ data, key }) => {
+    const [copied, setCopied] = useState(null);
+
+    const handleCopyWithKey = (key, data) => {
+        setCopied(key);
+        navigator.clipboard.writeText(data);
+        setTimeout(() => {
+            setCopied(null);
+        }, 3000);
+    };
+    const handleCopy = (data) => {
+        setCopied(true);
+        navigator.clipboard.writeText(data);
+        setTimeout(() => {
+            setCopied(false);
+        }, 3000);
+    };
     return (
-        <div className="sidebar-and-containers">
-            {process.env.REACT_APP_SANDBOX_ENV && <FloatingButton />}
-            <SideBar />
-            {props.content}
-        </div>
+        <>
+            {key && <img style={{ cursor: 'pointer' }} src={copied === key ? copiedIcon : copy} onClick={() => handleCopyWithKey(key, data)} />}
+            {!key && <img style={{ cursor: 'pointer' }} src={copied ? copiedIcon : copy} onClick={() => handleCopy(data)} />}
+        </>
     );
-}
-export default AppWrapper;
+};
+
+export default Copy;

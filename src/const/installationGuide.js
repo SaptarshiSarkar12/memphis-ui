@@ -101,20 +101,19 @@ export const INSTALLATION_GUIDE = {
     'Cloud Providers': {
         header: 'Installation/Cloud Providers',
         description: <span>Deploy Memphis to your preferred cloud provider directly. Dedicated kubernetes cluster with memphis installed will be deployed.</span>,
-        steps: [
+        clouds: [
             {
-                title: 'Choose your cloud:',
-                imgs: [
-                    {
-                        name: 'gcp',
-                        src: <img src={gcpIcon} />
-                    },
-                    {
-                        name: 'aws',
-                        src: <img src={awsIcon} />
-                    }
-                ]
+                name: 'aws',
+                src: <img src={awsIcon} />,
+                docsLink: 'https://app.gitbook.com/o/-MSyW3CRw3knM-KGk6G6/s/t7NJvDh5VSGZnmEsyR9h/deployment/cloud-deployment/deploy-on-aws'
             },
+            {
+                name: 'gcp',
+                src: <img src={gcpIcon} />,
+                docsLink: 'https://app.gitbook.com/o/-MSyW3CRw3knM-KGk6G6/s/t7NJvDh5VSGZnmEsyR9h/deployment/cloud-deployment/deploy-on-gcp'
+            }
+        ],
+        aws: [
             {
                 title: 'Step 0 - Clone Memphis-Terraform repo',
                 command: `git clone git@github.com:memphisdev/memphis-terraform.git && cd memphis-terraform`,
@@ -126,6 +125,17 @@ export const INSTALLATION_GUIDE = {
                 icon: 'copy'
             }
         ],
-        showLinks: false
+        gcp: [
+            {
+                title: 'Step 0 - Clone Memphis-Terraform repo',
+                command: `git clone git@github.com:memphisdev/memphis-terraform.git && cd memphis-terraform`,
+                icon: 'copy'
+            },
+            {
+                title: 'Step 1 - Deploy',
+                command: `make -C ./GCP/GKE/ allinone`,
+                icon: 'copy'
+            }
+        ]
     }
 };
