@@ -38,6 +38,12 @@ export function getBorderColor(borderColorType) {
             return 'transparent';
         case 'gray':
             return '#d8d8d8';
+        case 'gray-light':
+            return '#E9E9E9';
+        case 'navy':
+            return '#1D1D1D';
+        default:
+            return 'transparent';
     }
 }
 
@@ -80,6 +86,8 @@ export function getBackgroundColor(backgroundColor) {
             return '#A9A9A9';
         case 'gray-light':
             return '#E9E9E9';
+        case 'gray-dark':
+            return '#EBEDF0';
         case 'none':
             return 'transparent';
         default:

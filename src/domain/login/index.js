@@ -37,7 +37,7 @@ import { Context } from '../../hooks/store';
 import Input from '../../components/Input';
 import { SOCKET_URL } from '../../config';
 import io from 'socket.io-client';
-import Signup from '../signup';
+import pathDomains from '../../router';
 
 const Login = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -65,6 +65,9 @@ const Login = (props) => {
         setisLoading(true);
         try {
             const data = await httpRequest('GET', ApiEndpoints.GET_SIGNUP_FLAG);
+            if (data.exist) {
+                history.push(pathDomains.signup);
+            }
             setIsSignup(data.exist);
             setisLoading(false);
         } catch (error) {
@@ -112,7 +115,6 @@ const Login = (props) => {
 
     return (
         <>
-            {!isLoading && isSignup && <Signup />}
             {!isLoading && !isSignup && (
                 <section className="loginContainers">
                     {state.loading ? <Loader></Loader> : ''}
@@ -144,20 +146,22 @@ const Login = (props) => {
                                     >
                                         <div className="field name">
                                             <p>Username / Email</p>
-                                            <Input
-                                                placeholder="Type username / email"
-                                                type="text"
-                                                radiusType="semi-round"
-                                                colorType="gray"
-                                                backgroundColorType="none"
-                                                borderColorType="gray"
-                                                width="19vw"
-                                                height="43px"
-                                                minWidth="200px"
-                                                onBlur={handleUserNameChange}
-                                                onChange={handleUserNameChange}
-                                                value={formFields.username}
-                                            />
+                                            <div id="e2e-login-username">
+                                                <Input
+                                                    placeholder="Type username / email"
+                                                    type="text"
+                                                    radiusType="semi-round"
+                                                    colorType="gray"
+                                                    backgroundColorType="none"
+                                                    borderColorType="gray"
+                                                    width="19vw"
+                                                    height="43px"
+                                                    minWidth="200px"
+                                                    onBlur={handleUserNameChange}
+                                                    onChange={handleUserNameChange}
+                                                    value={formFields.username}
+                                                />
+                                            </div>
                                         </div>
                                     </Form.Item>
                                     <Form.Item
@@ -171,7 +175,7 @@ const Login = (props) => {
                                     >
                                         <div className="field password">
                                             <p>Password</p>
-                                            <div id="e2e-tests-password">
+                                            <div id="e2e-login-password">
                                                 <Input
                                                     placeholder="Password"
                                                     type="password"
@@ -190,19 +194,21 @@ const Login = (props) => {
                                         </div>
                                     </Form.Item>
                                     <Form.Item className="button-container">
-                                        <Button
-                                            width="19vw"
-                                            height="43px"
-                                            minWidth="200px"
-                                            placeholder="Sign in"
-                                            colorType="white"
-                                            radiusType="circle"
-                                            backgroundColorType="purple"
-                                            fontSize="12px"
-                                            fontWeight="600"
-                                            isLoading={loadingSubmit}
-                                            onClick={handleSubmit}
-                                        />
+                                        <div id="e2e-login-btn">
+                                            <Button
+                                                width="19vw"
+                                                height="43px"
+                                                minWidth="200px"
+                                                placeholder="Sign in"
+                                                colorType="white"
+                                                radiusType="circle"
+                                                backgroundColorType="purple"
+                                                fontSize="12px"
+                                                fontWeight="600"
+                                                isLoading={loadingSubmit}
+                                                onClick={handleSubmit}
+                                            />
+                                        </div>
                                     </Form.Item>
 
                                     {error && (

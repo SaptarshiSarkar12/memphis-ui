@@ -21,11 +21,12 @@
 
 const pathDomains = {
     login: '/login',
+    signup: '/signup',
     overview: '/overview',
-    factoriesList: '/factories',
+    stations: '/stations',
     users: '/users',
     settings: '/settings',
-    sysLogs: '/sysLogs'
+    sysLogs: '/logs'
 };
 
 export default pathDomains;

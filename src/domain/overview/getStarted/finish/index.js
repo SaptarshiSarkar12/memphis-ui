@@ -50,7 +50,7 @@ const Finish = (props) => {
     const onFinish = (e) => {
         e.preventDefault();
         doneNextSteps();
-        history.push(`${pathDomains.factoriesList}/${getStartedState.factoryName}/${getStartedState.stationName}`);
+        history.push(`${pathDomains.stations}/${getStartedState.stationName}`);
     };
 
     const doneNextSteps = async () => {
@@ -60,7 +60,7 @@ const Finish = (props) => {
     };
 
     return (
-        <div className="finish-container">
+        <div className="finish-container" id="e2e-getstarted-step5">
             <div className="container-icons-finish">
                 <Button
                     width="192px"

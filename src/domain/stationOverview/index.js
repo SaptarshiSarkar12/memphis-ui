@@ -21,24 +21,23 @@
 
 import './style.scss';
 
-import React, { useEffect, useContext, useState, createContext, useReducer, useCallback } from 'react';
+import React, { useEffect, useContext, useState, createContext, useReducer } from 'react';
+import { useHistory } from 'react-router-dom';
 
+import { parsingDate } from '../../services/valueConvertor';
 import StationOverviewHeader from './stationOverviewHeader';
 import StationObservabilty from './stationObservabilty';
 import { ApiEndpoints } from '../../const/apiEndpoints';
 import { httpRequest } from '../../services/http';
+import Loader from '../../components/loader';
 import { Context } from '../../hooks/store';
 import pathDomains from '../../router';
-
 import Reducer from './hooks/reducer';
-import Loader from '../../components/loader';
-import { useHistory } from 'react-router-dom';
-import { parsingDate } from '../../services/valueConvertor';
 
 const StationOverview = () => {
     const [stationState, stationDispatch] = useReducer(Reducer);
     const url = window.location.href;
-    const stationName = url.split('factories/')[1].split('/')[1];
+    const stationName = url.split('stations/')[1];
     const history = useHistory();
     const [state, dispatch] = useContext(Context);
     const [isLoading, setisLoading] = useState(false);
@@ -50,7 +49,7 @@ const StationOverview = () => {
             stationDispatch({ type: 'SET_STATION_META_DATA', payload: data });
         } catch (error) {
             if (error.status === 404) {
-                history.push(`${pathDomains.factoriesList}/${url.split('factories/')[1].split('/')[0]}`);
+                history.push(pathDomains.stations);
             }
         }
     };
@@ -76,14 +75,14 @@ const StationOverview = () => {
         } catch (error) {
             setisLoading(false);
             if (error.status === 404) {
-                history.push(`${pathDomains.factoriesList}/${url.split('factories/')[1].split('/')[0]}`);
+                history.push(pathDomains.stations);
             }
         }
     };
 
     useEffect(() => {
         setisLoading(true);
-        dispatch({ type: 'SET_ROUTE', payload: 'factories' });
+        dispatch({ type: 'SET_ROUTE', payload: 'stations' });
         getStaionMetaData();
         getStationDetails();
     }, []);
