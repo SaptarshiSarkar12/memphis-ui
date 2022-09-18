@@ -70,7 +70,7 @@ const Finish = (props) => {
                     backgroundColorType="white"
                     fontSize="16px"
                     fontWeight="bold"
-                    border="1px solid #EEEEEE"
+                    border="gray"
                     borderRadius="31px"
                     boxShadowStyle="none"
                     onClick={(e) => {

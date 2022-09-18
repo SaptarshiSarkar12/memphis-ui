@@ -128,7 +128,7 @@ const CreateStationForm = (props) => {
 
     return (
         <Form name="form" form={creationForm} autoComplete="off" className="create-station-form-getstarted">
-            <div id="e2e-getstarted-step1">
+            <div id="e2e-getstarted-step1" className="station-name-section">
                 <TitleComponent
                     headerTitle="Enter station name"
                     typeTitle="sub-header"
@@ -162,7 +162,7 @@ const CreateStationForm = (props) => {
                     />
                 </Form.Item>
             </div>
-            <div>
+            <div className="retention-type-section">
                 <TitleComponent
                     headerTitle="Retention type"
                     typeTitle="sub-header"
