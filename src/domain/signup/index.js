@@ -88,7 +88,6 @@ const Signup = (props) => {
     const getSystemVersion = useCallback(async () => {
         const data = await httpRequest('GET', ApiEndpoints.GET_CLUSTER_INFO);
         if (data) {
-            debugger;
             setSystemVersion(data.version);
         }
         setisLoading(false);
