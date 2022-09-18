@@ -80,7 +80,7 @@ const Signup = (props) => {
     const getSignupFlag = useCallback(async () => {
         const data = await httpRequest('GET', ApiEndpoints.GET_SIGNUP_FLAG);
         if (!data.exist) {
-            // history.push(pathDomains.login);
+            history.push(pathDomains.login);
         }
         setisLoading(false);
     }, []);
