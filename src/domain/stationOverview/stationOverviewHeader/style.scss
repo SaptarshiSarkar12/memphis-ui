@@ -147,6 +147,9 @@
                 border-left: 1px solid #f3f3f3;
             }
         }
+        .info-buttons span:hover {
+            opacity: 0.8;
+        }
     }
 }
 .modal-wrapper {
@@ -175,59 +178,15 @@
         }
     }
 }
-.sdk-details-container {
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-    height: calc(100% - 50px);
-    font-size: 12px;
-    font-weight: 400;
-    .tabs-container {
-        width: 150px;
-    }
-    .ant-tabs-top > .ant-tabs-nav {
-        margin-bottom: 0;
-    }
-    .ant-tabs-tab {
-        font-size: 12px;
-    }
-    .installation {
-        .install-copy {
-            border: 1px solid var(--gray);
-            box-sizing: border-box;
-            border-radius: 4px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            padding-right:3px;
-            p {
-                margin: 0;
-            }
-        }
-    }
-    .code-example {
-        .code-content {
-            border: 1px solid var(--gray);
-            box-sizing: border-box;
-            border-radius: 4px;
-            height: 350px;
-            overflow: auto;
-            p {
-                margin: 0;
-                white-space: pre-line;
-            }
-        }
-    }
-}
-.iKtiIo,
-.dyHnFg {
+
+.sc-gsnTZi {
     background: white !important;
     width: 100% !important;
     span {
         background: white !important;
     }
-    .hpPViG,
-    .hzFDPg {
+    button {
+        cursor: pointer !important;
         border: none !important;
         background: white !important;
     }

@@ -24,7 +24,7 @@ import './style.scss';
 import { Button as ButtonDesign } from 'antd';
 import React from 'react';
 
-import { getBorderRadius, getFontColor, getBackgroundColor, getBoxShadows } from '../../utils/styleTemplates';
+import { getBorderRadius, getFontColor, getBackgroundColor, getBoxShadows, getBorderColor } from '../../utils/styleTemplates';
 
 const Button = (props) => {
     const {
@@ -46,11 +46,13 @@ const Button = (props) => {
         marginBottom,
         marginTop,
         marginRight,
+        marginLeft,
         boxShadowStyle,
         minHeight,
         zIndex,
         border,
-        alignSelf
+        alignSelf,
+        fontFamily = 'Inter'
     } = props;
 
     const handleClick = (e) => {
@@ -60,15 +62,16 @@ const Button = (props) => {
     const borderRadius = getBorderRadius(radiusType);
     const color = getFontColor(colorType);
     const backgroundColor = getBackgroundColor(backgroundColorType);
-    const borderColor = border ? getBackgroundColor(border) : backgroundColor;
+    const borderColor = border ? getBorderColor(border) : backgroundColor;
     const opacity = disabled ? '0.5' : '1';
-    const boxShadow = getBoxShadows(boxShadowStyle);
+    const boxShadow = boxShadowStyle ? getBoxShadows(boxShadowStyle) : 'none';
     const styleButtonContainer = {
         margin: margin,
         textAlign: textAlign,
         marginBottom: marginBottom,
         marginTop: marginTop,
         marginRight: marginRight,
+        marginLeft: marginLeft,
         alignSelf: alignSelf
     };
 
@@ -84,6 +87,7 @@ const Button = (props) => {
             borderColor,
             fontSize,
             fontWeight,
+            fontFamily,
             opacity,
             minHeight: minHeight,
             minWidth: minWidth || '60px',

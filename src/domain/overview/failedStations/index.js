@@ -21,63 +21,56 @@
 
 import './style.scss';
 
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
-import ErrorSharpIcon from '@material-ui/icons/ErrorSharp';
+import { numberWithCommas, parsingDate } from '../../../services/valueConvertor';
+import OverflowTip from '../../../components/tooltip/overflowtip';
+import staionLink from '../../../assets/images/staionLink.svg';
 import { Context } from '../../../hooks/store';
 import pathDomains from '../../../router';
-import { parsingDate } from '../../../services/valueConvertor';
-import OverflowTip from '../../../components/tooltip/overflowtip';
 
 const FailedStations = () => {
     const [state, dispatch] = useContext(Context);
+    const history = useHistory();
+
+    const goToStation = (stationName) => {
+        history.push(`${pathDomains.stations}/${stationName}`);
+    };
+
     return (
-        <div className="overview-wrapper failed-factories-container">
-            <p className="overview-components-header">Stations</p>
-            {/* <p className="overview-components-header">Un-Healthy stations</p> */}
-            {/* <div className="factories-err-message">
-                <ErrorSharpIcon className="err-icon" theme="outlined" />
-                <p>For 5/23 stations, there may be a problem</p>
-            </div> */}
-            <div className="err-factories-list">
+        <div className="overview-wrapper failed-stations-container">
+            <p className="overview-components-header" id="e2e-overview-station-list">
+                Stations
+            </p>
+            <div className="err-stations-list">
                 <div className="coulmns-table">
                     <span style={{ width: '100px' }}>Name</span>
-                    <span style={{ width: '100px' }}>Factory</span>
                     <span style={{ width: '200px' }}>Creation date</span>
-                    {/* <span style={{ width: '100px' }}>Status</span> */}
-                    <span style={{ width: '100px' }}></span>
+                    <span style={{ width: '120px' }}>Total messages</span>
+                    <span style={{ width: '120px' }}>Poison messages</span>
+                    <span style={{ width: '120px' }}></span>
                 </div>
                 <div className="rows-wrapper">
                     {state?.monitor_data?.stations?.map((station, index) => {
                         return (
-                            <div className="factory-row" key={index}>
-                                <OverflowTip text={station.name} width={'100px'}>
+                            <div className="stations-row" key={index}>
+                                <OverflowTip className="station-details" text={station.name} width={'100px'}>
                                     {station.name}
                                 </OverflowTip>
-                                <OverflowTip text={station.factory_name} width={'100px'}>
-                                    {station.factory_name}
-                                </OverflowTip>
-                                <OverflowTip text={parsingDate(station.creation_date)} width={'200px'}>
+                                <OverflowTip className="station-creation" text={parsingDate(station.creation_date)} width={'200px'}>
                                     {parsingDate(station.creation_date)}
                                 </OverflowTip>
-                                {/* {station.status === 1 && (
-                                    <span style={{ width: '100px' }}>
-                                        <div className="dot green"></div>
-                                        In action
-                                    </span>
-                                )}
-                                {station.status === 2 && (
-                                    <span style={{ width: '100px' }}>
-                                        <div className="dot yellow"></div>
-                                        On idle
-                                    </span>
-                                )} */}
-                                <Link style={{ cursor: 'pointer' }} to={`${pathDomains.factoriesList}/${station.factory_name}/${station.name}`}>
-                                    <span className="link-row" style={{ width: '100px' }}>
-                                        Go to station
-                                    </span>
-                                </Link>
+                                <span className="station-details" style={{ width: '120px' }}>
+                                    {numberWithCommas(station.total_messages)}
+                                </span>
+                                <span className="station-details" style={{ width: '120px' }}>
+                                    {numberWithCommas(station.posion_messages)}
+                                </span>
+                                <div className="staion-link" onClick={() => goToStation(station.name)}>
+                                    <span>View Station</span>
+                                    <img src={staionLink} />
+                                </div>
                             </div>
                         );
                     })}
