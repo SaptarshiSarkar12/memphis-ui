@@ -187,7 +187,7 @@ const ProduceConsumeData = (props) => {
             )}
             {currentPhase === produceConsumeScreenEnum['DATA_WAITING'] && (
                 <div className="data-waiting-container">
-                    <Lottie className="image-waiting-successful" animationData={waitingImage} loop={true} />
+                    <img className="image-waiting-successful" src={waitingImage} alt={true} />
                     <TitleComponent headerTitle={waitingTitle} typeTitle="sub-header" style={{ header: { fontSize: '18px' } }}></TitleComponent>
                     <div className="waiting-for-data-btn">
                         <Button
@@ -197,7 +197,7 @@ const ProduceConsumeData = (props) => {
                             colorType="black"
                             radiusType="circle"
                             backgroundColorType="white"
-                            border="border: 1px solid #EBEBEB"
+                            border="gray"
                             fontSize="14px"
                             fontWeight="bold"
                             marginBottom="3px"
@@ -215,7 +215,7 @@ const ProduceConsumeData = (props) => {
                                 colorType="black"
                                 radiusType="circle"
                                 backgroundColorType="white"
-                                border="border: 1px solid #EBEBEB"
+                                border="gray"
                                 fontSize="14px"
                                 fontWeight="bold"
                                 marginBottom="3px"

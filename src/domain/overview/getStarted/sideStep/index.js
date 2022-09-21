@@ -25,9 +25,11 @@ import './style.scss';
 import Done from '../../../../assets/images/done.svg';
 import GetStartedIcon from '../../../../assets/images/getStartedIcon.svg';
 import AppUserIcon from '../../../../assets/images/usersIconActive.svg';
-import ProduceDataImg from '../../../../assets/images/produceData.svg';
-import ConsumeDataImg from '../../../../assets/images/consumeData.svg';
-import finishStep from '../../../../assets/lotties/finishStep.json';
+import EmptyStation from '../../../../assets/images/emptyStation.svg';
+import DataProduced from '../../../../assets/images/dataProduced.svg';
+import ConsumeDataImg from '../../../../assets/images/stationsIconActive.svg';
+import FullStation from '../../../../assets/images/fullStation.svg';
+import FinishFlag from '../../../../assets/images/finishFlag.svg';
 import GrayAppUserIcon from '../../../../assets/images/grayAppUserIcon.svg';
 import GrayProduceDataImg from '../../../../assets/images/grayProduceDataImg.svg';
 import GrayConsumeDataImg from '../../../../assets/images/grayConsumeDataImg.svg';
@@ -56,11 +58,7 @@ const SideStep = (props) => {
     const getIcon = () => {
         switch (stepNumber) {
             case 1:
-                return completedSteps + 1 >= stepNumber ? (
-                    <img className="sidebar-image" src={GetStartedIcon} alt={GetStartedIcon}></img>
-                ) : (
-                    <img className="sidebar-image" src={GetStartedIcon} alt={GetStartedIcon}></img>
-                );
+                return <img className="sidebar-image" src={GetStartedIcon} alt={GetStartedIcon}></img>;
             case 2:
                 return completedSteps + 1 >= stepNumber ? (
                     <img className="sidebar-image" src={AppUserIcon} alt={GetStartedIcon}></img>
@@ -68,20 +66,16 @@ const SideStep = (props) => {
                     <img className="sidebar-image" src={GrayAppUserIcon} alt={GetStartedIcon}></img>
                 );
             case 3:
-                return completedSteps + 1 >= stepNumber ? (
-                    <img className="sidebar-image" src={ProduceDataImg} alt={GetStartedIcon}></img>
-                ) : (
-                    <img className="sidebar-image" src={GrayProduceDataImg} alt={GetStartedIcon}></img>
-                );
+                if (completedSteps + 1 > stepNumber) return <img className="sidebar-image" src={DataProduced} alt={GetStartedIcon}></img>;
+                else if (completedSteps + 1 === stepNumber) return <img className="sidebar-image" src={EmptyStation} alt={GetStartedIcon}></img>;
+                else return <img className="sidebar-image" src={GrayProduceDataImg} alt={GetStartedIcon}></img>;
             case 4:
-                return completedSteps + 1 >= stepNumber ? (
-                    <img className="sidebar-image" src={ConsumeDataImg} alt={GetStartedIcon}></img>
-                ) : (
-                    <img className="sidebar-image" src={GrayConsumeDataImg} alt={GetStartedIcon}></img>
-                );
+                if (completedSteps + 1 > stepNumber) return <img className="sidebar-image" src={ConsumeDataImg} alt={GetStartedIcon}></img>;
+                else if (completedSteps + 1 === stepNumber) return <img className="sidebar-image" src={FullStation} alt={GetStartedIcon}></img>;
+                else return <img className="sidebar-image" src={GrayConsumeDataImg} alt={GetStartedIcon}></img>;
             case 5:
                 return completedSteps + 1 >= stepNumber ? (
-                    <img className="sidebar-image" src={GrayfinishStep} alt={GetStartedIcon}></img>
+                    <img className="sidebar-image" src={FinishFlag} alt={GetStartedIcon}></img>
                 ) : (
                     <img className="sidebar-image" src={GrayfinishStep} alt={GetStartedIcon}></img>
                 );
@@ -115,18 +109,6 @@ const SideStep = (props) => {
                     </p>
                 )}
             </div>
-
-            {/* <div className={currentStep >= stepNumber ? 'step-number-container step-number-white' : 'step-number-container'}>
-                        {stepNumber <= completedSteps ? (
-                            <div className="done-image">
-                                <img src={Done} alt="done" />
-                            </div>
-                        ) : (
-                            <p className="step-number">{stepNumber}</p>
-                        )}
-                    </div> */}
-
-            {/* <div className="arrow-container">{currentStep === stepNumber && <img src={RightArrow} alt="select-arrow" />}</div> */}
         </div>
     );
 };

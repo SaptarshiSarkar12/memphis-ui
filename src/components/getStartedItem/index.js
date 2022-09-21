@@ -4,7 +4,7 @@ import './style.scss';
 import Button from '../button';
 import { GetStartedStoreContext } from '../../domain/overview/getStarted';
 import bgGetStarted from '../../assets/images/bgGetStarted.svg';
-import Lottie from 'lottie-react';
+import bgGetStartedBottom from '../../assets/images/bgGetStartedBottom.svg';
 
 const GetStartedItem = (props) => {
     const { headerImage, headerTitle, headerDescription, style, children, onNext, onBack } = props;
@@ -28,9 +28,10 @@ const GetStartedItem = (props) => {
             {getStartedState?.currentStep === 5 && (
                 <>
                     <img className="get-started-bg-img" src={bgGetStarted} alt=""></img>
+                    <img className="get-started-bg-img-bottom" src={bgGetStartedBottom} alt=""></img>
                     <div className="get-started-top">
                         <div className="get-started-top-header finish">
-                            <Lottie style={style?.image} animationData={headerImage} loop={true} />
+                            <img style={style?.image} src={headerImage} alt={headerImage}></img>
                             <p className="header-title">{headerTitle}</p>
                             <p className="header-description">{headerDescription}</p>
                         </div>
@@ -38,43 +39,40 @@ const GetStartedItem = (props) => {
                     </div>
                 </>
             )}
-
-            <div className="get-started-footer">
-                {!getStartedState.isHiddenButton && (
-                    <>
-                        <div id="e2e-getstarted-next-btn">
-                            <Button
-                                width={getStartedState?.currentStep === 5 ? '190px' : '129px'}
-                                height="36px"
-                                placeholder={getStartedState?.currentStep === 5 ? 'Launch Dashboard' : 'Next'}
-                                colorType="white"
-                                radiusType="circle"
-                                backgroundColorType={'purple'}
-                                fontSize="16px"
-                                fontWeight="bold"
-                                htmlType="submit"
-                                disabled={getStartedState?.nextDisable}
-                                onClick={() => onNext()}
-                                isLoading={getStartedState?.isLoading}
-                            />
-                        </div>
+            {!getStartedState.isHiddenButton && getStartedState?.currentStep !== 5 && (
+                <div className="get-started-footer">
+                    <div id="e2e-getstarted-next-btn">
                         <Button
-                            width={'129px'}
+                            width={getStartedState?.currentStep === 5 ? '190px' : '129px'}
                             height="36px"
-                            placeholder={'Back'}
+                            placeholder={getStartedState?.currentStep === 5 ? 'Launch Dashboard' : 'Next'}
                             colorType="white"
                             radiusType="circle"
-                            backgroundColorType={'black'}
+                            backgroundColorType={'purple'}
                             fontSize="16px"
                             fontWeight="bold"
                             htmlType="submit"
-                            disabled={getStartedState?.currentStep === 1}
-                            onClick={() => onBack()}
+                            disabled={getStartedState?.nextDisable}
+                            onClick={() => onNext()}
                             isLoading={getStartedState?.isLoading}
                         />
-                    </>
-                )}
-            </div>
+                    </div>
+                    <Button
+                        width={'129px'}
+                        height="36px"
+                        placeholder={'Back'}
+                        colorType="white"
+                        radiusType="circle"
+                        backgroundColorType={'black'}
+                        fontSize="16px"
+                        fontWeight="bold"
+                        htmlType="submit"
+                        disabled={getStartedState?.currentStep === 1}
+                        onClick={() => onBack()}
+                        isLoading={getStartedState?.isLoading}
+                    />
+                </div>
+            )}
         </div>
     );
 };

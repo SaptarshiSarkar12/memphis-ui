@@ -32,9 +32,9 @@ import ProduceData from './produceData';
 import GetStartedItem from '../../../components/getStartedItem';
 import GetStartedIcon from '../../../assets/images/getStartedIcon.svg';
 import AppUserIcon from '../../../assets/images/usersIconActive.svg';
-import ProduceDataImg from '../../../assets/images/produceData.svg';
-import ConsumeDataImg from '../../../assets/images/consumeData.svg';
-import finishStep from '../../../assets/lotties/finishStep.json';
+import ProduceDataImg from '../../../assets/images/emptyStation.svg';
+import ConsumeDataImg from '../../../assets/images/fullStation.svg';
+import finishStep from '../../../assets/images/readyToRoll.svg';
 import Finish from './finish';
 import { httpRequest } from '../../../services/http';
 import { ApiEndpoints } from '../../../const/apiEndpoints';
@@ -197,7 +197,7 @@ const GetStarted = (props) => {
                     {getStartedState?.currentStep === 2 && (
                         <GetStartedItem
                             headerImage={AppUserIcon}
-                            headerTitle="Create application user"
+                            headerTitle="Create user"
                             headerDescription="User of type application is for connecting apps"
                             onNext={onNext}
                             onBack={onBack}
@@ -208,7 +208,7 @@ const GetStarted = (props) => {
                     {getStartedState?.currentStep === 3 && (
                         <GetStartedItem
                             headerImage={ProduceDataImg}
-                            headerTitle="Create producer"
+                            headerTitle="Produce data"
                             headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to produce data to memphis station"
                             onNext={onNext}
                             onBack={onBack}
@@ -219,7 +219,7 @@ const GetStarted = (props) => {
                     {getStartedState?.currentStep === 4 && (
                         <GetStartedItem
                             headerImage={ConsumeDataImg}
-                            headerTitle="Create consumer"
+                            headerTitle="Consume data"
                             headerDescription="Choose your preferred SDK, copy and paste the code to your IDE, and run your app to consume data from memphis station"
                             onNext={onNext}
                             onBack={onBack}

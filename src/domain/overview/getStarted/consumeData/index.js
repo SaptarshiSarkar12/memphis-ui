@@ -20,7 +20,7 @@
 // SOFTWARE.
 
 import React, { useContext, useEffect, useState } from 'react';
-import consWaiting from '../../../../assets/lotties/consWaiting.json';
+import consWaiting from '../../../../assets/images/waitingForConsumer.svg';
 import ProduceConsumeData, { produceConsumeScreenEnum } from '../produceConsumeData';
 import { GetStartedStoreContext } from '..';
 
