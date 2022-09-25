@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-<a href="https://discord.gg/WZpysvAeTf"><img src="https://img.shields.io/discord/963333392844328961?color=6557ff&label=discord" alt="Discord"></a> <a href=""><img src="https://img.shields.io/github/issues-closed/memphisdev/memphis-ui?color=6557ff"></a> <a href="https://github.com/memphisdev/memphis-ui/blob/master/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Code%20of%20Conduct-v1.0-ff69b4.svg?color=ffc633" alt="Code Of Conduct"></a> <a href="https://github.com/memphisdev/memphis-ui/blob/master/LICENSE"><img src="https://img.shields.io/github/license/memphisdev/memphis-ui?color=ffc633" alt="License"></a> <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/memphisdev/memphis-ui?color=61dfc6"> <img src="https://img.shields.io/github/last-commit/memphisdev/memphis-ui?color=61dfc6&label=last%20commit">
+<a href="https://discord.gg/WZpysvAeTf"><img src="https://img.shields.io/discord/963333392844328961?color=6557ff&label=discord" alt="Discord"></a> <a href=""><img src="https://img.shields.io/github/issues-closed/memphisdev/memphis-ui?color=6557ff"></a> <a href="https://github.com/memphisdev/memphis-ui/blob/master/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Code%20of%20Conduct-v1.0-ff69b4.svg?color=ffc633" alt="Code Of Conduct"></a> <a href="https://github.com/memphisdev/memphis-ui/blob/master/LICENSE"><img src="https://img.shields.io/github/license/memphisdev/memphis-ui?color=ffc633" alt="License"></a> <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/memphisdev/memphis-broker?color=61dfc6"> <img src="https://img.shields.io/github/last-commit/memphisdev/memphis-ui?color=61dfc6&label=last%20commit">
 </p>
 
 **[Memphis{dev}](https://memphis.dev)** is a message broker for developers made out of devs' struggles develop around message brokers.<br>Enables devs to achieve all other message brokers' benefits in a fraction of the time.<br>
@@ -102,7 +102,10 @@ To access Memphis using CLI or SDK from localhost, run the below commands:
 kubectl port-forward service/memphis-cluster 7766:7766 6666:6666 5555:5555 --namespace memphis > /dev/null &
 ```
 Dashboard: http://localhost:9000
-Memphis broker: localhost:5555 (Management Port) / 7766 (Data Port) / 6666 (TCP Port)
+Memphis broker: 
+- Management Port: http://localhost:5555 
+- Data Port: http://localhost:7766 
+- TCP Port: http://localhost:6666
 
 **For Production Environments**
 Please expose the UI, Cluster, and Control-plane via k8s ingress / load balancer / nodeport
