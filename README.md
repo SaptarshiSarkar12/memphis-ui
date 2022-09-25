@@ -112,8 +112,8 @@ Please expose the UI, Cluster, and Control-plane via k8s ingress / load balancer
 
 ### Via Docker
 Dashboard - http://localhost:9000<br>
-Broker - localhost:7766<br>
-Control-Plane - localhost:5555/6666<br>
+Broker - http://localhost:7766<br>
+Control-Plane - http://localhost:5555 or http://localhost:6666<br>
 
 ## Beta
 Memphis{dev} is currently in Beta version. This means that we are still working on essential features like real-time messages tracing,<br>
