@@ -93,16 +93,17 @@ docker compose -f docker-compose.yml -p memphis up
 
 ## Local access
 ### Via Kubernetes
-```shell
 To access Memphis UI from localhost, run the below commands:
-  1. kubectl port-forward service/memphis-ui 9000:80 --namespace memphis > /dev/null &
-
+```shell
+kubectl port-forward service/memphis-ui 9000:80 --namespace memphis > /dev/null &
+```
 To access Memphis using CLI or SDK from localhost, run the below commands:
-  2. kubectl port-forward service/memphis-cluster 7766:7766 6666:6666 5555:5555 --namespace memphis > /dev/null &
-
+```shell
+kubectl port-forward service/memphis-cluster 7766:7766 6666:6666 5555:5555 --namespace memphis > /dev/null &
+```
 Dashboard: http://localhost:9000
 Memphis broker: localhost:5555 (Management Port) / 7766 (Data Port) / 6666 (TCP Port)
-```
+
 **For Production Environments**
 Please expose the UI, Cluster, and Control-plane via k8s ingress / load balancer / nodeport
 
